@@ -253,7 +253,34 @@ describe("真实 PostgreSQL / Drizzle / Fastify 集成", () => {
     expect(cliCalls).toBe(before);
     expect(
       (await app.inject({ url: "/api/v1/tasks", headers: auth })).statusCode,
-    ).toBe(501);
+    ).toBe(200);
+  });
+  it("手机号登录限制为管理员，未发送时拒绝验证，且不触达 LibTV", async () => {
+    const url = "/api/v1/admin/connections/login/phone";
+    const payload = { phone: "19900000000", code: "000000" };
+    const denied = await app.inject({
+      method: "POST",
+      url,
+      headers: { authorization: `Bearer ${viewer}` },
+      payload,
+    });
+    expect(denied.statusCode).toBe(403);
+    const invalid = await app.inject({
+      method: "POST",
+      url,
+      headers: auth,
+      payload: { phone: "invalid" },
+    });
+    expect(invalid.statusCode).toBe(400);
+    const noSend = await app.inject({
+      method: "POST",
+      url,
+      headers: auth,
+      payload,
+    });
+    expect(noSend.statusCode).toBe(409);
+    expect(noSend.json().error.code).toBe("LIBTV_SMS_REQUIRED");
+    expect(noSend.body).not.toContain(payload.phone);
   });
   it("数据库中保留 P0 失败与参数校验审计，没有虚构生成结果", async () => {
     const failures = await store.db

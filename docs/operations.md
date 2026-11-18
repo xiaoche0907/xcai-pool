@@ -39,7 +39,7 @@ docker cp framepool-p1-postgres-1:/tmp/framepool-p1.dump .local/framepool-p1/fra
 
 ## API 认证与日志
 
-ADMIN_API_KEY 与 VIEWER_API_KEY 必须不同。服务绑定 127.0.0.1 时，管理员口令至少 10 字符；其他绑定地址仍要求至少 32 字符。只读密钥始终至少 32 字符。运行时只绑定 127.0.0.1；当前是本机工具，不是经过 TLS/公网部署审查的多租户服务。浏览器密钥只在页面内存，刷新需重新登录。API 不依赖浏览器 Cookie；日志不打印 Authorization、Cookie、body 或原始 stdout。
+ADMIN_API_KEY 与 VIEWER_API_KEY 必须不同。服务绑定 127.0.0.1 时，管理员口令至少 10 字符；其他绑定地址仍要求至少 32 字符。只读密钥始终至少 32 字符。后台将已验证的密钥保存在标签页的会话存储中，刷新时通过 `/api/v1/config` 重新验证。验证返回 401 或主动退出时会清除该会话。API 使用 Bearer 密钥，日志不打印 Authorization、Cookie、body 或原始 stdout。
 
 审计保留参数数组、PID、退出码、只读查询耗时，以及模型/连接本地操作；账号身份脱敏，凭据内容不读取。用 requestId 对照服务错误类型；CLI 错误码映射见兼容性文档。
 

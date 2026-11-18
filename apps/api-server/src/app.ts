@@ -262,11 +262,61 @@ export function createApp(
       return { ok: true };
     },
   );
-  app.post("/api/v1/admin/connections/register", async (req) => {
+  app.addHook("onClose", async () => service.closePendingLogin());
+  app.get("/api/v1/admin/connections/login", async () =>
+    (await service.pendingLoginController()).status(),
+  );
+  app.post("/api/v1/admin/connections/login", async (req) => {
+    const body = z
+      .object({ replace: z.boolean().optional() })
+      .strict()
+      .parse(req.body ?? {});
+    return (await service.pendingLoginController()).start(
+      body.replace ?? false,
+    );
+  });
+  app.post("/api/v1/admin/connections/login/cancel", async (req) => {
     z.object({})
       .strict()
       .parse(req.body ?? {});
-    return service.registerSecondAccount(actors.get(req)!);
+    return (await service.pendingLoginController()).cancelWeb();
+  });
+  app.post("/api/v1/admin/connections/login/open-browser", async (req) => {
+    z.object({})
+      .strict()
+      .parse(req.body ?? {});
+    if (!["127.0.0.1", "::1", "::ffff:127.0.0.1"].includes(req.ip))
+      throw new AppError(
+        "LOCAL_BROWSER_REQUIRED",
+        "请在运行 XcAIPool 的电脑上打开登录窗口。",
+        403,
+      );
+    return (await service.pendingLoginController()).openIsolatedBrowser();
+  });
+  app.post("/api/v1/admin/connections/login/phone", async (req) => {
+    const input = z
+      .object({
+        phone: z.string().regex(/^1[3-9]\d{9}$/),
+        code: z
+          .string()
+          .regex(/^\d{6}$/)
+          .optional(),
+        replace: z.boolean().optional(),
+      })
+      .strict()
+      .parse(req.body ?? {});
+    return (await service.pendingLoginController()).phone(
+      input.phone,
+      input.code,
+      input.replace,
+    );
+  });
+  app.post("/api/v1/admin/connections/register", async (req) => {
+    const body = z
+      .object({ alias: z.string().trim().min(1).max(80).optional() })
+      .strict()
+      .parse(req.body ?? {});
+    return service.registerAccount(actors.get(req)!, body.alias);
   });
   app.post<{ Params: { id: string } }>(
     "/api/v1/admin/connections/:id/diagnose",
@@ -302,8 +352,14 @@ export function createApp(
       403,
     );
   });
-  app.get("/api/v1/tasks", async () => {
-    throw new AppError("NOT_IMPLEMENTED", "P1-B 尚未实施任务队列", 501);
+  app.get("/api/v1/tasks", async () => service.generationRecords());
+  app.get<{ Params: { id: string } }>("/api/v1/tasks/:id", async (req) => {
+    return service.generationRecords(
+      z
+        .string()
+        .regex(/^[a-z0-9-]{1,120}$/)
+        .parse(req.params.id),
+    );
   });
   if (
     serveWeb &&

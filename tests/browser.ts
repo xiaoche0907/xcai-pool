@@ -23,11 +23,39 @@ try {
     .fill(process.env.ADMIN_API_KEY!);
   await page.getByRole("button", { name: "连接工作台", exact: true }).click();
   await page.getByRole("heading", { name: "LibTV 工作台" }).waitFor();
+  await page.reload();
+  await page.getByRole("heading", { name: "LibTV 工作台" }).waitFor();
+  if (await page.getByLabel("API 密钥", { exact: true }).isVisible())
+    throw new Error("Reload unexpectedly returned to login");
+  checks.push("刷新后重新验证并恢复登录");
   await page.screenshot({
     path: "docs/p1/screenshots/overview.png",
     fullPage: true,
+    animations: "disabled",
   });
   checks.push("登录与数据库总览");
+  const theme = page.getByLabel("界面外观");
+  await theme.selectOption("dark");
+  await page.reload();
+  await page.getByRole("heading", { name: "LibTV 工作台" }).waitFor();
+  if ((await page.locator("html").getAttribute("data-theme")) !== "dark")
+    throw new Error("Dark theme preference was lost on reload");
+  await page.screenshot({
+    path: "docs/p1/screenshots/overview-dark.png",
+    animations: "disabled",
+  });
+  await theme.selectOption("light");
+  if ((await page.locator("html").getAttribute("data-theme")) !== "light")
+    throw new Error("Light theme option did not apply");
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  if (
+    (await page
+      .locator(".page-enter")
+      .evaluate((node) => getComputedStyle(node).animationName)) !== "none"
+  )
+    throw new Error("Page transition ignores reduced motion preference");
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  checks.push("深浅主题切换、主题记忆与减少动态效果");
   await page.getByRole("button", { name: "复制 API 地址" }).click();
   await page.getByText("已复制 API 地址", { exact: true }).waitFor();
   const copiedEndpoint = await page.evaluate(() =>
@@ -106,6 +134,70 @@ try {
   checks.push("完整原始 Schema");
   await page.getByRole("button", { name: "关闭模型详情" }).click();
   await page.getByRole("link", { name: "账号池", exact: true }).click();
+  const addAccount = page.getByRole("button", {
+    name: "添加账号",
+    exact: true,
+  });
+  if (await addAccount.isVisible()) {
+    await addAccount.click();
+    const setup = page.getByRole("dialog", { name: "添加账号" });
+    await setup.getByLabel("账号名称").fill("LibTV 验证账号");
+    const method = setup.getByLabel("登录方式");
+    await setup.getByText("正在检查本地授权…").waitFor({ state: "hidden" });
+    if (await method.isEnabled()) {
+      await method.selectOption("phone");
+      const send = setup.getByRole("button", { name: "发送验证码" });
+      await setup.getByLabel("手机号", { exact: true }).fill("123");
+      if (!(await send.isDisabled()))
+        throw new Error("Malformed phone number can reach SMS send");
+      await setup.getByLabel("手机号", { exact: true }).fill("");
+      await method.selectOption("web");
+      checks.push("手机号登录方式可切换并校验格式");
+    }
+    if (process.env.XCAIPOOL_TEST_LIVE_LOGIN === "1") {
+      const start = setup.getByRole("button", {
+        name: /^(获取官方登录链接|重新授权|换另一个账号)$/,
+      });
+      const open = setup.getByRole("button", { name: "打开独立登录窗口" });
+      if (!(await open.isVisible())) await start.click();
+      await open.waitFor();
+      await setup.getByRole("button", { name: "复制登录链接" }).click();
+      const official = new URL(
+        await page.evaluate(() => navigator.clipboard.readText()),
+      );
+      if (
+        official.origin !== "https://www.liblib.tv" ||
+        !official.searchParams
+          .get("callback_url")
+          ?.startsWith("http://127.0.0.1:")
+      ) {
+        throw new Error("LibTV official callback URL missing");
+      }
+      if (process.env.XCAIPOOL_TEST_ISOLATED_BROWSER === "1") {
+        const launched = page.waitForResponse(
+          (response) =>
+            new URL(response.url()).pathname.endsWith("/login/open-browser") &&
+            response.ok(),
+        );
+        await open.click();
+        await launched;
+        await setup.getByText(/已请求打开独立登录窗口/).waitFor();
+        checks.push("独立浏览器窗口启动");
+      }
+      const cancelled = page.waitForResponse(
+        (response) =>
+          new URL(response.url()).pathname.endsWith("/login/cancel") &&
+          response.ok(),
+      );
+      await method.selectOption("phone");
+      await cancelled;
+      await setup.getByLabel("手机号", { exact: true }).waitFor();
+      checks.push("等待网页授权时可取消并切换到手机号");
+    }
+    await page.screenshot({ path: "docs/p1/screenshots/add-account.png" });
+    await setup.getByRole("button", { name: "关闭添加账号" }).click();
+    checks.push("添加账号弹窗和官方授权状态");
+  }
   const account = page.locator(".account-entry").first();
   await account.locator("summary").click();
   await page.getByRole("button", { name: "诊断连接" }).waitFor();
@@ -122,13 +214,35 @@ try {
     fullPage: true,
   });
   checks.push("真实画布 5 节点 / 2 边");
+  await page.getByRole("link", { name: "任务记录", exact: true }).click();
+  await page
+    .getByRole("button", { name: "查看详情 p0-generation-failed-0" })
+    .click();
+  const task = page.getByRole("dialog", { name: "任务详情" });
+  await task
+    .getByText("LibTV 图库空间不足（1200000138）", { exact: true })
+    .waitFor();
+  await task.getByText("此次尝试没有生成输出。", { exact: true }).waitFor();
+  const detail = page.waitForResponse(
+    (response) =>
+      new URL(response.url()).pathname ===
+        "/api/v1/tasks/p0-generation-failed-0" &&
+      response.request().method() === "GET" &&
+      response.ok(),
+  );
+  await task.getByRole("button", { name: "刷新详情" }).click();
+  await detail;
+  await task.getByText("查看脱敏尝试记录 JSON", { exact: true }).click();
+  await page.screenshot({ path: "docs/p1/screenshots/task-detail.png" });
+  await task.getByRole("button", { name: "关闭详情", exact: true }).click();
+  checks.push("任务详情只读刷新、失败原因与尝试记录");
   await page.getByRole("link", { name: "审计日志", exact: true }).click();
   await page
-    .getByText("p0.generation_failed", { exact: true })
+    .getByText("model.parameters-validated", { exact: true })
     .first()
     .waitFor();
-  checks.push("P0 失败与真实操作审计");
-  await page.setViewportSize({ width: 390, height: 844 });
+  checks.push("可查阅本轮参数校验的实际审计记录");
+  await page.setViewportSize({ width: 375, height: 812 });
   await page.getByRole("link", { name: "总览", exact: true }).click();
   await page.getByRole("heading", { name: "LibTV 工作台" }).waitFor();
   const toast = page.getByRole("button", { name: "关闭通知" });
@@ -136,12 +250,24 @@ try {
   await page.screenshot({
     path: "docs/p1/screenshots/mobile.png",
     fullPage: true,
+    animations: "disabled",
   });
   const overflow = await page.evaluate(
     () => document.documentElement.scrollWidth > window.innerWidth,
   );
   if (overflow) throw new Error("Mobile page overflow");
-  checks.push("390px 移动布局无横向溢出");
+  await page.setViewportSize({ width: 812, height: 375 });
+  if (
+    await page.evaluate(
+      () => document.documentElement.scrollWidth > window.innerWidth,
+    )
+  )
+    throw new Error("Landscape page overflow");
+  checks.push("375px 手机竖屏和横屏无横向溢出");
+  await page.getByRole("button", { name: "退出工作台" }).click();
+  await page.reload();
+  await page.getByLabel("API 密钥", { exact: true }).waitFor();
+  checks.push("退出后刷新仍停留在登录页");
   if (errors.length || failures.length)
     throw new Error(JSON.stringify({ errors, failures }));
   console.log(`Browser checks: ${checks.length} PASS`);

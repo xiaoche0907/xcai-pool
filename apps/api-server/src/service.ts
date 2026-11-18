@@ -26,8 +26,12 @@ import {
   redact,
 } from "../../../packages/libtv-cli-adapter/src/index.js";
 
+import { LibTVWebLogin } from "./libtv-login.js";
+
 export class FramePoolService {
   private syncing = false;
+  private registering = false;
+  private pendingLogin?: Promise<{ id: string; login: LibTVWebLogin }>;
   constructor(
     public db: Database,
     public root: string,
@@ -60,8 +64,8 @@ export class FramePoolService {
     return this.readAdapter(id);
   }
   private accountDirectory(id: string) {
-    if (id === "account-02")
-      return path.join(this.root, ".local/framepool-p1/accounts/account-02");
+    if (/^account-\d{2,6}$/.test(id) && Number(id.slice(8)) >= 2)
+      return path.join(this.root, ".local/framepool-p1/accounts", id);
     if (id !== "account-01")
       throw new AppError(
         "CONNECTION_NOT_AUTHORIZED",
@@ -107,6 +111,76 @@ export class FramePoolService {
         await readFile(path.join(this.root, "docs/p0/evidence", name), "utf8")
       ).replace(/^\uFEFF/, ""),
     );
+  }
+  async generationRecords(id?: string) {
+    const [history, canvas] = await Promise.all([
+      this.db
+        .select()
+        .from(auditEvents)
+        .where(eq(auditEvents.action, "p0.generation_failed"))
+        .orderBy(desc(auditEvents.createdAt)),
+      this.db
+        .select({ uuid: projects.projectUuid })
+        .from(projects)
+        .where(eq(projects.id, "p0-canvas"))
+        .limit(1),
+    ]);
+    const details = await Promise.all(
+      history
+        .filter((row) => !id || row.id === id)
+        .map(async (row) => {
+          const files =
+            row.id === "p0-generation-failed-0"
+              ? ["image-run.json", "image-create-v2.json"]
+              : row.id === "p0-generation-failed-1"
+                ? ["video-run.json", "video-create.json"]
+                : null;
+          const [attempt, creation] = files
+            ? await Promise.all(files.map((file) => this.evidence(file)))
+            : [null, null];
+          const node = creation ? JSON.parse(creation.stdout) : null;
+          const matched =
+            attempt?.args?.[1] === row.entityId &&
+            node?.nodeKey === row.entityId;
+          const errorCode = String(
+            row.redactedMetadata.errorCode ?? "GENERATION_FAILED",
+          );
+          const errorMessage =
+            errorCode === "LIBTV_GALLERY_CAPACITY_BLOCKED"
+              ? "LibTV 图库空间不足（1200000138）"
+              : "LibTV 生成失败";
+          return {
+            id: row.id,
+            upstreamTaskId: null,
+            provider: "LibTV",
+            status: "failed",
+            phase: "submission_rejected",
+            modelName: matched ? (node.data?.params?.model ?? null) : null,
+            connectionId: "account-01",
+            projectUuid: canvas[0]?.uuid ?? null,
+            nodeKey: row.entityId,
+            startedAt: matched ? attempt.startedAt : null,
+            finishedAt: row.createdAt.toISOString(),
+            errorCode,
+            errorMessage,
+            resultUrl: null,
+            attempts: [
+              {
+                connectionId: "account-01",
+                startedAt: matched ? attempt.startedAt : null,
+                finishedAt: row.createdAt.toISOString(),
+                status: "failed",
+                exitCode: row.redactedMetadata.exitCode ?? null,
+                errorCode,
+              },
+            ],
+          };
+        }),
+    );
+    if (!id) return { data: details, total: details.length };
+    if (!details[0])
+      throw new AppError("TASK_NOT_FOUND", "没有找到任务记录", 404);
+    return details[0];
   }
   async importEvidence(actor: string) {
     const entries: any[] = [];
@@ -367,8 +441,65 @@ export class FramePoolService {
       accounts,
     };
   }
-  async registerSecondAccount(actor: string) {
-    const id = "account-02";
+  private async allocateLogin() {
+    const rows = await this.db.select({ id: connections.id }).from(connections);
+    const occupied = new Set(rows.map((row) => row.id));
+    let number = 2;
+    const accountId = () => "account-" + String(number).padStart(2, "0");
+    while (occupied.has(accountId())) number++;
+    const id = accountId();
+    const binary = path.resolve(
+      this.root,
+      process.env.LIBTV_BINARY ?? ".local/libtv-p0/bin/libtv-win-x64/libtv.exe",
+    );
+    return { id, login: new LibTVWebLogin(this.accountDirectory(id), binary) };
+  }
+
+  private getPendingLogin() {
+    this.pendingLogin ??= this.allocateLogin().catch((error) => {
+      this.pendingLogin = undefined;
+      throw error;
+    });
+    return this.pendingLogin;
+  }
+
+  async closePendingLogin() {
+    if (this.pendingLogin) (await this.pendingLogin).login.close();
+  }
+
+  async pendingLoginController() {
+    const pending = await this.getPendingLogin();
+    if (this.registering)
+      throw new AppError(
+        "LIBTV_REGISTRATION_IN_PROGRESS",
+        "正在验证账号，请稍候。",
+        409,
+      );
+    return pending.login;
+  }
+
+  async registerAccount(actor: string, alias?: string) {
+    const { id, login } = await this.getPendingLogin();
+    if (this.registering || login.isActive() || login.isAwaitingSms())
+      throw new AppError(
+        "LIBTV_REGISTRATION_IN_PROGRESS",
+        "等待授权完成后再保存。",
+        409,
+      );
+    this.registering = true;
+    try {
+      return await this.saveAccount(id, login, actor, alias);
+    } finally {
+      this.registering = false;
+    }
+  }
+
+  private async saveAccount(
+    id: string,
+    login: LibTVWebLogin,
+    actor: string,
+    alias?: string,
+  ) {
     try {
       await access(
         path.join(this.accountDirectory(id), "config", "credentials.json"),
@@ -376,44 +507,71 @@ export class FramePoolService {
     } catch {
       throw new AppError(
         "LIBTV_LOGIN_REQUIRED",
-        "请先完成第二个账号的 LibTV 官方网页登录",
+        "请先完成新账号的 LibTV 官方授权",
         409,
       );
     }
-    const current = await (
-      await this.readAdapter("account-01")
-    ).accountIdentity();
     const candidate = await (await this.readAdapter(id)).accountIdentity();
-    if (!current.userUuid || !candidate.userUuid)
+    if (!candidate.userUuid)
       throw new AppError(
         "CLI_RESPONSE_INVALID",
         "无法核验 LibTV 登录用户身份",
         502,
       );
-    if (current.userUuid === candidate.userUuid)
-      throw new AppError(
-        "LIBTV_DUPLICATE_USER",
-        "登录的是已有 LibTV 用户。请用浏览器隐私窗口登录另一个用户。",
-        409,
-      );
+    const existing = await this.db
+      .select({ id: connections.id })
+      .from(connections);
+    for (const account of existing) {
+      let knownUser: string | null;
+      try {
+        knownUser = (
+          await (await this.readAdapter(account.id)).accountIdentity()
+        ).userUuid;
+      } catch {
+        throw new AppError(
+          "LIBTV_EXISTING_ACCOUNT_UNVERIFIED",
+          "已有账号暂时无法验证，未能确认是否重复。请先诊断已有连接。",
+          409,
+        );
+      }
+      if (!knownUser)
+        throw new AppError(
+          "CLI_RESPONSE_INVALID",
+          "已有账号没有返回可核验的用户身份",
+          502,
+        );
+      if (knownUser === candidate.userUuid) {
+        login.markDuplicate();
+        throw new AppError(
+          "LIBTV_DUPLICATE_USER",
+          "登录的是已有 LibTV 用户。请重新授权另一个账号。",
+          409,
+        );
+      }
+    }
     const checkedAt = new Date();
-    const diagnosis = {
-      diagnosisJson: candidate.diagnosis,
-      healthStatus: "authenticated",
-      lastCheckedAt: checkedAt,
-      updatedAt: checkedAt,
-    };
-    await this.db
+    const [inserted] = await this.db
       .insert(connections)
       .values({
         id,
         provider: "libtv",
-        alias: "LibTV · 第二账号",
-        credentialRef: "local/account-02",
+        alias: alias ?? "LibTV · " + id,
+        credentialRef: "local/" + id,
         configDirRef: id,
-        ...diagnosis,
+        diagnosisJson: candidate.diagnosis,
+        healthStatus: "authenticated",
+        lastCheckedAt: checkedAt,
+        updatedAt: checkedAt,
       })
-      .onConflictDoUpdate({ target: connections.id, set: diagnosis });
+      .onConflictDoNothing()
+      .returning({ id: connections.id });
+    this.pendingLogin = undefined;
+    if (!inserted)
+      throw new AppError(
+        "LIBTV_ACCOUNT_ALREADY_REGISTERED",
+        "这个账号位置已被登记，请重新打开添加窗口。",
+        409,
+      );
     await this.audit(actor, "connection.register", id, { authenticated: true });
     return { id, authenticated: true };
   }

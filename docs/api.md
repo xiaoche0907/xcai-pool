@@ -1,6 +1,6 @@
 # P1-A API 合约
 
-前缀 `/api/v1`。所有 API 都要求 `Authorization: Bearer <key>`；密钥来自本地 `.env`，不要写入文档或浏览器持久化存储。admin 与 viewer 使用不同密钥；管理员接口强制 admin。
+前缀 `/api/v1`。所有 API 都要求 `Authorization: Bearer <key>`。密钥来自本地 `.env`，后台只在标签页的会话存储中保存已验证的密钥。管理员和只读密钥各自独立，管理员接口要求 admin 权限。
 
 ## 接入 XcAIPool 网关
 
@@ -35,7 +35,11 @@
 | POST | `/admin/projects/:id/refresh` | admin | 上游只读刷新本地节点/边快照 |
 | GET | `/admin/audit-events` | admin | 最近 200 条脱敏 DB 审计 |
 | POST | `/tasks` | viewer/admin | 403 GENERATION_DISABLED，包含 mock 请求也不执行 |
-| GET | `/tasks` | viewer/admin | 501 NOT_IMPLEMENTED；P1-B 尚未实现 |
+| GET | `/tasks`、`/tasks/:id` | viewer/admin | 查询已导入的生成尝试及详情；使用本地记录 ID |
+| GET/POST | `/admin/connections/login` | admin | 查看或启动新账号的官方本机网页登录 |
+| POST | `/admin/connections/login/open-browser` | admin / 本机 | 在 Windows 上为当前有效授权链接打开独立浏览器窗口 |
+| POST | `/admin/connections/login/phone` | admin | `{phone}` 申请官方短信，`{phone,code}` 验证。触发人机校验时转到官方网页 |
+| POST | `/admin/connections/register` | admin | 核验授权并登记新账号，接受可选的 `alias` |
 
 无 body 的 POST 只接受 `{}` 或不传 body。导入/同步接口不接受客户端任意文件路径、CLI 参数、凭据或 URL。模型查询与参数请求为严格 Zod 校验，核心读取响应在发送前按 DTO 再校验。
 

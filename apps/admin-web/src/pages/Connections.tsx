@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useList } from "@refinedev/core";
 import { ChevronDown, RefreshCw } from "lucide-react";
+import AccountSetup from "../AccountSetup.js";
 import {
   useApp,
   useAction,
@@ -18,33 +19,28 @@ export default function Connections() {
       pagination: { mode: "off" },
     });
   const [aliases, setAliases] = useState<Record<string, string>>({});
+  const [adding, setAdding] = useState(false);
   return (
     <>
       <Warning />
       <div className="section-title">
         <h2>已授权连接</h2>
-        {config.role === "admin" &&
-          !list.result.data.some((c) => c.id === "account-02") && (
-            <button
-              disabled={busy}
-              onClick={() =>
-                run(async () => {
-                  await api("admin/connections/register", "POST", {});
-                  await list.query.refetch();
-                }, "第二个 LibTV 账号已接入")
-              }
-            >
-              验证并登记第二个账号
-            </button>
-          )}
-      </div>
-      {config.role === "admin" &&
-        !list.result.data.some((c) => c.id === "account-02") && (
-          <p className="hint">
-            新账号在本机运行 <code>corepack pnpm libtv:login</code>
-            。用浏览器隐私窗口完成官方登录后，点击验证并登记。
-          </p>
+        {config.role === "admin" && (
+          <button
+            className="primary"
+            disabled={list.query.isPending || list.query.isError}
+            onClick={() => setAdding(true)}
+          >
+            添加账号
+          </button>
         )}
+      </div>
+      {adding && (
+        <AccountSetup
+          close={() => setAdding(false)}
+          registered={() => list.query.refetch()}
+        />
+      )}
       <ErrorBox error={list.query.error} />
       {list.query.isPending ? (
         <Loading />
@@ -62,13 +58,21 @@ export default function Connections() {
                   <small className="muted mono">{c.id} / LibTV CLI</small>
                 </span>
                 <Badge
-                  tone={c.healthStatus === "authenticated" ? "green" : "amber"}
+                  tone={
+                    c.enabled &&
+                    c.healthStatus === "authenticated" &&
+                    c.credentialPresent
+                      ? "green"
+                      : "amber"
+                  }
                 >
-                  {c.healthStatus === "authenticated"
-                    ? "授权有效"
-                    : c.healthStatus === "error"
-                      ? "诊断失败"
-                      : "等待诊断"}
+                  {!c.enabled
+                    ? "已停用"
+                    : c.healthStatus === "authenticated" && c.credentialPresent
+                      ? "授权有效"
+                      : c.healthStatus === "error"
+                        ? "诊断失败"
+                        : "等待诊断"}
                 </Badge>
                 <ChevronDown
                   size={17}

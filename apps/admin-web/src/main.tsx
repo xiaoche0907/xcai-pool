@@ -9,6 +9,7 @@ import {
   Workflow,
   ScrollText,
   Server,
+  ListChecks,
   LockKeyhole,
   LogOut,
   AlertCircle,
@@ -16,7 +17,7 @@ import {
   X,
   ArrowRight,
 } from "lucide-react";
-import { createApi, createDataProvider } from "./api.js";
+import { ApiError, createApi, createDataProvider } from "./api.js";
 import {
   Context,
   useApp,
@@ -30,6 +31,8 @@ import Connections from "./pages/Connections.js";
 import Projects from "./pages/Projects.js";
 import Logs from "./pages/Logs.js";
 import Gateway from "./pages/Gateway.js";
+import Tasks from "./pages/Tasks.js";
+import ThemeControl from "./ThemeControl.js";
 import "./style.css";
 const Models = lazy(() => import("./pages/Models.js"));
 const pages = [
@@ -38,19 +41,28 @@ const pages = [
   ["connections", "账号池", Users, "管理 LibTV 授权、连接状态与账号别名。"],
   ["gateway", "网关", Server, "检查本机 API、复制接入配置与模型 ID。"],
   ["projects", "画布管理", Workflow, "查询画布、节点和连接关系。"],
+  ["tasks", "任务记录", ListChecks, "查看任务状态、生成结果与执行尝试。"],
   ["logs", "审计日志", ScrollText, "查阅脱敏的操作和故障记录。"],
 ] as const;
 function Shell({ logout }: { logout: () => void }) {
   const { config } = useApp();
   const [page, setPage] = useState(location.hash.slice(1) || "overview");
   useEffect(() => {
-    const h = () => setPage(location.hash.slice(1) || "overview");
+    const h = () => {
+      const next = location.hash.slice(1) || "overview";
+      if (!pages.some(([id]) => id === next)) return;
+      setPage(next);
+      window.scrollTo({ top: 0, behavior: "instant" });
+    };
     window.addEventListener("hashchange", h);
     return () => window.removeEventListener("hashchange", h);
   }, []);
   const current = pages.find((p) => p[0] === page) ?? pages[0];
   return (
     <div className="app">
+      <a className="skip-link" href="#main-content">
+        跳到主内容
+      </a>
       <header className="workbench-bar">
         <a className="brand" href="#overview">
           <span className="brand-icon">
@@ -58,23 +70,9 @@ function Shell({ logout }: { logout: () => void }) {
           </span>
           <span>XcAIPool</span>
         </a>
-        <nav aria-label="工作台导航">
-          {pages
-            .filter((p) => config.role === "admin" || p[0] !== "logs")
-            .map(([id, label, Icon]) => (
-              <a
-                key={id}
-                href={`#${id}`}
-                className={current[0] === id ? "active" : ""}
-                aria-current={current[0] === id ? "page" : undefined}
-              >
-                <Icon size={18} />
-                {label}
-              </a>
-            ))}
-        </nav>
         <div className="session-tools">
           <Badge tone="green">API 已连接</Badge>
+          <ThemeControl />
           <span className="role">
             {config.role === "admin" ? "管理员" : "只读用户"}
           </span>
@@ -88,8 +86,23 @@ function Shell({ logout }: { logout: () => void }) {
           </button>
         </div>
       </header>
-      <main>
-        <div className="content">
+      <nav className="workbench-nav" aria-label="工作台导航">
+        {pages
+          .filter((p) => config.role === "admin" || p[0] !== "logs")
+          .map(([id, label, Icon]) => (
+            <a
+              key={id}
+              href={`#${id}`}
+              className={current[0] === id ? "active" : ""}
+              aria-current={current[0] === id ? "page" : undefined}
+            >
+              <Icon size={17} aria-hidden="true" />
+              {label}
+            </a>
+          ))}
+      </nav>
+      <main id="main-content" tabIndex={-1}>
+        <div className="content page-enter" key={current[0]}>
           <div className="page-heading">
             <div>
               <h1>{current[1]}</h1>
@@ -114,6 +127,8 @@ function Shell({ logout }: { logout: () => void }) {
             <Gateway />
           ) : current[0] === "projects" ? (
             <Projects />
+          ) : current[0] === "tasks" ? (
+            <Tasks />
           ) : config.role === "admin" ? (
             <Logs />
           ) : (
@@ -124,7 +139,28 @@ function Shell({ logout }: { logout: () => void }) {
     </div>
   );
 }
+const sessionKey = "xcaipool.api-session";
+
+function readSession() {
+  try {
+    return sessionStorage.getItem(sessionKey) ?? "";
+  } catch {
+    return "";
+  }
+}
+
+function writeSession(token: string) {
+  try {
+    if (token) sessionStorage.setItem(sessionKey, token);
+    else sessionStorage.removeItem(sessionKey);
+  } catch {
+    /* Login still works for this page when browser storage is unavailable. */
+  }
+}
+
 function App() {
+  const [savedToken] = useState(readSession);
+  const [restoring, setRestoring] = useState(Boolean(savedToken));
   const [token, setToken] = useState(""),
     [config, setConfig] = useState<Config | null>(null),
     [input, setInput] = useState(""),
@@ -136,10 +172,38 @@ function App() {
   const api = useMemo(() => createApi(token), [token]),
     provider = useMemo(() => createDataProvider(api), [api]);
   useEffect(() => {
+    if (!savedToken) return;
+    let active = true;
+    void createApi(savedToken)<Config>("config")
+      .then((verified) => {
+        if (!active) return;
+        setToken(savedToken);
+        setConfig(verified);
+      })
+      .catch((cause: unknown) => {
+        if (!active) return;
+        if (cause instanceof ApiError && cause.statusCode === 401)
+          writeSession("");
+        setError(cause);
+      })
+      .finally(() => {
+        if (active) setRestoring(false);
+      });
+    return () => {
+      active = false;
+    };
+  }, [savedToken]);
+  useEffect(() => {
     if (!toast) return;
     const t = setTimeout(() => setToast(null), 6000);
     return () => clearTimeout(t);
   }, [toast]);
+  if (restoring)
+    return (
+      <div className="login">
+        <Loading />
+      </div>
+    );
   if (!config)
     return (
       <div className="login">
@@ -151,6 +215,7 @@ function App() {
             setError(null);
             try {
               const c = await createApi(input)<Config>("config");
+              writeSession(input);
               setToken(input);
               setInput("");
               setConfig(c);
@@ -166,10 +231,11 @@ function App() {
               <Layers3 size={21} />
             </span>
             <span>XcAIPool</span>
+            <ThemeControl />
           </div>
           <h1>登录工作台</h1>
           <p className="muted">
-            使用管理员或只读 API 密钥。密钥仅存于当前页面内存。
+            使用管理员或只读 API 密钥。同一标签页刷新后会自动恢复登录。
           </p>
           <label className="field-label">
             API 密钥
@@ -221,8 +287,10 @@ function App() {
       >
         <Shell
           logout={() => {
+            writeSession("");
             setConfig(null);
             setToken("");
+            setToast(null);
           }}
         />
         {toast && (
