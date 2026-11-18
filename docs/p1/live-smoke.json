@@ -1,0 +1,2899 @@
+{
+  "checkedAt": "2026-11-18T14:29:17.042Z",
+  "checks": [
+    {
+      "name": "config",
+      "status": 200,
+      "data": {
+        "generationEnabled": false,
+        "stage": "P1-A",
+        "role": "admin",
+        "provider": "libtv",
+        "cliVersion": "1.2.0"
+      }
+    },
+    {
+      "name": "account-diagnosis",
+      "status": 200,
+      "data": {
+        "authenticated": true,
+        "identity": "已授权用户（身份已脱敏）",
+        "activeSpace": "个人空间",
+        "spacesCount": 2,
+        "membershipEffective": false
+      }
+    },
+    {
+      "name": "connections",
+      "status": 200,
+      "data": {
+        "data": [
+          {
+            "id": "account-01",
+            "provider": "libtv",
+            "alias": "LibTV · 主账号",
+            "enabled": true,
+            "healthStatus": "authenticated",
+            "generationBlockedReason": "LIBTV_GALLERY_CAPACITY_BLOCKED",
+            "lastCheckedAt": "2026-11-18T14:28:42.017Z",
+            "concurrencyLimit": 1,
+            "identity": "身份已脱敏",
+            "credentialPresent": true,
+            "isolatedDirectory": true,
+            "diagnosis": {
+              "identity": "已授权用户（身份已脱敏）",
+              "activeSpace": "个人空间",
+              "spacesCount": 2,
+              "authenticated": true,
+              "membershipEffective": false
+            },
+            "scope": "独立登录用户；个人/团队是其内部空间"
+          }
+        ],
+        "total": 1
+      }
+    },
+    {
+      "name": "online-model-sync",
+      "status": 200,
+      "data": {
+        "synced": 65
+      }
+    },
+    {
+      "name": "image-models",
+      "status": 200,
+      "data": {
+        "data": [
+          {
+            "id": "doubao-seedream-5-0-pro",
+            "modelKey": "doubao-seedream-5-0-pro",
+            "directoryModelName": "Seedream 5.0 Pro",
+            "schemaModelName": "Seedream5.0 Pro",
+            "modality": "image",
+            "availabilityState": "listed",
+            "generationPermission": "unverified",
+            "schemaHash": "378d9d46cce31612c7f13d8c574fb75935c7fa1726a79686fa8f52db14dc5f2f",
+            "schemaVersion": 1,
+            "lastSyncedAt": "2026-11-18T14:29:14.988Z"
+          },
+          {
+            "id": "doubao-seedream-5-5",
+            "modelKey": "doubao-seedream-5-5",
+            "directoryModelName": "Seedream 5.5",
+            "schemaModelName": "Seedream 5.5",
+            "modality": "image",
+            "availabilityState": "listed",
+            "generationPermission": "unverified",
+            "schemaHash": "411ae38d12d20ffc03284b8ab8f6bec8b679386e7f9030b1edf00f3e8b055f1f",
+            "schemaVersion": 1,
+            "lastSyncedAt": "2026-11-18T14:29:14.960Z"
+          },
+          {
+            "id": "flux-3-image",
+            "modelKey": "flux-3-image",
+            "directoryModelName": "Genesis F.3",
+            "schemaModelName": "Genesis F.3",
+            "modality": "image",
+            "availabilityState": "listed",
+            "generationPermission": "unverified",
+            "schemaHash": "fba7874b4fb6367018b2e37decc4e0cf5bf07746185a178ac4544da99369e2c5",
+            "schemaVersion": 1,
+            "lastSyncedAt": "2026-11-18T14:29:14.991Z"
+          },
+          {
+            "id": "jimeng-4.6",
+            "modelKey": "jimeng-4.6",
+            "directoryModelName": "Seedream 4.6",
+            "schemaModelName": "即梦4.6",
+            "modality": "image",
+            "availabilityState": "listed",
+            "generationPermission": "unverified",
+            "schemaHash": "9a686a0d4cffdb216aa6a70ccb43ca675a30c988204e093d78a7d430894b48b8",
+            "schemaVersion": 1,
+            "lastSyncedAt": "2026-11-18T14:29:15.008Z"
+          },
+          {
+            "id": "kling-image-4.0",
+            "modelKey": "kling-image-4.0",
+            "directoryModelName": "Kling Image 4.0",
+            "schemaModelName": "Kling Image 4.0",
+            "modality": "image",
+            "availabilityState": "listed",
+            "generationPermission": "unverified",
+            "schemaHash": "643017b97d6f70312ce5bfc791f5595b4261ca0b3f81004e83ba2f02d9892f3c",
+            "schemaVersion": 1,
+            "lastSyncedAt": "2026-11-18T14:29:14.957Z"
+          },
+          {
+            "id": "lib-image-2",
+            "modelKey": "lib-image-2",
+            "directoryModelName": "Lib Image",
+            "schemaModelName": "Lib Image",
+            "modality": "image",
+            "availabilityState": "listed",
+            "generationPermission": "unverified",
+            "schemaHash": "10fc12ab0e3f88e06cd7099baba324f18e7785f2faa5ee98ba65791e19b1cfeb",
+            "schemaVersion": 1,
+            "lastSyncedAt": "2026-11-18T14:29:14.976Z"
+          },
+          {
+            "id": "lib-image-2.5-f",
+            "modelKey": "lib-image-2.5-f",
+            "directoryModelName": "Lib Image 2.5 Fast",
+            "schemaModelName": "",
+            "modality": "image",
+            "availabilityState": "listed",
+            "generationPermission": "unverified",
+            "schemaHash": "82ea421214085f81003bdd01e153d08c05643af9576f84fe285c7d381be60206",
+            "schemaVersion": 1,
+            "lastSyncedAt": "2026-11-18T14:29:14.973Z"
+          },
+          {
+            "id": "lib-image-2.5-s",
+            "modelKey": "lib-image-2.5-s",
+            "directoryModelName": "Lib Image 2.5 Pro",
+            "schemaModelName": "",
+            "modality": "image",
+            "availabilityState": "listed",
+            "generationPermission": "unverified",
+            "schemaHash": "cf4e7bf92cae172980ea5039460485f7c376ff9960959e5a389100ef5cc14b6c",
+            "schemaVersion": 1,
+            "lastSyncedAt": "2026-11-18T14:29:14.970Z"
+          },
+          {
+            "id": "lib-image-2.6-a",
+            "modelKey": "lib-image-2.6-a",
+            "directoryModelName": "Lib Image 2.6 Fast",
+            "schemaModelName": "",
+            "modality": "image",
+            "availabilityState": "listed",
+            "generationPermission": "unverified",
+            "schemaHash": "705456123d7d20c7bd66beb8680cd9a3899499acc7f0e5ea6eb91b4ab3f4d8bb",
+            "schemaVersion": 1,
+            "lastSyncedAt": "2026-11-18T14:29:14.948Z"
+          },
+          {
+            "id": "lib-image-2.6-s",
+            "modelKey": "lib-image-2.6-s",
+            "directoryModelName": "Lib Image 2.6 Pro",
+            "schemaModelName": "",
+            "modality": "image",
+            "availabilityState": "listed",
+            "generationPermission": "unverified",
+            "schemaHash": "a66d04dd40c68ed5bcefc0d5b5583cad522cdbd30618c087247cf065cf642ad5",
+            "schemaVersion": 1,
+            "lastSyncedAt": "2026-11-18T14:29:14.953Z"
+          },
+          {
+            "id": "lib-prism",
+            "modelKey": "lib-prism",
+            "directoryModelName": "AutoPic",
+            "schemaModelName": "Lib-prism",
+            "modality": "image",
+            "availabilityState": "listed",
+            "generationPermission": "unverified",
+            "schemaHash": "e272dff7ad5b2ca0787a00c71b4c9cffd448642e63b583507447a156d03b7b1c",
+            "schemaVersion": 1,
+            "lastSyncedAt": "2026-11-18T14:29:14.944Z"
+          },
+          {
+            "id": "minimax-h3-image",
+            "modelKey": "minimax-h3-image",
+            "directoryModelName": "MiniMax H3 Image",
+            "schemaModelName": "minimax-h3-image",
+            "modality": "image",
+            "availabilityState": "listed",
+            "generationPermission": "unverified",
+            "schemaHash": "ab83a86674dd23a8a5b0079254f62e351cc98371631399d708599ea69d458f41",
+            "schemaVersion": 1,
+            "lastSyncedAt": "2026-11-18T14:29:14.963Z"
+          },
+          {
+            "id": "minimax-h3-image-hs",
+            "modelKey": "minimax-h3-image-hs",
+            "directoryModelName": "MiniMax H3 Image Highspeed",
+            "schemaModelName": "minimax-h3-image-hs",
+            "modality": "image",
+            "availabilityState": "listed",
+            "generationPermission": "unverified",
+            "schemaHash": "ccfd0b16f71c795268e2dffe99e8a83d67d391c395c6d43cfb084f3149736caf",
+            "schemaVersion": 1,
+            "lastSyncedAt": "2026-11-18T14:29:14.967Z"
+          },
+          {
+            "id": "mj-niji7",
+            "modelKey": "mj-niji7",
+            "directoryModelName": "Style Image Niji 7",
+            "schemaModelName": "Midjourney Niji 7",
+            "modality": "image",
+            "availabilityState": "listed",
+            "generationPermission": "unverified",
+            "schemaHash": "d92c7b630fdffc70f83c7ed9cc8586221f8245fa6338a1d01caccec6e77aea32",
+            "schemaVersion": 1,
+            "lastSyncedAt": "2026-11-18T14:29:15.005Z"
+          },
+          {
+            "id": "mj-v7",
+            "modelKey": "mj-v7",
+            "directoryModelName": "Style Image V7",
+            "schemaModelName": "Midjourney V7",
+            "modality": "image",
+            "availabilityState": "listed",
+            "generationPermission": "unverified",
+            "schemaHash": "d3cc60a2d91aa040521ed9ac9b842721ff738ac26e1b98ff50899a720e858459",
+            "schemaVersion": 1,
+            "lastSyncedAt": "2026-11-18T14:29:15.002Z"
+          },
+          {
+            "id": "mj-v8.1",
+            "modelKey": "mj-v8.1",
+            "directoryModelName": "Style Image V8.1",
+            "schemaModelName": "Midjourney V8.1",
+            "modality": "image",
+            "availabilityState": "listed",
+            "generationPermission": "unverified",
+            "schemaHash": "f288b186228c6dcfb89d06e273b26b0fca77ab05ef803ee3cbe38ed9f3fa1cb2",
+            "schemaVersion": 1,
+            "lastSyncedAt": "2026-11-18T14:29:14.999Z"
+          },
+          {
+            "id": "mj-v8.2",
+            "modelKey": "mj-v8.2",
+            "directoryModelName": "Style Image V8.2",
+            "schemaModelName": "Midjourney V8.2",
+            "modality": "image",
+            "availabilityState": "listed",
+            "generationPermission": "unverified",
+            "schemaHash": "8f26d8b1d81c9b9dbc2c6ac279ce12f3919d8f0208b9773d1641f63f163b6eb9",
+            "schemaVersion": 1,
+            "lastSyncedAt": "2026-11-18T14:29:14.996Z"
+          },
+          {
+            "id": "nebula-2-flash",
+            "modelKey": "nebula-2-flash",
+            "directoryModelName": "General image V2",
+            "schemaModelName": "全能图片模型V2-Flash",
+            "modality": "image",
+            "availabilityState": "listed",
+            "generationPermission": "unverified",
+            "schemaHash": "4af60883494e4032436f78e793ff01a12c69ef4c278cc2e73285068fee25f75b",
+            "schemaVersion": 1,
+            "lastSyncedAt": "2026-11-18T14:29:14.985Z"
+          },
+          {
+            "id": "nebula-2.1",
+            "modelKey": "nebula-2.1",
+            "directoryModelName": "General image V2.1",
+            "schemaModelName": "全能图片模型V2.1",
+            "modality": "image",
+            "availabilityState": "listed",
+            "generationPermission": "unverified",
+            "schemaHash": "541530f5cc5c4fd0b51a62a6d941e8333948e72a19900a054a35b1061d78ad12",
+            "schemaVersion": 1,
+            "lastSyncedAt": "2026-11-18T14:29:14.982Z"
+          },
+          {
+            "id": "nebula-ultra",
+            "modelKey": "nebula-ultra",
+            "directoryModelName": "General image Pro",
+            "schemaModelName": "全能图片模型V2",
+            "modality": "image",
+            "availabilityState": "listed",
+            "generationPermission": "unverified",
+            "schemaHash": "4683595b1e3adf7a19d97ef2bdfc0c2c5d18d410012af2aad4edf47c86351d09",
+            "schemaVersion": 1,
+            "lastSyncedAt": "2026-11-18T14:29:14.979Z"
+          },
+          {
+            "id": "qwen",
+            "modelKey": "qwen",
+            "directoryModelName": "Qwen Image",
+            "schemaModelName": "Qwen Image",
+            "modality": "image",
+            "availabilityState": "listed",
+            "generationPermission": "unverified",
+            "schemaHash": "5f434d3f689a9500ebe6c1225e21edc996f6f353b0709298f82d0e978d6208a3",
+            "schemaVersion": 1,
+            "lastSyncedAt": "2026-11-18T14:29:15.019Z"
+          },
+          {
+            "id": "qwen-edit",
+            "modelKey": "qwen-edit",
+            "directoryModelName": "Qwen Edit",
+            "schemaModelName": "Qwen Image Edit",
+            "modality": "image",
+            "availabilityState": "listed",
+            "generationPermission": "unverified",
+            "schemaHash": "72e7db680b3bc151d95140ec04426ba59079ea79664217005d64879bb9f84c73",
+            "schemaVersion": 1,
+            "lastSyncedAt": "2026-11-18T14:29:15.021Z"
+          },
+          {
+            "id": "qwen-image-3",
+            "modelKey": "qwen-image-3",
+            "directoryModelName": "Qwen image 3.0",
+            "schemaModelName": "Qwen Image3",
+            "modality": "image",
+            "availabilityState": "listed",
+            "generationPermission": "unverified",
+            "schemaHash": "eac5469ea649502c7ed1efb6169f1c04f9659e9407b04449728d18917da109d8",
+            "schemaVersion": 1,
+            "lastSyncedAt": "2026-11-18T14:29:14.993Z"
+          },
+          {
+            "id": "seedream-4",
+            "modelKey": "seedream-4",
+            "directoryModelName": "Seedream 4.0",
+            "schemaModelName": "Seedream 4.0",
+            "modality": "image",
+            "availabilityState": "listed",
+            "generationPermission": "unverified",
+            "schemaHash": "b8a1b2f4677ac66111ac9279d2863ed3cefe01ed4a2001930ac5a235e2282b0f",
+            "schemaVersion": 1,
+            "lastSyncedAt": "2026-11-18T14:29:15.024Z"
+          },
+          {
+            "id": "seedream-4.5",
+            "modelKey": "seedream-4.5",
+            "directoryModelName": "Seedream 4.5",
+            "schemaModelName": "Seedream 4.5",
+            "modality": "image",
+            "availabilityState": "listed",
+            "generationPermission": "unverified",
+            "schemaHash": "6854003c34e38e2f7dcb705c8a8003a8a3ab40a9bdbc8fded7c606fcdec2bf4c",
+            "schemaVersion": 1,
+            "lastSyncedAt": "2026-11-18T14:29:15.014Z"
+          },
+          {
+            "id": "seedream-5",
+            "modelKey": "seedream-5",
+            "directoryModelName": "Seedream 5.0 Lite",
+            "schemaModelName": "Seedream 5.0",
+            "modality": "image",
+            "availabilityState": "listed",
+            "generationPermission": "unverified",
+            "schemaHash": "378a9680b4a4b52f08608f2a27ab2766e3981a02ceeaaac6740ef6763c95b529",
+            "schemaVersion": 1,
+            "lastSyncedAt": "2026-11-18T14:29:15.011Z"
+          },
+          {
+            "id": "z-image",
+            "modelKey": "z-image",
+            "directoryModelName": "Z-image Turbo",
+            "schemaModelName": "Z Image",
+            "modality": "image",
+            "availabilityState": "listed",
+            "generationPermission": "unverified",
+            "schemaHash": "9646fcd29095f9849192695c3e13cbfb42b2f9b110c27604d13d06dd8fffc53e",
+            "schemaVersion": 1,
+            "lastSyncedAt": "2026-11-18T14:29:15.017Z"
+          }
+        ],
+        "total": 27
+      }
+    },
+    {
+      "name": "video-models",
+      "status": 200,
+      "data": {
+        "data": [
+          {
+            "id": "MiniMax-Hailuo-2.3",
+            "modelKey": "MiniMax-Hailuo-2.3",
+            "directoryModelName": "Hailuo 2.3",
+            "schemaModelName": "Hailuo-2.3",
+            "modality": "video",
+            "availabilityState": "listed",
+            "generationPermission": "unverified",
+            "schemaHash": "48edb5db2f932585d49638b04f59467779817a7a237571de871a75f729ced853",
+            "schemaVersion": 1,
+            "lastSyncedAt": "2026-11-18T14:29:15.112Z"
+          },
+          {
+            "id": "MiniMax-Hailuo-2.3-Fast",
+            "modelKey": "MiniMax-Hailuo-2.3-Fast",
+            "directoryModelName": "Hailuo 2.3 Fast",
+            "schemaModelName": "Hailuo-2.3 Fast",
+            "modality": "video",
+            "availabilityState": "listed",
+            "generationPermission": "unverified",
+            "schemaHash": "9b44384db963135a9ce70bec7cba528ef6e2bf54c5c8738802e7edaf09fe711f",
+            "schemaVersion": 1,
+            "lastSyncedAt": "2026-11-18T14:29:15.109Z"
+          },
+          {
+            "id": "MiniMax-Hailuo-H3",
+            "modelKey": "MiniMax-Hailuo-H3",
+            "directoryModelName": "Minimax H3",
+            "schemaModelName": "Minimax H3",
+            "modality": "video",
+            "availabilityState": "listed",
+            "generationPermission": "unverified",
+            "schemaHash": "778a8c9e0b06a8a976c14bdd0908a7e0252d5964b759d1302967ed09fb49149a",
+            "schemaVersion": 1,
+            "lastSyncedAt": "2026-11-18T14:29:15.058Z"
+          },
+          {
+            "id": "MiniMax-Hailuo-H3-Max",
+            "modelKey": "MiniMax-Hailuo-H3-Max",
+            "directoryModelName": "Minimax H3 Max",
+            "schemaModelName": "Minimax H3 Max",
+            "modality": "video",
+            "availabilityState": "listed",
+            "generationPermission": "unverified",
+            "schemaHash": "a5a5e8395cd752a060627487d89a3e188c7e4a364907bacd92debefe10117c17",
+            "schemaVersion": 1,
+            "lastSyncedAt": "2026-11-18T14:29:15.074Z"
+          },
+          {
+            "id": "MiniMax-Hailuo-o2",
+            "modelKey": "MiniMax-Hailuo-o2",
+            "directoryModelName": "Hailuo 02",
+            "schemaModelName": "Hailuo-O2",
+            "modality": "video",
+            "availabilityState": "listed",
+            "generationPermission": "unverified",
+            "schemaHash": "6c3f528b0808426bb7666eba931765de0e789bafd7dbea35b73592aa5abcd39b",
+            "schemaVersion": 1,
+            "lastSyncedAt": "2026-11-18T14:29:15.125Z"
+          },
+          {
+            "id": "happy-horse-1",
+            "modelKey": "happy-horse-1",
+            "directoryModelName": "Happy Horse 1.0",
+            "schemaModelName": "Happy Horse 1.0",
+            "modality": "video",
+            "availabilityState": "listed",
+            "generationPermission": "unverified",
+            "schemaHash": "fdec439edd773db5d6a68b22de3bcb6e9dbdb2f00788af59ba8e248be99b42df",
+            "schemaVersion": 1,
+            "lastSyncedAt": "2026-11-18T14:29:15.082Z"
+          },
+          {
+            "id": "happy-horse-1.1",
+            "modelKey": "happy-horse-1.1",
+            "directoryModelName": "Happy Horse 1.1",
+            "schemaModelName": "Happy Horse 1.1",
+            "modality": "video",
+            "availabilityState": "listed",
+            "generationPermission": "unverified",
+            "schemaHash": "9a91cbe820d2f46529fa37674f25b3ac601a89776c20963c650da2a381497b6e",
+            "schemaVersion": 1,
+            "lastSyncedAt": "2026-11-18T14:29:15.079Z"
+          },
+          {
+            "id": "kling-v2-5-turbo-pro",
+            "modelKey": "kling-v2-5-turbo-pro",
+            "directoryModelName": "Kling 2.5",
+            "schemaModelName": "可灵 2.5",
+            "modality": "video",
+            "availabilityState": "listed",
+            "generationPermission": "unverified",
+            "schemaHash": "e8ab17199235410f661c4fdd27bd013b13eade6cb2790f242984ee84f2290c67",
+            "schemaVersion": 1,
+            "lastSyncedAt": "2026-11-18T14:29:15.144Z"
+          },
+          {
+            "id": "kling-v2-6",
+            "modelKey": "kling-v2-6",
+            "directoryModelName": "Kling 2.6",
+            "schemaModelName": "可灵V2.6",
+            "modality": "video",
+            "availabilityState": "listed",
+            "generationPermission": "unverified",
+            "schemaHash": "d7ad7874e82d25d990e9e1b164879be5da6f2c78cbfbe75786f3ac3de3bf8f08",
+            "schemaVersion": 1,
+            "lastSyncedAt": "2026-11-18T14:29:15.115Z"
+          },
+          {
+            "id": "kling-v3-motion-control",
+            "modelKey": "kling-v3-motion-control",
+            "directoryModelName": "Kling3.0 动作迁移",
+            "schemaModelName": "动作控制-可灵O3",
+            "modality": "video",
+            "availabilityState": "listed",
+            "generationPermission": "unverified",
+            "schemaHash": "5e1f6c6874b55e6da504570045bfd337bed77239b24e0c1f0e6b3ef4b5e43a31",
+            "schemaVersion": 1,
+            "lastSyncedAt": "2026-11-18T14:29:15.118Z"
+          },
+          {
+            "id": "kling-v3-omni",
+            "modelKey": "kling-v3-omni",
+            "directoryModelName": "Kling O3",
+            "schemaModelName": "可灵 3.0 Omni",
+            "modality": "video",
+            "availabilityState": "listed",
+            "generationPermission": "unverified",
+            "schemaHash": "09733d78681648901d37e3bd80399941c5ef087cc14971c459d2a5fa89effbb6",
+            "schemaVersion": 1,
+            "lastSyncedAt": "2026-11-18T14:29:15.084Z"
+          },
+          {
+            "id": "kling-v3-turbo",
+            "modelKey": "kling-v3-turbo",
+            "directoryModelName": "Kling 3.0 Turbo",
+            "schemaModelName": "可灵 3.0 turbo",
+            "modality": "video",
+            "availabilityState": "listed",
+            "generationPermission": "unverified",
+            "schemaHash": "0ede9ed4e04339b871ec885b7057f91bd9f7ef96dcbaf5e5e738de4b811223cd",
+            "schemaVersion": 1,
+            "lastSyncedAt": "2026-11-18T14:29:15.090Z"
+          },
+          {
+            "id": "kling-v4",
+            "modelKey": "kling-v4",
+            "directoryModelName": "Kling 4.0",
+            "schemaModelName": "可灵 4.0",
+            "modality": "video",
+            "availabilityState": "listed",
+            "generationPermission": "unverified",
+            "schemaHash": "46124c3b7c97ce8659d71194afae1e79e5f60bc579c616ec6bb2b3c73409c0ff",
+            "schemaVersion": 1,
+            "lastSyncedAt": "2026-11-18T14:29:15.050Z"
+          },
+          {
+            "id": "kling-v4-flash",
+            "modelKey": "kling-v4-flash",
+            "directoryModelName": "Kling 4.0 Flash",
+            "schemaModelName": "可灵 4.0 Flash",
+            "modality": "video",
+            "availabilityState": "listed",
+            "generationPermission": "unverified",
+            "schemaHash": "bcff94e155826698aff7eab3f7ffe4bf72770d5fd689c1a1e6302a3b4ce07de2",
+            "schemaVersion": 1,
+            "lastSyncedAt": "2026-11-18T14:29:15.054Z"
+          },
+          {
+            "id": "kling-video-o1",
+            "modelKey": "kling-video-o1",
+            "directoryModelName": "Kling O1",
+            "schemaModelName": "可灵O1",
+            "modality": "video",
+            "availabilityState": "listed",
+            "generationPermission": "unverified",
+            "schemaHash": "7e64b3ac8011700e419abe7b4cec8b19013bd1908edb118bd5b79b6890be7124",
+            "schemaVersion": 1,
+            "lastSyncedAt": "2026-11-18T14:29:15.101Z"
+          },
+          {
+            "id": "kling-video-o3",
+            "modelKey": "kling-video-o3",
+            "directoryModelName": "Kling 3.0",
+            "schemaModelName": "可灵 3.0",
+            "modality": "video",
+            "availabilityState": "listed",
+            "generationPermission": "unverified",
+            "schemaHash": "e79dce04b88eaa934730b7580a80603251d95b60b1dcb112497038135b31abbc",
+            "schemaVersion": 1,
+            "lastSyncedAt": "2026-11-18T14:29:15.095Z"
+          },
+          {
+            "id": "midjourney-video",
+            "modelKey": "midjourney-video",
+            "directoryModelName": "Style Video",
+            "schemaModelName": "MJ Video",
+            "modality": "video",
+            "availabilityState": "listed",
+            "generationPermission": "unverified",
+            "schemaHash": "21ecf9ee0b6e3493fe6c46cc9c78f794675d0beb563a518bb1629f62650cef3d",
+            "schemaVersion": 1,
+            "lastSyncedAt": "2026-11-18T14:29:15.122Z"
+          },
+          {
+            "id": "minimax-h3-hs",
+            "modelKey": "minimax-h3-hs",
+            "directoryModelName": "H3-Highspeed",
+            "schemaModelName": "Minimax H3 Highspeed",
+            "modality": "video",
+            "availabilityState": "listed",
+            "generationPermission": "unverified",
+            "schemaHash": "ccdef9a44fad3100216019598b89ca52d4c748c8b28f1da763fb8cce4ddf564f",
+            "schemaVersion": 1,
+            "lastSyncedAt": "2026-11-18T14:29:15.062Z"
+          },
+          {
+            "id": "omnihuman-1.5",
+            "modelKey": "omnihuman-1.5",
+            "directoryModelName": "OmniHuman 1.5",
+            "schemaModelName": "OmniHuman 1.5",
+            "modality": "video",
+            "availabilityState": "listed",
+            "generationPermission": "unverified",
+            "schemaHash": "774f91a0b893b74c7756dfe920ea038eee3c4eb2484dfecd240daf1a9b0a31b6",
+            "schemaVersion": 1,
+            "lastSyncedAt": "2026-11-18T14:29:15.141Z"
+          },
+          {
+            "id": "pixverse-v5",
+            "modelKey": "pixverse-v5",
+            "directoryModelName": "Pixverse V5",
+            "schemaModelName": "Pixverse V5",
+            "modality": "video",
+            "availabilityState": "listed",
+            "generationPermission": "unverified",
+            "schemaHash": "2160ea329f92dad6a4d04af55ae80fc3f823103c2ad427e2cd3d8e39542b4fc5",
+            "schemaVersion": 1,
+            "lastSyncedAt": "2026-11-18T14:29:15.158Z"
+          },
+          {
+            "id": "pixverse-v5.5",
+            "modelKey": "pixverse-v5.5",
+            "directoryModelName": "Pixverse V5.5",
+            "schemaModelName": "Pixverse V5.5",
+            "modality": "video",
+            "availabilityState": "listed",
+            "generationPermission": "unverified",
+            "schemaHash": "a79f7d7d41ea94174834a8c49ee4f989a7514fb0ce1283fb5c8cbefeb5adc92e",
+            "schemaVersion": 1,
+            "lastSyncedAt": "2026-11-18T14:29:15.155Z"
+          },
+          {
+            "id": "star-video2",
+            "modelKey": "star-video2",
+            "directoryModelName": "Seedance 2.0 VIP",
+            "schemaModelName": "StarVideo 2.0",
+            "modality": "video",
+            "availabilityState": "listed",
+            "generationPermission": "unverified",
+            "schemaHash": "94c2be26efade5da86fe22227a873d0c28a179811d34cb98ca80671fa5279f2d",
+            "schemaVersion": 1,
+            "lastSyncedAt": "2026-11-18T14:29:15.042Z"
+          },
+          {
+            "id": "star-video2-fast",
+            "modelKey": "star-video2-fast",
+            "directoryModelName": "Seedance 2.0 Fast VIP",
+            "schemaModelName": "StarVideo 2.0 Fast",
+            "modality": "video",
+            "availabilityState": "listed",
+            "generationPermission": "unverified",
+            "schemaHash": "672a601aef6732f7f312b46c5d43b27a7708238781b90a575041b4d707055bf5",
+            "schemaVersion": 1,
+            "lastSyncedAt": "2026-11-18T14:29:15.065Z"
+          },
+          {
+            "id": "star-video2-mini",
+            "modelKey": "star-video2-mini",
+            "directoryModelName": "Seedance 2.0 Mini",
+            "schemaModelName": "StarVideo 2.0 Mini",
+            "modality": "video",
+            "availabilityState": "listed",
+            "generationPermission": "unverified",
+            "schemaHash": "1b1e53a29dbd9bdbfe00f95fa5dc7466ab36ebd855b4235a4966fd514539631b",
+            "schemaVersion": 1,
+            "lastSyncedAt": "2026-11-18T14:29:15.077Z"
+          },
+          {
+            "id": "star-video2.5",
+            "modelKey": "star-video2.5",
+            "directoryModelName": "Seedance 2.5",
+            "schemaModelName": "Seedance 2.5",
+            "modality": "video",
+            "availabilityState": "listed",
+            "generationPermission": "unverified",
+            "schemaHash": "9e57fd58a7836ea7f61622780c25d021633e2ee645a2abb5b5ad6ee47c44f4f3",
+            "schemaVersion": 1,
+            "lastSyncedAt": "2026-11-18T14:29:15.029Z"
+          },
+          {
+            "id": "star-video2.5-draft",
+            "modelKey": "star-video2.5-draft",
+            "directoryModelName": "Seedance 2.5（样片模式）",
+            "schemaModelName": "Seedance 2.5（样片模式）",
+            "modality": "video",
+            "availabilityState": "listed",
+            "generationPermission": "unverified",
+            "schemaHash": "4d34bd45a2b1c43dab9b512fedd27c718b41d29011df087f9d0659e21395d90b",
+            "schemaVersion": 1,
+            "lastSyncedAt": "2026-11-18T14:29:15.034Z"
+          },
+          {
+            "id": "star-video2.5-flash",
+            "modelKey": "star-video2.5-flash",
+            "directoryModelName": "Seedance 2.5 Flash",
+            "schemaModelName": "Seedance 2.5 Flash",
+            "modality": "video",
+            "availabilityState": "listed",
+            "generationPermission": "unverified",
+            "schemaHash": "b0ffa4ce7e0444ee6dd436051a05619fd645c4e50686e58015de5af634983f6b",
+            "schemaVersion": 1,
+            "lastSyncedAt": "2026-11-18T14:29:15.038Z"
+          },
+          {
+            "id": "vidu-q4",
+            "modelKey": "vidu-q4",
+            "directoryModelName": "Vidu Q4 Preview",
+            "schemaModelName": "ONE",
+            "modality": "video",
+            "availabilityState": "listed",
+            "generationPermission": "unverified",
+            "schemaHash": "6cfe93a1ffd7aed7567cc2aa084b90a4dc5889747bc51670284b35f0db49e658",
+            "schemaVersion": 1,
+            "lastSyncedAt": "2026-11-18T14:29:15.071Z"
+          },
+          {
+            "id": "viduq2",
+            "modelKey": "viduq2",
+            "directoryModelName": "Vidu Q2",
+            "schemaModelName": "Vidu Q2",
+            "modality": "video",
+            "availabilityState": "listed",
+            "generationPermission": "unverified",
+            "schemaHash": "de72a35c38ea3b9160e9a36fee9bbf39a2467b998161983962922b3779e2796a",
+            "schemaVersion": 1,
+            "lastSyncedAt": "2026-11-18T14:29:15.129Z"
+          },
+          {
+            "id": "viduq2-pro",
+            "modelKey": "viduq2-pro",
+            "directoryModelName": "Vidu Q2 Pro",
+            "schemaModelName": "Vidu Q2 Pro",
+            "modality": "video",
+            "availabilityState": "listed",
+            "generationPermission": "unverified",
+            "schemaHash": "9b7861f312e0227255a2d7f338390bec1529f7cfc063771123f7d6e315c7dff0",
+            "schemaVersion": 1,
+            "lastSyncedAt": "2026-11-18T14:29:15.132Z"
+          },
+          {
+            "id": "viduq2-turbo",
+            "modelKey": "viduq2-turbo",
+            "directoryModelName": "Vidu Q2 Turbo",
+            "schemaModelName": "Vidu Q2 Turbo",
+            "modality": "video",
+            "availabilityState": "listed",
+            "generationPermission": "unverified",
+            "schemaHash": "7957d0fa04be47cf47ab274ba5cc7244c4a0bbf619e8a079f455ccb17fee08b7",
+            "schemaVersion": 1,
+            "lastSyncedAt": "2026-11-18T14:29:15.135Z"
+          },
+          {
+            "id": "viduq3-pro",
+            "modelKey": "viduq3-pro",
+            "directoryModelName": "Vidu Q3 Pro",
+            "schemaModelName": "Vidu Q3 Pro",
+            "modality": "video",
+            "availabilityState": "listed",
+            "generationPermission": "unverified",
+            "schemaHash": "fe9ae2d2b8b5edab77e5f99013dae2253ac63366a0b701b507bb1a67431326d6",
+            "schemaVersion": 1,
+            "lastSyncedAt": "2026-11-18T14:29:15.138Z"
+          },
+          {
+            "id": "wanx2.7-video",
+            "modelKey": "wanx2.7-video",
+            "directoryModelName": "Wan 2.7",
+            "schemaModelName": "Wan 2.7",
+            "modality": "video",
+            "availabilityState": "listed",
+            "generationPermission": "unverified",
+            "schemaHash": "eb537b9b240f93b53e643a60eae6343dd48e3feb369d3280249370bdfe9231d1",
+            "schemaVersion": 1,
+            "lastSyncedAt": "2026-11-18T14:29:15.098Z"
+          },
+          {
+            "id": "wanx3.0",
+            "modelKey": "wanx3.0",
+            "directoryModelName": "Wan 3.0",
+            "schemaModelName": "Wan 3.0",
+            "modality": "video",
+            "availabilityState": "listed",
+            "generationPermission": "unverified",
+            "schemaHash": "7ee470bfb56a3995eb1f31ee1978a7413d23f8067719e2f96f7cf87ff20c9dbc",
+            "schemaVersion": 1,
+            "lastSyncedAt": "2026-11-18T14:29:15.047Z"
+          },
+          {
+            "id": "wanx3.0-prime",
+            "modelKey": "wanx3.0-prime",
+            "directoryModelName": "Wan 3.0 Prime",
+            "schemaModelName": "",
+            "modality": "video",
+            "availabilityState": "listed",
+            "generationPermission": "unverified",
+            "schemaHash": "24c118120969fd50b8b0f99ee77c6396abdc1a9b120725269c7f18d2fc8e0f73",
+            "schemaVersion": 1,
+            "lastSyncedAt": "2026-11-18T14:29:15.068Z"
+          },
+          {
+            "id": "wanxiang-plus",
+            "modelKey": "wanxiang-plus",
+            "directoryModelName": "Wan 2.2",
+            "schemaModelName": "Wan 2.2",
+            "modality": "video",
+            "availabilityState": "listed",
+            "generationPermission": "unverified",
+            "schemaHash": "865f54760cb9ec1fa97030059c73897074b1b053d9308fba60d955a5756fe033",
+            "schemaVersion": 1,
+            "lastSyncedAt": "2026-11-18T14:29:15.147Z"
+          },
+          {
+            "id": "wanxiang-preview",
+            "modelKey": "wanxiang-preview",
+            "directoryModelName": "Wan 2.5",
+            "schemaModelName": "Wan 2.5",
+            "modality": "video",
+            "availabilityState": "listed",
+            "generationPermission": "unverified",
+            "schemaHash": "85ccfdf37c236137a927f5b33bc5944631cc5d09f76f0faaa3cae8b6aef19651",
+            "schemaVersion": 1,
+            "lastSyncedAt": "2026-11-18T14:29:15.152Z"
+          },
+          {
+            "id": "wanxiang-v2-6",
+            "modelKey": "wanxiang-v2-6",
+            "directoryModelName": "Wan 2.6",
+            "schemaModelName": "Wan 2.6",
+            "modality": "video",
+            "availabilityState": "listed",
+            "generationPermission": "unverified",
+            "schemaHash": "71bac934ba69ccdc2394e15c9f5c9e35ce192e95b0214ea5c9ffc8e7bbdf3c13",
+            "schemaVersion": 1,
+            "lastSyncedAt": "2026-11-18T14:29:15.105Z"
+          }
+        ],
+        "total": 38
+      }
+    },
+    {
+      "name": "schema-z-image",
+      "status": 200,
+      "data": {
+        "modelKey": "z-image",
+        "directoryModelName": "Z-image Turbo",
+        "rawSchema": {
+          "schema": {
+            "rules": [
+              {
+                "mode": "any",
+                "require": [
+                  "prompt",
+                  "media"
+                ]
+              }
+            ],
+            "config": {
+              "settings": [
+                "quality",
+                "ratio"
+              ],
+              "generateTypes": {
+                "text": 87,
+                "image": 88,
+                "checkpointId": 22149465
+              }
+            },
+            "baseType": 53,
+            "modelKey": "z-image",
+            "modelName": "Z Image",
+            "properties": {
+              "lora": {
+                "maxCount": 3,
+                "displayName": "风格"
+              },
+              "count": [
+                1,
+                2,
+                4
+              ],
+              "ratio": {
+                "enum": [
+                  "1:1",
+                  "9:16",
+                  "16:9",
+                  "3:4",
+                  "4:3"
+                ],
+                "default": "16:9",
+                "component": "singleButton",
+                "displayName": "比例",
+                "originalField": "ratio"
+              },
+              "prompt": {
+                "maxLength": 0,
+                "placeholder": ""
+              },
+              "quality": {
+                "enum": [
+                  "1K",
+                  "2K",
+                  "4K"
+                ],
+                "default": "1K",
+                "component": "singleButton",
+                "displayName": "分辨率",
+                "originalField": "quality"
+              },
+              "modeType": {
+                "items": {
+                  "image2image": [
+                    0,
+                    1
+                  ]
+                }
+              }
+            },
+            "modelVendor": "zimage"
+          },
+          "toolKey": "z-image",
+          "modality": "image",
+          "modelKey": "z-image",
+          "nameOrId": "z-image",
+          "modelName": "z-image"
+        },
+        "previousSchema": null,
+        "changes": [],
+        "schemaHash": "9646fcd29095f9849192695c3e13cbfb42b2f9b110c27604d13d06dd8fffc53e",
+        "schemaVersion": 1,
+        "form": {
+          "mode": "text2image",
+          "modes": [
+            "text2image",
+            "image2image"
+          ],
+          "jsonSchema": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "prompt": {
+                "type": "string",
+                "title": "提示词",
+                "default": ""
+              },
+              "count": {
+                "type": "integer",
+                "title": "输出数量",
+                "enum": [
+                  1,
+                  2,
+                  4
+                ],
+                "default": 1
+              },
+              "settings": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "quality": {
+                    "oneOf": [
+                      {
+                        "const": "1K",
+                        "title": "1K"
+                      },
+                      {
+                        "const": "2K",
+                        "title": "2K"
+                      },
+                      {
+                        "const": "4K",
+                        "title": "4K"
+                      }
+                    ],
+                    "title": "分辨率",
+                    "default": "1K"
+                  },
+                  "ratio": {
+                    "oneOf": [
+                      {
+                        "const": "1:1",
+                        "title": "1:1"
+                      },
+                      {
+                        "const": "9:16",
+                        "title": "9:16"
+                      },
+                      {
+                        "const": "16:9",
+                        "title": "16:9"
+                      },
+                      {
+                        "const": "3:4",
+                        "title": "3:4"
+                      },
+                      {
+                        "const": "4:3",
+                        "title": "4:3"
+                      }
+                    ],
+                    "title": "比例",
+                    "default": "16:9"
+                  }
+                },
+                "required": [],
+                "title": "基础设置",
+                "default": {}
+              },
+              "advancedSettings": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {},
+                "required": [],
+                "title": "高级设置",
+                "default": {}
+              },
+              "referenceNodeKeys": {
+                "type": "array",
+                "title": "参考节点 key（仅校验，不上传）",
+                "uniqueItems": true,
+                "default": [],
+                "items": {
+                  "type": "string",
+                  "pattern": "^[a-zA-Z0-9_-]{1,150}$"
+                },
+                "maxItems": 0
+              }
+            },
+            "required": [
+              "prompt",
+              "count"
+            ]
+          },
+          "validationSchema": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "prompt": {
+                "type": "string",
+                "title": "提示词",
+                "default": ""
+              },
+              "count": {
+                "type": "integer",
+                "title": "输出数量",
+                "enum": [
+                  1,
+                  2,
+                  4
+                ],
+                "default": 1
+              },
+              "settings": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "quality": {
+                    "oneOf": [
+                      {
+                        "const": "1K",
+                        "title": "1K"
+                      },
+                      {
+                        "const": "2K",
+                        "title": "2K"
+                      },
+                      {
+                        "const": "4K",
+                        "title": "4K"
+                      }
+                    ],
+                    "title": "分辨率",
+                    "default": "1K"
+                  },
+                  "ratio": {
+                    "oneOf": [
+                      {
+                        "const": "1:1",
+                        "title": "1:1"
+                      },
+                      {
+                        "const": "9:16",
+                        "title": "9:16"
+                      },
+                      {
+                        "const": "16:9",
+                        "title": "16:9"
+                      },
+                      {
+                        "const": "3:4",
+                        "title": "3:4"
+                      },
+                      {
+                        "const": "4:3",
+                        "title": "4:3"
+                      }
+                    ],
+                    "title": "比例",
+                    "default": "16:9"
+                  }
+                },
+                "required": [],
+                "title": "基础设置",
+                "default": {}
+              },
+              "advancedSettings": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {},
+                "required": [],
+                "title": "高级设置",
+                "default": {}
+              },
+              "referenceNodeKeys": {
+                "type": "array",
+                "title": "参考节点 key（仅校验，不上传）",
+                "uniqueItems": true,
+                "default": [],
+                "items": {
+                  "type": "string",
+                  "pattern": "^[a-zA-Z0-9_-]{1,150}$"
+                },
+                "maxItems": 0
+              }
+            },
+            "required": [
+              "prompt",
+              "count"
+            ],
+            "allOf": [
+              {
+                "anyOf": [
+                  {
+                    "required": [
+                      "prompt"
+                    ],
+                    "properties": {
+                      "prompt": {
+                        "type": "string",
+                        "minLength": 1,
+                        "pattern": "\\S"
+                      }
+                    }
+                  },
+                  {
+                    "required": [
+                      "referenceNodeKeys"
+                    ],
+                    "properties": {
+                      "referenceNodeKeys": {
+                        "type": "array",
+                        "minItems": 1
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "warnings": [
+            "lora: 风格，保留原文；当前不转换为可写参数"
+          ],
+          "validationScope": "parameters-only",
+          "upstreamPermissionVerified": false,
+          "schemaModelName": "Z Image"
+        }
+      }
+    },
+    {
+      "name": "upstream-projects",
+      "status": 200,
+      "data": {
+        "discovered": 1
+      }
+    },
+    {
+      "name": "upstream-canvas",
+      "status": 200,
+      "data": {
+        "id": "p0-canvas",
+        "projectUuid": "073cb4165ec54d29b24fef3254c05e54",
+        "source": "upstream",
+        "lastCheckedAt": "2026-11-18T14:29:17.013Z",
+        "nodes": [
+          {
+            "id": "i-0CCcDTyZXJ",
+            "nodeKey": "i-0CCcDTyZXJ",
+            "displayName": "P0-reference-red-circle",
+            "nodeType": "image",
+            "position": {
+              "x": 0,
+              "y": 0
+            }
+          },
+          {
+            "id": "i-oeR3ckBZ6a",
+            "nodeKey": "i-oeR3ckBZ6a",
+            "displayName": "P0-reference-image",
+            "nodeType": "image",
+            "position": {
+              "x": 350,
+              "y": 400
+            }
+          },
+          {
+            "id": "i-W7c1qvR4tq",
+            "nodeKey": "i-W7c1qvR4tq",
+            "displayName": "P0-text-image",
+            "nodeType": "image",
+            "position": {
+              "x": 0,
+              "y": 0
+            }
+          },
+          {
+            "id": "v-IWgjxJiVvS",
+            "nodeKey": "v-IWgjxJiVvS",
+            "displayName": "P0-reference-video",
+            "nodeType": "video",
+            "position": {
+              "x": 700,
+              "y": 400
+            }
+          },
+          {
+            "id": "v-Xbws4VQ2CW",
+            "nodeKey": "v-Xbws4VQ2CW",
+            "displayName": "P0-text-video",
+            "nodeType": "video",
+            "position": {
+              "x": 700,
+              "y": 0
+            }
+          }
+        ],
+        "edges": [
+          {
+            "id": "e-GUVZ1Lm8Z4",
+            "source": "i-0CCcDTyZXJ",
+            "target": "i-oeR3ckBZ6a"
+          },
+          {
+            "id": "e-xJkEqIBExp",
+            "source": "i-0CCcDTyZXJ",
+            "target": "v-IWgjxJiVvS"
+          }
+        ]
+      }
+    },
+    {
+      "name": "generation-disabled",
+      "status": 403,
+      "data": {
+        "error": {
+          "code": "GENERATION_DISABLED",
+          "message": "P1-A 真实生成硬关闭；Mock 队列在 P1-B 实施",
+          "requestId": "req-y"
+        }
+      }
+    },
+    {
+      "name": "audit-events",
+      "status": 200,
+      "data": {
+        "data": [
+          {
+            "id": "0b3a61bd-8d68-40d5-8ee6-007ded3787f4",
+            "actorId": "admin",
+            "action": "generation.blocked",
+            "entityType": "framepool",
+            "entityId": "global",
+            "redactedMetadata": {
+              "generationEnabled": false
+            },
+            "createdAt": "2026-11-18T14:29:17.030Z"
+          },
+          {
+            "id": "ee38aed0-59c8-4854-8743-1fc819ae4db1",
+            "actorId": "admin",
+            "action": "project.read-upstream",
+            "entityType": "framepool",
+            "entityId": "p0-canvas",
+            "redactedMetadata": {
+              "edges": 2,
+              "nodes": 5
+            },
+            "createdAt": "2026-11-18T14:29:17.018Z"
+          },
+          {
+            "id": "04584fec-639f-4025-a557-69c77541e2a5",
+            "actorId": "cli",
+            "action": "cli.read",
+            "entityType": "framepool",
+            "entityId": "account-01",
+            "redactedMetadata": {
+              "pid": 80672,
+              "args": [
+                "project",
+                "073cb4165ec54d29b24fef3254c05e54"
+              ],
+              "stderr": "",
+              "exitCode": 0,
+              "durationMs": 716
+            },
+            "createdAt": "2026-11-18T14:29:16.996Z"
+          },
+          {
+            "id": "1be6835d-1932-4148-b7e3-6cafa590f829",
+            "actorId": "cli",
+            "action": "cli.read",
+            "entityType": "framepool",
+            "entityId": "account-01",
+            "redactedMetadata": {
+              "pid": 68764,
+              "args": [
+                "--version"
+              ],
+              "stderr": "",
+              "exitCode": 0,
+              "durationMs": 169
+            },
+            "createdAt": "2026-11-18T14:29:16.275Z"
+          },
+          {
+            "id": "6219795a-c2e7-418b-96a5-6a7df660a800",
+            "actorId": "admin",
+            "action": "projects.discover",
+            "entityType": "framepool",
+            "entityId": "account-01",
+            "redactedMetadata": {
+              "count": 1
+            },
+            "createdAt": "2026-11-18T14:29:16.092Z"
+          },
+          {
+            "id": "2692a379-5646-4a07-aaef-0abef3de9999",
+            "actorId": "cli",
+            "action": "cli.read",
+            "entityType": "framepool",
+            "entityId": "account-01",
+            "redactedMetadata": {
+              "pid": 72284,
+              "args": [
+                "project",
+                "list",
+                "--team-id",
+                "0",
+                "--workspace",
+                "0",
+                "--page",
+                "1",
+                "--page-size",
+                "50"
+              ],
+              "stderr": "",
+              "exitCode": 0,
+              "durationMs": 703
+            },
+            "createdAt": "2026-11-18T14:29:16.081Z"
+          },
+          {
+            "id": "ea008ba0-c8ab-4e9b-a5c5-1857e7591903",
+            "actorId": "cli",
+            "action": "cli.read",
+            "entityType": "framepool",
+            "entityId": "account-01",
+            "redactedMetadata": {
+              "pid": 88648,
+              "args": [
+                "--version"
+              ],
+              "stderr": "",
+              "exitCode": 0,
+              "durationMs": 168
+            },
+            "createdAt": "2026-11-18T14:29:15.373Z"
+          },
+          {
+            "id": "6bb338f1-628e-4053-be1a-f11570c493bc",
+            "actorId": "admin",
+            "action": "models.sync",
+            "entityType": "framepool",
+            "entityId": "account-01",
+            "redactedMetadata": {
+              "count": 65
+            },
+            "createdAt": "2026-11-18T14:29:15.165Z"
+          },
+          {
+            "id": "b467a38d-a5b4-4798-b1fb-eb69f74ee7a9",
+            "actorId": "cli",
+            "action": "cli.read",
+            "entityType": "framepool",
+            "entityId": "account-01",
+            "redactedMetadata": {
+              "pid": 69580,
+              "args": [
+                "model",
+                "pixverse-v5"
+              ],
+              "stderr": "",
+              "exitCode": 0,
+              "durationMs": 408
+            },
+            "createdAt": "2026-11-18T14:29:14.931Z"
+          },
+          {
+            "id": "271ec8a1-4a79-49d9-9e26-068ea0eb4005",
+            "actorId": "cli",
+            "action": "cli.read",
+            "entityType": "framepool",
+            "entityId": "account-01",
+            "redactedMetadata": {
+              "pid": 88260,
+              "args": [
+                "model",
+                "pixverse-v5.5"
+              ],
+              "stderr": "",
+              "exitCode": 0,
+              "durationMs": 542
+            },
+            "createdAt": "2026-11-18T14:29:14.518Z"
+          },
+          {
+            "id": "8df30af9-62fe-41de-a550-6c3666827170",
+            "actorId": "cli",
+            "action": "cli.read",
+            "entityType": "framepool",
+            "entityId": "account-01",
+            "redactedMetadata": {
+              "pid": 164,
+              "args": [
+                "model",
+                "wanxiang-preview"
+              ],
+              "stderr": "",
+              "exitCode": 0,
+              "durationMs": 511
+            },
+            "createdAt": "2026-11-18T14:29:13.970Z"
+          },
+          {
+            "id": "4e5e0429-60ec-4bad-b516-0779ed144309",
+            "actorId": "cli",
+            "action": "cli.read",
+            "entityType": "framepool",
+            "entityId": "account-01",
+            "redactedMetadata": {
+              "pid": 88444,
+              "args": [
+                "model",
+                "wanxiang-plus"
+              ],
+              "stderr": "",
+              "exitCode": 0,
+              "durationMs": 486
+            },
+            "createdAt": "2026-11-18T14:29:13.453Z"
+          },
+          {
+            "id": "4fdd3f9f-4a51-4099-84f3-5cdf7eaec23e",
+            "actorId": "cli",
+            "action": "cli.read",
+            "entityType": "framepool",
+            "entityId": "account-01",
+            "redactedMetadata": {
+              "pid": 66348,
+              "args": [
+                "model",
+                "kling-v2-5-turbo-pro"
+              ],
+              "stderr": "",
+              "exitCode": 0,
+              "durationMs": 426
+            },
+            "createdAt": "2026-11-18T14:29:12.963Z"
+          },
+          {
+            "id": "60f19ca7-34f2-4538-bcf5-7f33e516c76a",
+            "actorId": "cli",
+            "action": "cli.read",
+            "entityType": "framepool",
+            "entityId": "account-01",
+            "redactedMetadata": {
+              "pid": 88624,
+              "args": [
+                "model",
+                "omnihuman-1.5"
+              ],
+              "stderr": "",
+              "exitCode": 0,
+              "durationMs": 481
+            },
+            "createdAt": "2026-11-18T14:29:12.532Z"
+          },
+          {
+            "id": "c5679504-76f8-4872-84e5-38c8a4ccc464",
+            "actorId": "cli",
+            "action": "cli.read",
+            "entityType": "framepool",
+            "entityId": "account-01",
+            "redactedMetadata": {
+              "pid": 60624,
+              "args": [
+                "model",
+                "viduq3-pro"
+              ],
+              "stderr": "",
+              "exitCode": 0,
+              "durationMs": 492
+            },
+            "createdAt": "2026-11-18T14:29:12.045Z"
+          },
+          {
+            "id": "58166a4a-51e5-4593-94ac-2380a036542a",
+            "actorId": "cli",
+            "action": "cli.read",
+            "entityType": "framepool",
+            "entityId": "account-01",
+            "redactedMetadata": {
+              "pid": 83376,
+              "args": [
+                "model",
+                "viduq2-turbo"
+              ],
+              "stderr": "",
+              "exitCode": 0,
+              "durationMs": 473
+            },
+            "createdAt": "2026-11-18T14:29:11.548Z"
+          },
+          {
+            "id": "fcc15e44-4bd1-4cf7-bfb8-95f5f6f6b13c",
+            "actorId": "cli",
+            "action": "cli.read",
+            "entityType": "framepool",
+            "entityId": "account-01",
+            "redactedMetadata": {
+              "pid": 14976,
+              "args": [
+                "model",
+                "viduq2-pro"
+              ],
+              "stderr": "",
+              "exitCode": 0,
+              "durationMs": 436
+            },
+            "createdAt": "2026-11-18T14:29:11.070Z"
+          },
+          {
+            "id": "d3e56342-52e8-4245-a1ce-1265488b5950",
+            "actorId": "cli",
+            "action": "cli.read",
+            "entityType": "framepool",
+            "entityId": "account-01",
+            "redactedMetadata": {
+              "pid": 82876,
+              "args": [
+                "model",
+                "viduq2"
+              ],
+              "stderr": "",
+              "exitCode": 0,
+              "durationMs": 435
+            },
+            "createdAt": "2026-11-18T14:29:10.628Z"
+          },
+          {
+            "id": "1784907f-00a0-4ede-8968-1eeda911b87e",
+            "actorId": "cli",
+            "action": "cli.read",
+            "entityType": "framepool",
+            "entityId": "account-01",
+            "redactedMetadata": {
+              "pid": 88412,
+              "args": [
+                "model",
+                "MiniMax-Hailuo-o2"
+              ],
+              "stderr": "",
+              "exitCode": 0,
+              "durationMs": 444
+            },
+            "createdAt": "2026-11-18T14:29:10.189Z"
+          },
+          {
+            "id": "7941164b-aa71-4c07-ae61-244a166b2380",
+            "actorId": "cli",
+            "action": "cli.read",
+            "entityType": "framepool",
+            "entityId": "account-01",
+            "redactedMetadata": {
+              "pid": 22468,
+              "args": [
+                "model",
+                "midjourney-video"
+              ],
+              "stderr": "",
+              "exitCode": 0,
+              "durationMs": 447
+            },
+            "createdAt": "2026-11-18T14:29:09.741Z"
+          },
+          {
+            "id": "0e4d3eaf-0e9a-4e23-a05e-306ae24558e0",
+            "actorId": "cli",
+            "action": "cli.read",
+            "entityType": "framepool",
+            "entityId": "account-01",
+            "redactedMetadata": {
+              "pid": 71492,
+              "args": [
+                "model",
+                "kling-v3-motion-control"
+              ],
+              "stderr": "",
+              "exitCode": 0,
+              "durationMs": 425
+            },
+            "createdAt": "2026-11-18T14:29:09.290Z"
+          },
+          {
+            "id": "45b55485-3e96-4643-9965-8685ec7c734d",
+            "actorId": "cli",
+            "action": "cli.read",
+            "entityType": "framepool",
+            "entityId": "account-01",
+            "redactedMetadata": {
+              "pid": 85952,
+              "args": [
+                "model",
+                "kling-v2-6"
+              ],
+              "stderr": "",
+              "exitCode": 0,
+              "durationMs": 457
+            },
+            "createdAt": "2026-11-18T14:29:08.860Z"
+          },
+          {
+            "id": "4f991000-f86f-4fd4-90a6-7c55f61a30a4",
+            "actorId": "cli",
+            "action": "cli.read",
+            "entityType": "framepool",
+            "entityId": "account-01",
+            "redactedMetadata": {
+              "pid": 37360,
+              "args": [
+                "model",
+                "MiniMax-Hailuo-2.3"
+              ],
+              "stderr": "",
+              "exitCode": 0,
+              "durationMs": 444
+            },
+            "createdAt": "2026-11-18T14:29:08.398Z"
+          },
+          {
+            "id": "f46418e6-7b05-4ead-9001-143b60cf6803",
+            "actorId": "cli",
+            "action": "cli.read",
+            "entityType": "framepool",
+            "entityId": "account-01",
+            "redactedMetadata": {
+              "pid": 83748,
+              "args": [
+                "model",
+                "MiniMax-Hailuo-2.3-Fast"
+              ],
+              "stderr": "",
+              "exitCode": 0,
+              "durationMs": 483
+            },
+            "createdAt": "2026-11-18T14:29:07.949Z"
+          },
+          {
+            "id": "12606f6e-dce9-45ce-8c07-1c7363352f40",
+            "actorId": "cli",
+            "action": "cli.read",
+            "entityType": "framepool",
+            "entityId": "account-01",
+            "redactedMetadata": {
+              "pid": 88624,
+              "args": [
+                "model",
+                "wanxiang-v2-6"
+              ],
+              "stderr": "",
+              "exitCode": 0,
+              "durationMs": 435
+            },
+            "createdAt": "2026-11-18T14:29:07.461Z"
+          },
+          {
+            "id": "4f77669d-b0ad-4a8c-8770-8f589b5dcae1",
+            "actorId": "cli",
+            "action": "cli.read",
+            "entityType": "framepool",
+            "entityId": "account-01",
+            "redactedMetadata": {
+              "pid": 85924,
+              "args": [
+                "model",
+                "kling-video-o1"
+              ],
+              "stderr": "",
+              "exitCode": 0,
+              "durationMs": 457
+            },
+            "createdAt": "2026-11-18T14:29:07.020Z"
+          },
+          {
+            "id": "80b510fc-01c8-44f3-a2b9-5efc802d6264",
+            "actorId": "cli",
+            "action": "cli.read",
+            "entityType": "framepool",
+            "entityId": "account-01",
+            "redactedMetadata": {
+              "pid": 87764,
+              "args": [
+                "model",
+                "wanx2.7-video"
+              ],
+              "stderr": "",
+              "exitCode": 0,
+              "durationMs": 451
+            },
+            "createdAt": "2026-11-18T14:29:06.559Z"
+          },
+          {
+            "id": "007f8dcc-0c76-4c0a-93ea-7930665cffb3",
+            "actorId": "cli",
+            "action": "cli.read",
+            "entityType": "framepool",
+            "entityId": "account-01",
+            "redactedMetadata": {
+              "pid": 14976,
+              "args": [
+                "model",
+                "kling-video-o3"
+              ],
+              "stderr": "",
+              "exitCode": 0,
+              "durationMs": 497
+            },
+            "createdAt": "2026-11-18T14:29:06.102Z"
+          },
+          {
+            "id": "6b6dccf3-3af0-4f5f-91fc-e6ea9012f84c",
+            "actorId": "cli",
+            "action": "cli.read",
+            "entityType": "framepool",
+            "entityId": "account-01",
+            "redactedMetadata": {
+              "pid": 31864,
+              "args": [
+                "model",
+                "kling-v3-turbo"
+              ],
+              "stderr": "",
+              "exitCode": 0,
+              "durationMs": 435
+            },
+            "createdAt": "2026-11-18T14:29:05.600Z"
+          },
+          {
+            "id": "7ac4200b-bfb2-4226-bdf0-9b331f6b5fe9",
+            "actorId": "cli",
+            "action": "cli.read",
+            "entityType": "framepool",
+            "entityId": "account-01",
+            "redactedMetadata": {
+              "pid": 88260,
+              "args": [
+                "model",
+                "kling-v3-omni"
+              ],
+              "stderr": "",
+              "exitCode": 0,
+              "durationMs": 404
+            },
+            "createdAt": "2026-11-18T14:29:05.160Z"
+          },
+          {
+            "id": "b15da845-2ac9-4e58-8567-411f43f1ba42",
+            "actorId": "cli",
+            "action": "cli.read",
+            "entityType": "framepool",
+            "entityId": "account-01",
+            "redactedMetadata": {
+              "pid": 43180,
+              "args": [
+                "model",
+                "happy-horse-1"
+              ],
+              "stderr": "",
+              "exitCode": 0,
+              "durationMs": 445
+            },
+            "createdAt": "2026-11-18T14:29:04.752Z"
+          },
+          {
+            "id": "300c51f1-38b8-4765-8caf-aa6ef8656b3f",
+            "actorId": "cli",
+            "action": "cli.read",
+            "entityType": "framepool",
+            "entityId": "account-01",
+            "redactedMetadata": {
+              "pid": 88548,
+              "args": [
+                "model",
+                "happy-horse-1.1"
+              ],
+              "stderr": "",
+              "exitCode": 0,
+              "durationMs": 423
+            },
+            "createdAt": "2026-11-18T14:29:04.303Z"
+          },
+          {
+            "id": "4be9360a-455b-4603-94da-a8c2c3f2f7b9",
+            "actorId": "cli",
+            "action": "cli.read",
+            "entityType": "framepool",
+            "entityId": "account-01",
+            "redactedMetadata": {
+              "pid": 39316,
+              "args": [
+                "model",
+                "star-video2-mini"
+              ],
+              "stderr": "",
+              "exitCode": 0,
+              "durationMs": 493
+            },
+            "createdAt": "2026-11-18T14:29:03.875Z"
+          },
+          {
+            "id": "f07ce946-783a-4c0c-b731-30bda9cf4881",
+            "actorId": "cli",
+            "action": "cli.read",
+            "entityType": "framepool",
+            "entityId": "account-01",
+            "redactedMetadata": {
+              "pid": 15740,
+              "args": [
+                "model",
+                "MiniMax-Hailuo-H3-Max"
+              ],
+              "stderr": "",
+              "exitCode": 0,
+              "durationMs": 480
+            },
+            "createdAt": "2026-11-18T14:29:03.378Z"
+          },
+          {
+            "id": "87e5b9f8-c687-4d4f-a59f-de275c2c5f01",
+            "actorId": "cli",
+            "action": "cli.read",
+            "entityType": "framepool",
+            "entityId": "account-01",
+            "redactedMetadata": {
+              "pid": 40536,
+              "args": [
+                "model",
+                "vidu-q4"
+              ],
+              "stderr": "",
+              "exitCode": 0,
+              "durationMs": 459
+            },
+            "createdAt": "2026-11-18T14:29:02.892Z"
+          },
+          {
+            "id": "06f67765-1533-497e-83f7-dcd03a6a186b",
+            "actorId": "cli",
+            "action": "cli.read",
+            "entityType": "framepool",
+            "entityId": "account-01",
+            "redactedMetadata": {
+              "pid": 88644,
+              "args": [
+                "model",
+                "wanx3.0-prime"
+              ],
+              "stderr": "",
+              "exitCode": 0,
+              "durationMs": 482
+            },
+            "createdAt": "2026-11-18T14:29:02.428Z"
+          },
+          {
+            "id": "860a9871-a394-4143-b898-d0c73857391f",
+            "actorId": "cli",
+            "action": "cli.read",
+            "entityType": "framepool",
+            "entityId": "account-01",
+            "redactedMetadata": {
+              "pid": 81888,
+              "args": [
+                "model",
+                "star-video2-fast"
+              ],
+              "stderr": "",
+              "exitCode": 0,
+              "durationMs": 448
+            },
+            "createdAt": "2026-11-18T14:29:01.940Z"
+          },
+          {
+            "id": "d3c99daa-2a2c-4480-aa20-82781b185fdc",
+            "actorId": "cli",
+            "action": "cli.read",
+            "entityType": "framepool",
+            "entityId": "account-01",
+            "redactedMetadata": {
+              "pid": 87216,
+              "args": [
+                "model",
+                "minimax-h3-hs"
+              ],
+              "stderr": "",
+              "exitCode": 0,
+              "durationMs": 401
+            },
+            "createdAt": "2026-11-18T14:29:01.487Z"
+          },
+          {
+            "id": "70fa3bd6-686c-419c-aa73-c825f5911f2a",
+            "actorId": "cli",
+            "action": "cli.read",
+            "entityType": "framepool",
+            "entityId": "account-01",
+            "redactedMetadata": {
+              "pid": 70840,
+              "args": [
+                "model",
+                "MiniMax-Hailuo-H3"
+              ],
+              "stderr": "",
+              "exitCode": 0,
+              "durationMs": 450
+            },
+            "createdAt": "2026-11-18T14:29:01.081Z"
+          },
+          {
+            "id": "eb3dcda5-1df4-4434-acf5-5cb8c6b7b56e",
+            "actorId": "cli",
+            "action": "cli.read",
+            "entityType": "framepool",
+            "entityId": "account-01",
+            "redactedMetadata": {
+              "pid": 83972,
+              "args": [
+                "model",
+                "kling-v4-flash"
+              ],
+              "stderr": "",
+              "exitCode": 0,
+              "durationMs": 463
+            },
+            "createdAt": "2026-11-18T14:29:00.626Z"
+          },
+          {
+            "id": "64520dd5-4703-4f79-8b3e-e1a2796f2e09",
+            "actorId": "cli",
+            "action": "cli.read",
+            "entityType": "framepool",
+            "entityId": "account-01",
+            "redactedMetadata": {
+              "pid": 42932,
+              "args": [
+                "model",
+                "kling-v4"
+              ],
+              "stderr": "",
+              "exitCode": 0,
+              "durationMs": 436
+            },
+            "createdAt": "2026-11-18T14:29:00.159Z"
+          },
+          {
+            "id": "e53c7e72-1c79-4ebd-959e-d06907b43532",
+            "actorId": "cli",
+            "action": "cli.read",
+            "entityType": "framepool",
+            "entityId": "account-01",
+            "redactedMetadata": {
+              "pid": 83876,
+              "args": [
+                "model",
+                "wanx3.0"
+              ],
+              "stderr": "",
+              "exitCode": 0,
+              "durationMs": 445
+            },
+            "createdAt": "2026-11-18T14:28:59.719Z"
+          },
+          {
+            "id": "bc963009-3dcb-48f4-825c-e9a9c7108245",
+            "actorId": "cli",
+            "action": "cli.read",
+            "entityType": "framepool",
+            "entityId": "account-01",
+            "redactedMetadata": {
+              "pid": 48820,
+              "args": [
+                "model",
+                "star-video2"
+              ],
+              "stderr": "",
+              "exitCode": 0,
+              "durationMs": 445
+            },
+            "createdAt": "2026-11-18T14:28:59.269Z"
+          },
+          {
+            "id": "68821ada-c513-47ed-b049-1cf58e74b039",
+            "actorId": "cli",
+            "action": "cli.read",
+            "entityType": "framepool",
+            "entityId": "account-01",
+            "redactedMetadata": {
+              "pid": 78488,
+              "args": [
+                "model",
+                "star-video2.5-flash"
+              ],
+              "stderr": "",
+              "exitCode": 0,
+              "durationMs": 469
+            },
+            "createdAt": "2026-11-18T14:28:58.819Z"
+          },
+          {
+            "id": "b8c8ecf8-a800-4535-af65-b92fe3b6b0ed",
+            "actorId": "cli",
+            "action": "cli.read",
+            "entityType": "framepool",
+            "entityId": "account-01",
+            "redactedMetadata": {
+              "pid": 29476,
+              "args": [
+                "model",
+                "star-video2.5-draft"
+              ],
+              "stderr": "",
+              "exitCode": 0,
+              "durationMs": 460
+            },
+            "createdAt": "2026-11-18T14:28:58.345Z"
+          },
+          {
+            "id": "4930e541-b5c2-4610-a490-70974c6e4562",
+            "actorId": "cli",
+            "action": "cli.read",
+            "entityType": "framepool",
+            "entityId": "account-01",
+            "redactedMetadata": {
+              "pid": 25912,
+              "args": [
+                "model",
+                "star-video2.5"
+              ],
+              "stderr": "",
+              "exitCode": 0,
+              "durationMs": 480
+            },
+            "createdAt": "2026-11-18T14:28:57.880Z"
+          },
+          {
+            "id": "c249a6d0-6eec-4cce-ad72-e3192c63ee11",
+            "actorId": "cli",
+            "action": "cli.read",
+            "entityType": "framepool",
+            "entityId": "account-01",
+            "redactedMetadata": {
+              "pid": 9724,
+              "args": [
+                "model",
+                "search",
+                "--type",
+                "video"
+              ],
+              "stderr": "",
+              "exitCode": 0,
+              "durationMs": 526
+            },
+            "createdAt": "2026-11-18T14:28:57.394Z"
+          },
+          {
+            "id": "4681436a-7012-4f31-acf7-9044cd64ddbf",
+            "actorId": "cli",
+            "action": "cli.read",
+            "entityType": "framepool",
+            "entityId": "account-01",
+            "redactedMetadata": {
+              "pid": 83676,
+              "args": [
+                "model",
+                "seedream-4"
+              ],
+              "stderr": "",
+              "exitCode": 0,
+              "durationMs": 429
+            },
+            "createdAt": "2026-11-18T14:28:56.863Z"
+          },
+          {
+            "id": "ba90e282-a196-4bea-b808-6284dd9b664d",
+            "actorId": "cli",
+            "action": "cli.read",
+            "entityType": "framepool",
+            "entityId": "account-01",
+            "redactedMetadata": {
+              "pid": 38904,
+              "args": [
+                "model",
+                "qwen-edit"
+              ],
+              "stderr": "",
+              "exitCode": 0,
+              "durationMs": 461
+            },
+            "createdAt": "2026-11-18T14:28:56.429Z"
+          },
+          {
+            "id": "588c56b0-0a65-43a8-bf55-a5582f9fa8c0",
+            "actorId": "cli",
+            "action": "cli.read",
+            "entityType": "framepool",
+            "entityId": "account-01",
+            "redactedMetadata": {
+              "pid": 74256,
+              "args": [
+                "model",
+                "qwen"
+              ],
+              "stderr": "",
+              "exitCode": 0,
+              "durationMs": 454
+            },
+            "createdAt": "2026-11-18T14:28:55.963Z"
+          },
+          {
+            "id": "b4ded352-8574-4e27-aa38-85b7041d8d8a",
+            "actorId": "cli",
+            "action": "cli.read",
+            "entityType": "framepool",
+            "entityId": "account-01",
+            "redactedMetadata": {
+              "pid": 85412,
+              "args": [
+                "model",
+                "z-image"
+              ],
+              "stderr": "",
+              "exitCode": 0,
+              "durationMs": 436
+            },
+            "createdAt": "2026-11-18T14:28:55.502Z"
+          },
+          {
+            "id": "33363b07-8a87-4b00-8dd8-583ea1ddde9c",
+            "actorId": "cli",
+            "action": "cli.read",
+            "entityType": "framepool",
+            "entityId": "account-01",
+            "redactedMetadata": {
+              "pid": 87884,
+              "args": [
+                "model",
+                "seedream-4.5"
+              ],
+              "stderr": "",
+              "exitCode": 0,
+              "durationMs": 475
+            },
+            "createdAt": "2026-11-18T14:28:55.061Z"
+          },
+          {
+            "id": "72f3dba8-29de-4984-8294-6f3b64047318",
+            "actorId": "cli",
+            "action": "cli.read",
+            "entityType": "framepool",
+            "entityId": "account-01",
+            "redactedMetadata": {
+              "pid": 78600,
+              "args": [
+                "model",
+                "seedream-5"
+              ],
+              "stderr": "",
+              "exitCode": 0,
+              "durationMs": 451
+            },
+            "createdAt": "2026-11-18T14:28:54.581Z"
+          },
+          {
+            "id": "a799e568-191d-48c6-910f-01542135c425",
+            "actorId": "cli",
+            "action": "cli.read",
+            "entityType": "framepool",
+            "entityId": "account-01",
+            "redactedMetadata": {
+              "pid": 86912,
+              "args": [
+                "model",
+                "jimeng-4.6"
+              ],
+              "stderr": "",
+              "exitCode": 0,
+              "durationMs": 623
+            },
+            "createdAt": "2026-11-18T14:28:54.127Z"
+          },
+          {
+            "id": "f5909574-2094-4d94-b5a2-6214070e7035",
+            "actorId": "cli",
+            "action": "cli.read",
+            "entityType": "framepool",
+            "entityId": "account-01",
+            "redactedMetadata": {
+              "pid": 14252,
+              "args": [
+                "model",
+                "mj-niji7"
+              ],
+              "stderr": "",
+              "exitCode": 0,
+              "durationMs": 546
+            },
+            "createdAt": "2026-11-18T14:28:53.499Z"
+          },
+          {
+            "id": "09b107ae-9347-4b73-acc1-30cb16d01d80",
+            "actorId": "cli",
+            "action": "cli.read",
+            "entityType": "framepool",
+            "entityId": "account-01",
+            "redactedMetadata": {
+              "pid": 83652,
+              "args": [
+                "model",
+                "mj-v7"
+              ],
+              "stderr": "",
+              "exitCode": 0,
+              "durationMs": 503
+            },
+            "createdAt": "2026-11-18T14:28:52.948Z"
+          },
+          {
+            "id": "3ff5e523-75fc-4ff4-a3d1-bdcce4a171ee",
+            "actorId": "cli",
+            "action": "cli.read",
+            "entityType": "framepool",
+            "entityId": "account-01",
+            "redactedMetadata": {
+              "pid": 51212,
+              "args": [
+                "model",
+                "mj-v8.1"
+              ],
+              "stderr": "",
+              "exitCode": 0,
+              "durationMs": 604
+            },
+            "createdAt": "2026-11-18T14:28:52.439Z"
+          },
+          {
+            "id": "ab4876d3-f0b1-4878-a371-58250cee41d3",
+            "actorId": "cli",
+            "action": "cli.read",
+            "entityType": "framepool",
+            "entityId": "account-01",
+            "redactedMetadata": {
+              "pid": 86896,
+              "args": [
+                "model",
+                "mj-v8.2"
+              ],
+              "stderr": "",
+              "exitCode": 0,
+              "durationMs": 624
+            },
+            "createdAt": "2026-11-18T14:28:51.830Z"
+          },
+          {
+            "id": "681bcdb8-eebc-4f5f-9cd5-880c70d9c115",
+            "actorId": "cli",
+            "action": "cli.read",
+            "entityType": "framepool",
+            "entityId": "account-01",
+            "redactedMetadata": {
+              "pid": 81836,
+              "args": [
+                "model",
+                "qwen-image-3"
+              ],
+              "stderr": "",
+              "exitCode": 0,
+              "durationMs": 884
+            },
+            "createdAt": "2026-11-18T14:28:51.201Z"
+          },
+          {
+            "id": "3fe6a0bd-8d88-4218-8194-8feaf9debd2d",
+            "actorId": "cli",
+            "action": "cli.read",
+            "entityType": "framepool",
+            "entityId": "account-01",
+            "redactedMetadata": {
+              "pid": 11732,
+              "args": [
+                "model",
+                "flux-3-image"
+              ],
+              "stderr": "",
+              "exitCode": 0,
+              "durationMs": 736
+            },
+            "createdAt": "2026-11-18T14:28:50.311Z"
+          },
+          {
+            "id": "64b4aebf-008d-4ad5-9007-e9370421f771",
+            "actorId": "cli",
+            "action": "cli.read",
+            "entityType": "framepool",
+            "entityId": "account-01",
+            "redactedMetadata": {
+              "pid": 69252,
+              "args": [
+                "model",
+                "doubao-seedream-5-0-pro"
+              ],
+              "stderr": "",
+              "exitCode": 0,
+              "durationMs": 622
+            },
+            "createdAt": "2026-11-18T14:28:49.570Z"
+          },
+          {
+            "id": "c4f6ccd2-d673-486e-aa59-c41344b35448",
+            "actorId": "cli",
+            "action": "cli.read",
+            "entityType": "framepool",
+            "entityId": "account-01",
+            "redactedMetadata": {
+              "pid": 31616,
+              "args": [
+                "model",
+                "nebula-2-flash"
+              ],
+              "stderr": "",
+              "exitCode": 0,
+              "durationMs": 559
+            },
+            "createdAt": "2026-11-18T14:28:48.941Z"
+          },
+          {
+            "id": "640b583f-57e6-4e57-89c0-364f79eea7ad",
+            "actorId": "cli",
+            "action": "cli.read",
+            "entityType": "framepool",
+            "entityId": "account-01",
+            "redactedMetadata": {
+              "pid": 77576,
+              "args": [
+                "model",
+                "nebula-2.1"
+              ],
+              "stderr": "",
+              "exitCode": 0,
+              "durationMs": 504
+            },
+            "createdAt": "2026-11-18T14:28:48.376Z"
+          },
+          {
+            "id": "74b85107-d53b-4fea-ba10-6f37c68fea17",
+            "actorId": "cli",
+            "action": "cli.read",
+            "entityType": "framepool",
+            "entityId": "account-01",
+            "redactedMetadata": {
+              "pid": 66784,
+              "args": [
+                "model",
+                "nebula-ultra"
+              ],
+              "stderr": "",
+              "exitCode": 0,
+              "durationMs": 439
+            },
+            "createdAt": "2026-11-18T14:28:47.866Z"
+          },
+          {
+            "id": "afb34e54-ed1e-4f5e-94cb-6c732871a996",
+            "actorId": "cli",
+            "action": "cli.read",
+            "entityType": "framepool",
+            "entityId": "account-01",
+            "redactedMetadata": {
+              "pid": 81348,
+              "args": [
+                "model",
+                "lib-image-2"
+              ],
+              "stderr": "",
+              "exitCode": 0,
+              "durationMs": 406
+            },
+            "createdAt": "2026-11-18T14:28:47.421Z"
+          },
+          {
+            "id": "af442725-b38f-4335-a2f1-e9f1f6943f7d",
+            "actorId": "cli",
+            "action": "cli.read",
+            "entityType": "framepool",
+            "entityId": "account-01",
+            "redactedMetadata": {
+              "pid": 84836,
+              "args": [
+                "model",
+                "lib-image-2.5-f"
+              ],
+              "stderr": "",
+              "exitCode": 0,
+              "durationMs": 442
+            },
+            "createdAt": "2026-11-18T14:28:47.009Z"
+          },
+          {
+            "id": "279e03fd-05f2-4681-8eff-b09ca59408ca",
+            "actorId": "cli",
+            "action": "cli.read",
+            "entityType": "framepool",
+            "entityId": "account-01",
+            "redactedMetadata": {
+              "pid": 89064,
+              "args": [
+                "model",
+                "lib-image-2.5-s"
+              ],
+              "stderr": "",
+              "exitCode": 0,
+              "durationMs": 451
+            },
+            "createdAt": "2026-11-18T14:28:46.562Z"
+          },
+          {
+            "id": "063b6799-46fc-4942-968d-b2e7ed512f9b",
+            "actorId": "cli",
+            "action": "cli.read",
+            "entityType": "framepool",
+            "entityId": "account-01",
+            "redactedMetadata": {
+              "pid": 83344,
+              "args": [
+                "model",
+                "minimax-h3-image-hs"
+              ],
+              "stderr": "",
+              "exitCode": 0,
+              "durationMs": 365
+            },
+            "createdAt": "2026-11-18T14:28:46.106Z"
+          },
+          {
+            "id": "fdedf25c-865f-4dee-841c-44733d948983",
+            "actorId": "cli",
+            "action": "cli.read",
+            "entityType": "framepool",
+            "entityId": "account-01",
+            "redactedMetadata": {
+              "pid": 87120,
+              "args": [
+                "model",
+                "minimax-h3-image"
+              ],
+              "stderr": "",
+              "exitCode": 0,
+              "durationMs": 423
+            },
+            "createdAt": "2026-11-18T14:28:45.736Z"
+          },
+          {
+            "id": "4d09ee18-178d-444d-98ff-bcab5e3c7ff2",
+            "actorId": "cli",
+            "action": "cli.read",
+            "entityType": "framepool",
+            "entityId": "account-01",
+            "redactedMetadata": {
+              "pid": 87184,
+              "args": [
+                "model",
+                "doubao-seedream-5-5"
+              ],
+              "stderr": "",
+              "exitCode": 0,
+              "durationMs": 399
+            },
+            "createdAt": "2026-11-18T14:28:45.308Z"
+          },
+          {
+            "id": "4df9baea-293e-4018-9605-cf7c1faa38ed",
+            "actorId": "cli",
+            "action": "cli.read",
+            "entityType": "framepool",
+            "entityId": "account-01",
+            "redactedMetadata": {
+              "pid": 59772,
+              "args": [
+                "model",
+                "kling-image-4.0"
+              ],
+              "stderr": "",
+              "exitCode": 0,
+              "durationMs": 400
+            },
+            "createdAt": "2026-11-18T14:28:44.905Z"
+          },
+          {
+            "id": "d61c09c9-b8e1-4070-8c5f-b1d8f5ba25fb",
+            "actorId": "cli",
+            "action": "cli.read",
+            "entityType": "framepool",
+            "entityId": "account-01",
+            "redactedMetadata": {
+              "pid": 81840,
+              "args": [
+                "model",
+                "lib-image-2.6-s"
+              ],
+              "stderr": "",
+              "exitCode": 0,
+              "durationMs": 425
+            },
+            "createdAt": "2026-11-18T14:28:44.501Z"
+          },
+          {
+            "id": "e75496f4-6774-4205-ab83-3de8e776db29",
+            "actorId": "cli",
+            "action": "cli.read",
+            "entityType": "framepool",
+            "entityId": "account-01",
+            "redactedMetadata": {
+              "pid": 41420,
+              "args": [
+                "model",
+                "lib-image-2.6-a"
+              ],
+              "stderr": "",
+              "exitCode": 0,
+              "durationMs": 481
+            },
+            "createdAt": "2026-11-18T14:28:44.071Z"
+          },
+          {
+            "id": "cdee6b3b-15f3-4c3f-9a6c-a152a8264c47",
+            "actorId": "cli",
+            "action": "cli.read",
+            "entityType": "framepool",
+            "entityId": "account-01",
+            "redactedMetadata": {
+              "pid": 87544,
+              "args": [
+                "model",
+                "lib-prism"
+              ],
+              "stderr": "",
+              "exitCode": 0,
+              "durationMs": 825
+            },
+            "createdAt": "2026-11-18T14:28:43.585Z"
+          },
+          {
+            "id": "3990a3df-c649-4ff1-a260-160c3189dcac",
+            "actorId": "cli",
+            "action": "cli.read",
+            "entityType": "framepool",
+            "entityId": "account-01",
+            "redactedMetadata": {
+              "pid": 37120,
+              "args": [
+                "model",
+                "search",
+                "--type",
+                "image"
+              ],
+              "stderr": "",
+              "exitCode": 0,
+              "durationMs": 564
+            },
+            "createdAt": "2026-11-18T14:28:42.753Z"
+          },
+          {
+            "id": "a0e9c575-fdeb-4a75-a2a9-2bed4108bf7e",
+            "actorId": "cli",
+            "action": "cli.read",
+            "entityType": "framepool",
+            "entityId": "account-01",
+            "redactedMetadata": {
+              "pid": 85684,
+              "args": [
+                "--version"
+              ],
+              "stderr": "",
+              "exitCode": 0,
+              "durationMs": 146
+            },
+            "createdAt": "2026-11-18T14:28:42.184Z"
+          },
+          {
+            "id": "efb7d2f9-d4da-4487-bc93-a40b20155fd9",
+            "actorId": "admin",
+            "action": "connection.diagnose",
+            "entityType": "framepool",
+            "entityId": "account-01",
+            "redactedMetadata": {
+              "authenticated": true
+            },
+            "createdAt": "2026-11-18T14:28:42.023Z"
+          },
+          {
+            "id": "a88f89f1-1949-4d46-8895-7dd105324caf",
+            "actorId": "cli",
+            "action": "cli.read",
+            "entityType": "framepool",
+            "entityId": "account-01",
+            "redactedMetadata": {
+              "pid": 47504,
+              "args": [
+                "account",
+                "info"
+              ],
+              "stderr": "",
+              "exitCode": 0,
+              "durationMs": 858
+            },
+            "createdAt": "2026-11-18T14:28:42.013Z"
+          },
+          {
+            "id": "6b0b9691-5d33-477b-add7-d58db96883b6",
+            "actorId": "cli",
+            "action": "cli.read",
+            "entityType": "framepool",
+            "entityId": "account-01",
+            "redactedMetadata": {
+              "pid": 70276,
+              "args": [
+                "--version"
+              ],
+              "stderr": "",
+              "exitCode": 0,
+              "durationMs": 133
+            },
+            "createdAt": "2026-11-18T14:28:41.151Z"
+          },
+          {
+            "id": "58f64752-cb4b-48f6-b2b3-265d6bea0b4f",
+            "actorId": "admin",
+            "action": "model.parameters-validated",
+            "entityType": "framepool",
+            "entityId": "z-image",
+            "redactedMetadata": {
+              "generationEnabled": false
+            },
+            "createdAt": "2026-11-18T14:28:38.282Z"
+          },
+          {
+            "id": "de8d4071-274a-4fbf-9d75-ca60bc6e243f",
+            "actorId": "admin",
+            "action": "generation.blocked",
+            "entityType": "framepool",
+            "entityId": "global",
+            "redactedMetadata": {
+              "generationEnabled": false
+            },
+            "createdAt": "2026-11-18T14:26:59.047Z"
+          },
+          {
+            "id": "290d0c38-3ee9-4cd5-a2c0-3bc52578f33c",
+            "actorId": "admin",
+            "action": "project.read-upstream",
+            "entityType": "framepool",
+            "entityId": "p0-canvas",
+            "redactedMetadata": {
+              "edges": 2,
+              "nodes": 5
+            },
+            "createdAt": "2026-11-18T14:26:59.036Z"
+          },
+          {
+            "id": "3d40f8b2-a2f3-4c41-a2d5-c6e89072d8bd",
+            "actorId": "cli",
+            "action": "cli.read",
+            "entityType": "framepool",
+            "entityId": "account-01",
+            "redactedMetadata": {
+              "pid": 77420,
+              "args": [
+                "project",
+                "073cb4165ec54d29b24fef3254c05e54"
+              ],
+              "stderr": "",
+              "exitCode": 0,
+              "durationMs": 650
+            },
+            "createdAt": "2026-11-18T14:26:59.015Z"
+          },
+          {
+            "id": "166c3db0-6561-4e94-b3ba-6c958bc6768a",
+            "actorId": "cli",
+            "action": "cli.read",
+            "entityType": "framepool",
+            "entityId": "account-01",
+            "redactedMetadata": {
+              "pid": 79220,
+              "args": [
+                "--version"
+              ],
+              "stderr": "",
+              "exitCode": 0,
+              "durationMs": 137
+            },
+            "createdAt": "2026-11-18T14:26:58.360Z"
+          },
+          {
+            "id": "cc242189-5b44-43c5-82f5-78aab8594619",
+            "actorId": "admin",
+            "action": "projects.discover",
+            "entityType": "framepool",
+            "entityId": "account-01",
+            "redactedMetadata": {
+              "count": 1
+            },
+            "createdAt": "2026-11-18T14:26:58.212Z"
+          },
+          {
+            "id": "4a80f6a6-eec3-42ba-98c2-e49bf39f387b",
+            "actorId": "cli",
+            "action": "cli.read",
+            "entityType": "framepool",
+            "entityId": "account-01",
+            "redactedMetadata": {
+              "pid": 81800,
+              "args": [
+                "project",
+                "list",
+                "--team-id",
+                "0",
+                "--workspace",
+                "0",
+                "--page",
+                "1",
+                "--page-size",
+                "50"
+              ],
+              "stderr": "",
+              "exitCode": 0,
+              "durationMs": 714
+            },
+            "createdAt": "2026-11-18T14:26:58.203Z"
+          },
+          {
+            "id": "545ffc24-ed24-4cac-8673-a1e7793f25d9",
+            "actorId": "cli",
+            "action": "cli.read",
+            "entityType": "framepool",
+            "entityId": "account-01",
+            "redactedMetadata": {
+              "pid": 83764,
+              "args": [
+                "--version"
+              ],
+              "stderr": "",
+              "exitCode": 0,
+              "durationMs": 203
+            },
+            "createdAt": "2026-11-18T14:26:57.484Z"
+          },
+          {
+            "id": "dab820ac-5153-4402-befe-24f5b6a12a6a",
+            "actorId": "admin",
+            "action": "connection.diagnose",
+            "entityType": "framepool",
+            "entityId": "account-01",
+            "redactedMetadata": {
+              "authenticated": true
+            },
+            "createdAt": "2026-11-18T14:26:57.217Z"
+          },
+          {
+            "id": "70a09898-6b64-436b-968a-3a8d72f1be7a",
+            "actorId": "cli",
+            "action": "cli.read",
+            "entityType": "framepool",
+            "entityId": "account-01",
+            "redactedMetadata": {
+              "pid": 86240,
+              "args": [
+                "account",
+                "info"
+              ],
+              "stderr": "",
+              "exitCode": 0,
+              "durationMs": 926
+            },
+            "createdAt": "2026-11-18T14:26:57.204Z"
+          },
+          {
+            "id": "0faf84f5-0894-4dd3-adeb-a33b0c57c5a4",
+            "actorId": "cli",
+            "action": "cli.read",
+            "entityType": "framepool",
+            "entityId": "account-01",
+            "redactedMetadata": {
+              "pid": 81904,
+              "args": [
+                "--version"
+              ],
+              "stderr": "",
+              "exitCode": 0,
+              "durationMs": 1019
+            },
+            "createdAt": "2026-11-18T14:26:56.271Z"
+          },
+          {
+            "id": "e94fe6e3-0f38-42ac-aa57-8214f341a4f8",
+            "actorId": "bootstrap",
+            "action": "models.import-evidence",
+            "entityType": "framepool",
+            "entityId": "libtv",
+            "redactedMetadata": {
+              "count": 65
+            },
+            "createdAt": "2026-11-18T14:23:00.721Z"
+          },
+          {
+            "id": "p0-generation-failed-1",
+            "actorId": "p0",
+            "action": "p0.generation_failed",
+            "entityType": "node",
+            "entityId": "v-Xbws4VQ2CW",
+            "redactedMetadata": {
+              "origin": "p0-evidence",
+              "nodeKey": "v-Xbws4VQ2CW",
+              "exitCode": 1,
+              "errorCode": "LIBTV_GALLERY_CAPACITY_BLOCKED",
+              "upstreamCode": "1200000138",
+              "hasGeneratedOutput": false
+            },
+            "createdAt": "2026-11-18T13:51:48.684Z"
+          },
+          {
+            "id": "p0-generation-failed-0",
+            "actorId": "p0",
+            "action": "p0.generation_failed",
+            "entityType": "node",
+            "entityId": "i-W7c1qvR4tq",
+            "redactedMetadata": {
+              "origin": "p0-evidence",
+              "nodeKey": "i-W7c1qvR4tq",
+              "exitCode": 1,
+              "errorCode": "LIBTV_GALLERY_CAPACITY_BLOCKED",
+              "upstreamCode": "1200000138",
+              "hasGeneratedOutput": false
+            },
+            "createdAt": "2026-11-18T13:51:31.423Z"
+          }
+        ],
+        "total": 93
+      }
+    }
+  ]
+}

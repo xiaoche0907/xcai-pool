@@ -1,0 +1,14 @@
+{
+  "startedAt": "2026-11-18T13:49:23.528Z",
+  "finishedAt": "2026-11-18T13:49:23.665Z",
+  "args": [
+    "--help"
+  ],
+  "pid": 42344,
+  "code": 0,
+  "signal": null,
+  "timedOut": false,
+  "stdout": "用法： libtv [options] [command]\n\n画布命令：登录、登出（logout）、账户（account）、项目（workspace，工作区）、画布（project）、脚本（script）、节点、分组、上传、下载（download）、image（含\n`image shortcut` Slash）、video（含 `video hd` 高清超分）、模型。当前画布默认读取当前目录\n`.libtv/project.json`（`libtv project use`）；当前项目（工作区）见 `libtv workspace\nuse`；默认分组见 `libtv group use`。\n\n选项：\n  -V, --version            显示版本号。\n  --verbose                排障用：往 stderr 打印请求 URL / 请求体 / 响应体与异常堆栈（等价于设置环境变量\n                           `LIBTV_DEBUG=1`）。可放在命令任意位置。\n  -h, --help               显示本命令说明。\n\n命令：\n  login                    登录：浏览器（web）或手机验证码。\n  logout                   退出登录：调用服务端退登接口，删除凭据文件、清除 LIBTV_TOKEN 与内存中的\n                           token/webid 快照。\n  status                   排障入口：输出当前登录态（token\n                           已脱敏）、生效账户/团队、当前目录绑定的项目（工作区）/画布/分组，以及两个状态文件的路径与修改时间。\n  account                  多账户：查看当前账户信息、列出可切换账户、切换生效账户（个人 / 团队）。\n  workspace                项目（工作区）：新建、列表、更新、本地绑定(use/unuse)。一个项目下可容纳多张画布（见\n                           `libtv project`）。\n  project                  画布：新建、列表、更新、本地绑定(use/unuse)、画布摘要（含团队空间）。画布归属的项目（工作区）见\n                           `libtv workspace`。\n  upload [options] <node>  媒体上传：上传文件并建资源节点。\n  download [options]       下载节点资源到本地：`-n` 为节点 id\n                           或显示名。图片/视频/音频单节点直存文件；普通分组与多文件场景输出 ZIP（对齐画布「批量下载」命名）。\n  image                    图片类画布节点：Slash 快捷等子命令。\n  video                    视频类画布节点：高清（超分）、样片转正片等子命令。\n  script                   脚本节点相关命令（分镜图组等）。\n  node [options] [node]    画布节点：`list` 列出（可选按分组）；`create` 仅新建（必填 -t）；`delete`\n                           删除。以下为「已有节点」默认用法（须传节点名；不传名仅 `node` 时打印本帮助）。新建请用 `node\n                           create`；默认子命令不接受 `-t`。\n  group                    普通分组：`list` 列出画布上所有普通 group；`create <group>`\n                           仅新建；`group [group]` 仅操作已有组（查询/绑定/`--node-rm`\n                           解绑/`--run`；已 `group use` 时可省略\n                           `<group>`）。`use`/`unuse` 维护 `.libtv/project.json`\n                           默认分组。\n  model [name...]          模型：`search` 在 supportModels 中检索（可选\n                           `-t/--type`）；`libtv model <name...>` 对\n                           modelKey/modelName 完全匹配后拉取完整 tool_spec schema。\n  help [command]           显示子命令说明。\n",
+  "stderr": ""
+}
+

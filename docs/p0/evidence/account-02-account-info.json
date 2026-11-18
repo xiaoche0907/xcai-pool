@@ -1,0 +1,15 @@
+{
+  "startedAt": "2026-11-18T13:53:33.808Z",
+  "finishedAt": "2026-11-18T13:53:34.337Z",
+  "args": [
+    "account",
+    "info"
+  ],
+  "pid": 86792,
+  "code": 1,
+  "signal": null,
+  "timedOut": false,
+  "stdout": "",
+  "stderr": "API 业务失败 [401]: 未登录 — GET https://api2.liblib.art/api/www/account/list traceId=- logId=2426188a-e787-4c88-811a-4f0f7f94bba0 259ms\n接口错误 [401]: 未登录 (logId=2426188a-e787-4c88-811a-4f0f7f94bba0)\n"
+}
+

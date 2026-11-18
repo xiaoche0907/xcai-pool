@@ -1,0 +1,15 @@
+{
+  "startedAt": "2026-11-18T13:53:23.112Z",
+  "finishedAt": "2026-11-18T13:53:23.504Z",
+  "args": [
+    "model",
+    "viduq2-pro"
+  ],
+  "pid": 82800,
+  "code": 0,
+  "signal": null,
+  "timedOut": false,
+  "stdout": "{\n  \"nameOrId\": \"viduq2-pro\",\n  \"modelName\": \"viduq2-pro\",\n  \"modelKey\": \"viduq2-pro\",\n  \"toolKey\": \"viduq2-pro\",\n  \"modality\": \"video\",\n  \"schema\": {\n    \"modelKey\": \"viduq2-pro\",\n    \"modelName\": \"Vidu Q2 Pro\",\n    \"modelVendor\": \"vidu\",\n    \"properties\": {\n      \"mention\": false,\n      \"magic\": true,\n      \"count\": [\n        1\n      ],\n      \"prompt\": {\n        \"maxLength\": 5000\n      },\n      \"ratio\": {\n        \"displayName\": \"比例\",\n        \"enum\": [\n          {\n            \"value\": \"auto\",\n            \"displayName\": \"自适应\"\n          }\n        ],\n        \"default\": \"auto\",\n        \"component\": \"singleButton\",\n        \"originalField\": \"ratio\"\n      },\n      \"resolution\": {\n        \"displayName\": \"清晰度\",\n        \"enum\": [\n          \"720p\",\n          \"1080p\"\n        ],\n        \"default\": \"1080p\",\n        \"component\": \"singleButton\",\n        \"originalField\": \"resolution\"\n      },\n      \"duration\": {\n        \"displayName\": \"生成时长\",\n        \"min\": 1,\n        \"max\": 8,\n        \"step\": 1,\n        \"default\": 8,\n        \"originalField\": \"duration\",\n        \"component\": \"slider\"\n      },\n      \"modeType\": {\n        \"originalField\": \"modeType\",\n        \"items\": {\n          \"mixed2video\": [\n            1,\n            7\n          ],\n          \"singleImage2video\": [\n            1,\n            1\n          ],\n          \"frames2video\": [\n            2,\n            2\n          ]\n        },\n        \"mixed2videoConfig\": {\n          \"videoMax\": 1,\n          \"imageMaxWithVideo\": 4\n        }\n      },\n      \"bgm\": {\n        \"displayName\": \"背景音乐\",\n        \"default\": 0,\n        \"component\": \"switch\",\n        \"originalField\": \"bgm\"\n      }\n    },\n    \"config\": {\n      \"settings\": [\n        \"ratio\",\n        \"resolution\",\n        \"duration\",\n        \"bgm\"\n      ],\n      \"generateTypes\": {\n        \"text\": 37,\n        \"image\": 38,\n        \"checkpointId\": 22478760\n      }\n    },\n    \"rules\": [\n      {\n        \"require\": [\n          \"prompt\",\n          \"media\"\n        ],\n        \"mode\": \"any\"\n      }\n    ]\n  }\n}\n",
+  "stderr": ""
+}
+

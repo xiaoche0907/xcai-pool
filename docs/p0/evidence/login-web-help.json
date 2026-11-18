@@ -1,0 +1,16 @@
+{
+  "startedAt": "2026-11-18T13:49:23.666Z",
+  "finishedAt": "2026-11-18T13:49:23.824Z",
+  "args": [
+    "login",
+    "web",
+    "--help"
+  ],
+  "pid": 82120,
+  "code": 0,
+  "signal": null,
+  "timedOut": false,
+  "stdout": "用法： libtv login web [options]\n\n浏览器登录：启动本机回调服务，打印带 callback_url 的 LibTV 首页链接；登录成功后把 token 写入\n~/.libtv/credentials.json（与旧版 token 凭据格式一致）。\n\n选项：\n  --open      尝试用系统默认浏览器打开登录链接\n  -h, --help  显示本命令说明。\n",
+  "stderr": ""
+}
+

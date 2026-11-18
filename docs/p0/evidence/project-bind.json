@@ -1,0 +1,16 @@
+{
+  "startedAt": "2026-11-18T13:51:04.064Z",
+  "finishedAt": "2026-11-18T13:51:04.756Z",
+  "args": [
+    "project",
+    "use",
+    "073cb4165ec54d29b24fef3254c05e54"
+  ],
+  "pid": 84868,
+  "code": 0,
+  "signal": null,
+  "timedOut": false,
+  "stdout": "{\n  \"ok\": true,\n  \"cwd\": \"E:\\\\代码备份\\\\xc-pool\\\\.local\\\\libtv-p0\\\\accounts\\\\account-01\\\\work\",\n  \"projectUuid\": \"073cb4165ec54d29b24fef3254c05e54\",\n  \"name\": \"FramePool P0 20261118\"\n}\n",
+  "stderr": ""
+}
+

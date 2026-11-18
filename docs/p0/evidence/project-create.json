@@ -1,0 +1,20 @@
+{
+  "startedAt": "2026-11-18T13:50:39.133Z",
+  "finishedAt": "2026-11-18T13:50:39.851Z",
+  "args": [
+    "project",
+    "create",
+    "FramePool P0 20261118",
+    "--team-id",
+    "0",
+    "--workspace",
+    "0"
+  ],
+  "pid": 78220,
+  "code": 0,
+  "signal": null,
+  "timedOut": false,
+  "stdout": "{\n  \"projectMeta\": {\n    \"id\": \"[REDACTED]\",\n    \"uuid\": \"[REDACTED]\",\n    \"name\": \"FramePool P0 20261118\",\n    \"visibility\": 0,\n    \"ownerId\": \"[REDACTED]\",\n    \"createdAtMs\": 1795009839558,\n    \"updatedAtMs\": 1795009839558,\n    \"projectType\": 0,\n    \"bizScene\": 0,\n    \"source\": 0\n  }\n}\n",
+  "stderr": ""
+}
+

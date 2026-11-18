@@ -1,0 +1,17 @@
+{
+  "startedAt": "2026-11-18T13:52:26.599Z",
+  "finishedAt": "2026-11-18T13:52:28.196Z",
+  "args": [
+    "upload",
+    "P0-reference-red-circle",
+    "--resource",
+    "reference-red-circle.png"
+  ],
+  "pid": 84984,
+  "code": 0,
+  "signal": null,
+  "timedOut": false,
+  "stdout": "{\n  \"nodeKey\": \"i-0CCcDTyZXJ\",\n  \"mediaKind\": \"image\",\n  \"cdnUrl\": \"https://libtv-res.liblib.art/upload-images/[USER REDACTED]/781c46225b570af345f836bc50bd3dc9c1a5c22d.png\",\n  \"resourceMeta\": {\n    \"items\": [\n      {\n        \"kind\": \"image\",\n        \"mimeType\": \"image/png\",\n        \"byteSize\": 1590,\n        \"extension\": \"png\",\n        \"hashSha1\": \"781c46225b570af345f836bc50bd3dc9c1a5c22d\",\n        \"width\": 256,\n        \"height\": 256\n      }\n    ]\n  }\n}\n",
+  "stderr": ""
+}
+

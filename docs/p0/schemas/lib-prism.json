@@ -1,0 +1,114 @@
+{
+  "nameOrId": "lib-prism",
+  "modelName": "lib-prism",
+  "modelKey": "lib-prism",
+  "toolKey": "lib-prism",
+  "modality": "image",
+  "schema": {
+    "modelKey": "lib-prism",
+    "modelName": "Lib-prism",
+    "modelVendor": "Lib",
+    "baseType": 47,
+    "properties": {
+      "enableSlash": true,
+      "cameraControl": true,
+      "magic": true,
+      "focus": true,
+      "mention": true,
+      "count": [
+        1,
+        2,
+        4
+      ],
+      "template": {
+        "displayName": "风格",
+        "maxCount": 0
+      },
+      "prompt": {
+        "placeholder": "",
+        "maxLength": 0
+      },
+      "resolution": {
+        "displayName": "分辨率",
+        "enum": [
+          "1K",
+          "2K",
+          "4K"
+        ],
+        "default": "2K",
+        "component": "singleButton",
+        "originalField": "resolution"
+      },
+      "ratio": {
+        "displayName": "比例",
+        "enum": [
+          {
+            "value": "auto",
+            "displayName": "自适应"
+          },
+          "1:1",
+          "9:16",
+          "16:9",
+          "3:4",
+          "4:3",
+          "3:2",
+          "2:3",
+          "4:5",
+          "5:4",
+          "8:1",
+          "1:8",
+          "4:1",
+          "1:4",
+          "21:9"
+        ],
+        "default": "16:9",
+        "component": "singleButton",
+        "originalField": "ratio"
+      },
+      "search_enabled": {
+        "displayName": "联网搜索",
+        "default": 0,
+        "component": "switch",
+        "originalField": "search_enabled"
+      },
+      "modeType": {
+        "items": {
+          "image2image": [
+            0,
+            7
+          ]
+        }
+      }
+    },
+    "config": {
+      "settings": {
+        "text2image": [
+          "resolution",
+          "ratio"
+        ],
+        "image2image": [
+          "resolution",
+          "ratio"
+        ]
+      },
+      "advancedSettings": [
+        "search_enabled"
+      ],
+      "generateTypes": {
+        "text": 129,
+        "image": 129,
+        "checkpointId": 23430846
+      }
+    },
+    "rules": [
+      {
+        "require": [
+          "prompt",
+          "media"
+        ],
+        "mode": "any"
+      }
+    ]
+  }
+}
+

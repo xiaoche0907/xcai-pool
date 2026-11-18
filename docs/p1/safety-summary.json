@@ -1,0 +1,83 @@
+{
+  "checkedAt": "2026-11-18T14:41:48.564Z",
+  "generationEnabled": false,
+  "cliInvocations": 80,
+  "forbiddenInvocations": 0,
+  "readCommandsOnly": true,
+  "schemas": 65,
+  "modes": 209,
+  "unsupportedModes": [
+    {
+      "modelKey": "kling-v3-motion-control",
+      "mode": "text2video",
+      "reason": "媒体类型/whenHas 条件无法确认，明确禁止参数校验通过"
+    },
+    {
+      "modelKey": "kling-v3-motion-control",
+      "mode": "mixed2video",
+      "reason": "媒体类型/whenHas 条件无法确认，明确禁止参数校验通过"
+    },
+    {
+      "modelKey": "kling-v4",
+      "mode": "multiFrame2video",
+      "reason": "媒体类型/whenHas 条件无法确认，明确禁止参数校验通过"
+    },
+    {
+      "modelKey": "midjourney-video",
+      "mode": "text2video",
+      "reason": "媒体类型/whenHas 条件无法确认，明确禁止参数校验通过"
+    },
+    {
+      "modelKey": "midjourney-video",
+      "mode": "frames2video",
+      "reason": "媒体类型/whenHas 条件无法确认，明确禁止参数校验通过"
+    },
+    {
+      "modelKey": "minimax-h3-hs",
+      "mode": "mixed2video",
+      "reason": "媒体类型/whenHas 条件无法确认，明确禁止参数校验通过"
+    },
+    {
+      "modelKey": "MiniMax-Hailuo-H3",
+      "mode": "mixed2video",
+      "reason": "媒体类型/whenHas 条件无法确认，明确禁止参数校验通过"
+    },
+    {
+      "modelKey": "omnihuman-1.5",
+      "mode": "text2video",
+      "reason": "媒体类型/whenHas 条件无法确认，明确禁止参数校验通过"
+    },
+    {
+      "modelKey": "omnihuman-1.5",
+      "mode": "singleImage2video",
+      "reason": "媒体类型/whenHas 条件无法确认，明确禁止参数校验通过"
+    },
+    {
+      "modelKey": "omnihuman-1.5",
+      "mode": "audio2video",
+      "reason": "媒体类型/whenHas 条件无法确认，明确禁止参数校验通过"
+    },
+    {
+      "modelKey": "vidu-q4",
+      "mode": "text2video",
+      "reason": "媒体类型/whenHas 条件无法确认，明确禁止参数校验通过"
+    },
+    {
+      "modelKey": "vidu-q4",
+      "mode": "singleImage2video",
+      "reason": "媒体类型/whenHas 条件无法确认，明确禁止参数校验通过"
+    },
+    {
+      "modelKey": "vidu-q4",
+      "mode": "mixed2video",
+      "reason": "媒体类型/whenHas 条件无法确认，明确禁止参数校验通过"
+    }
+  ],
+  "productionDependencyAudit": {
+    "info": 0,
+    "low": 0,
+    "moderate": 0,
+    "high": 0,
+    "critical": 0
+  }
+}

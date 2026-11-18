@@ -1,0 +1,146 @@
+{
+  "nameOrId": "kling-image-4.0",
+  "modelName": "kling-image-4.0",
+  "modelKey": "kling-image-4.0",
+  "toolKey": "kling-image-4.0",
+  "modality": "image",
+  "schema": {
+    "settingsRules": [
+      {
+        "when": {
+          "result_type": "series"
+        },
+        "disable": {
+          "count": [
+            1
+          ]
+        },
+        "fallback": {
+          "count": 2
+        },
+        "message": "组图至少生成 2 张"
+      }
+    ],
+    "config": {
+      "settings": [
+        "result_type",
+        "resolution",
+        "ratio"
+      ],
+      "generateTypes": {
+        "text": 133,
+        "image": 133,
+        "checkpointId": 23509679
+      }
+    },
+    "baseType": 32,
+    "modelKey": "kling-image-4.0",
+    "modelName": "Kling Image 4.0",
+    "properties": {
+      "result_type": {
+        "enum": [
+          {
+            "value": "single",
+            "displayName": "单图"
+          },
+          {
+            "value": "series",
+            "displayName": "组图"
+          }
+        ],
+        "default": "single",
+        "component": "singleButton",
+        "displayName": "生成模式",
+        "originalField": "result_type"
+      },
+      "count": [
+        1,
+        2,
+        4
+      ],
+      "ratio": {
+        "enum": [
+          "auto",
+          "16:9",
+          "9:16",
+          "1:1",
+          "4:3",
+          "3:4",
+          "3:2",
+          "2:3",
+          "21:9"
+        ],
+        "default": "1:1",
+        "component": "singleButton",
+        "displayName": "比例",
+        "originalField": "ratio"
+      },
+      "prompt": {
+        "maxLength": 50000
+      },
+      "modeType": {
+        "items": {
+          "image2image": [
+            0,
+            10
+          ]
+        }
+      },
+      "resolution": {
+        "enum": [
+          {
+            "value": "2k",
+            "displayName": "2K"
+          },
+          {
+            "value": "4k",
+            "displayName": "4K"
+          },
+          {
+            "value": "8k",
+            "displayName": "8K"
+          }
+        ],
+        "default": "2k",
+        "component": "singleButton",
+        "displayName": "分辨率",
+        "originalField": "resolution"
+      },
+      "mediaConstraints": {
+        "image2image": {
+          "image": {
+            "width": {
+              "min": 300,
+              "action": "block",
+              "message": "参考图宽度至少300px"
+            },
+            "height": {
+              "min": 300,
+              "action": "block",
+              "message": "参考图高度至少300px"
+            },
+            "formats": {
+              "action": "block",
+              "allowed": [
+                "jpg",
+                "jpeg",
+                "png"
+              ],
+              "message": "参考图仅支持JPEG/PNG"
+            }
+          }
+        }
+      }
+    },
+    "modelVendor": "Kling",
+    "rules": [
+      {
+        "mode": "all",
+        "require": [
+          "prompt"
+        ]
+      }
+    ]
+  }
+}
+

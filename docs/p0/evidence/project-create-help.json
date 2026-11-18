@@ -1,0 +1,16 @@
+{
+  "startedAt": "2026-11-18T13:49:24.217Z",
+  "finishedAt": "2026-11-18T13:49:24.379Z",
+  "args": [
+    "project",
+    "create",
+    "--help"
+  ],
+  "pid": 85672,
+  "code": 0,
+  "signal": null,
+  "timedOut": false,
+  "stdout": "用法： libtv project create [options] <project>\n\n画布新建：创建空白画布。\n默认按「当前活跃账户作用域」(`libtv account use` 写入)决定落地空间，与 lib\n`createNewProject(scope='auto')` 一致；显式 `--team-id <n>` 覆盖，`--team-id 0` 强制建到个人。\n若当前目录已 `libtv workspace use` 绑定项目（工作区），新画布默认落到该项目下；用 `-w <项目ID>` 覆盖、`-w 0`\n强制建到根目录。\n\n参数：\n  project                   画布名称（展示用）。\n\n选项：\n  -d, --description <text>  画布简介（可选）。\n  --cover-url <url>         封面图链接（可选）。\n  -t, --team-id <n>         所属团队 ID（可选；与 lib `CreateProjectReq.teamId` 一致）。\n                            缺省 = 跟随当前活跃账户的 scope；传 0 = 强制个人空间。\n  -w, --workspace <n>       落地的项目（工作区）文件夹 id：新画布建到该项目下。\n                            缺省 = 跟随当前目录 `libtv workspace use` 绑定的项目；传 0 =\n                            强制建到根目录（不在任何项目下）。\n  --folder-id <n>           父文件夹 id（可选；低层入参，等价于 `-w`，显式传入时优先；与 lib\n                            `CreateProjectReq.folderId` 一致）。\n  -h, --help                显示本命令说明。\n",
+  "stderr": ""
+}
+

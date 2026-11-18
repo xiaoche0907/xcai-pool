@@ -1,0 +1,26 @@
+{
+  "startedAt": "2026-11-18T13:51:23.172Z",
+  "finishedAt": "2026-11-18T13:51:24.064Z",
+  "args": [
+    "node",
+    "create",
+    "P0-text-image",
+    "-t",
+    "image",
+    "-s",
+    "model=Z-image Turbo",
+    "-s",
+    "count=1",
+    "-s",
+    "settings={\"quality\":\"1K\",\"ratio\":\"1:1\"}",
+    "--prompt",
+    "A red ceramic teapot on a light oak table, soft daylight, clean product photograph, no people, no text"
+  ],
+  "pid": 67656,
+  "code": 0,
+  "signal": null,
+  "timedOut": false,
+  "stdout": "{\n  \"nodeKey\": \"i-W7c1qvR4tq\",\n  \"nodeType\": \"image\",\n  \"data\": {\n    \"type\": \"image\",\n    \"name\": \"P0-text-image\",\n    \"url\": [],\n    \"alt\": \"图片\",\n    \"action\": \"image_generate\",\n    \"generatorType\": \"default\",\n    \"params\": {\n      \"prompt\": \"A red ceramic teapot on a light oak table, soft daylight, clean product photograph, no people, no text\",\n      \"model\": \"Z-image Turbo\",\n      \"count\": 1,\n      \"modeType\": \"text2image\",\n      \"settings\": {\n        \"quality\": \"1K\",\n        \"ratio\": \"1:1\"\n      },\n      \"advancedSettings\": {}\n    }\n  }\n}\n",
+  "stderr": ""
+}
+

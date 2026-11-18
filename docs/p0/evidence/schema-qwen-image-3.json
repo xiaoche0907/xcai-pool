@@ -1,0 +1,15 @@
+{
+  "startedAt": "2026-11-18T13:53:07.131Z",
+  "finishedAt": "2026-11-18T13:53:07.501Z",
+  "args": [
+    "model",
+    "qwen-image-3"
+  ],
+  "pid": 77832,
+  "code": 0,
+  "signal": null,
+  "timedOut": false,
+  "stdout": "{\n  \"nameOrId\": \"qwen-image-3\",\n  \"modelName\": \"qwen-image-3\",\n  \"modelKey\": \"qwen-image-3\",\n  \"toolKey\": \"qwen-image-3\",\n  \"modality\": \"image\",\n  \"schema\": {\n    \"modelKey\": \"qwen-image-3\",\n    \"modelName\": \"Qwen Image3\",\n    \"modelVendor\": \"qwen\",\n    \"baseType\": 37,\n    \"properties\": {\n      \"count\": [\n        1,\n        2,\n        4\n      ],\n      \"lora\": {\n        \"displayName\": \"风格\",\n        \"maxCount\": 3\n      },\n      \"prompt\": {\n        \"placeholder\": \"\",\n        \"maxLength\": 0\n      },\n      \"quality\": {\n        \"displayName\": \"图片质量\",\n        \"enum\": [\n          {\n            \"value\": \"std\",\n            \"displayName\": \"标准\"\n          },\n          {\n            \"value\": \"pro\",\n            \"displayName\": \"Pro\"\n          }\n        ],\n        \"default\": \"std\",\n        \"component\": \"singleButton\",\n        \"originalField\": \"quality\"\n      },\n      \"resolution\": {\n        \"displayName\": \"清晰度\",\n        \"enum\": [\n          {\n            \"value\": \"1K\",\n            \"displayName\": \"1K\"\n          },\n          {\n            \"value\": \"2K\",\n            \"displayName\": \"2K\"\n          }\n        ],\n        \"default\": \"2K\",\n        \"originalField\": \"resolution\",\n        \"component\": \"singleButton\"\n      },\n      \"ratio\": {\n        \"displayName\": \"比例\",\n        \"enum\": [\n          {\n            \"value\": \"auto\",\n            \"displayName\": \"自适应\"\n          },\n          \"1:1\",\n          \"9:16\",\n          \"16:9\",\n          \"3:4\",\n          \"4:3\",\n          \"3:2\",\n          \"2:3\"\n        ],\n        \"default\": \"16:9\",\n        \"component\": \"singleButton\",\n        \"originalField\": \"ratio\"\n      },\n      \"modeType\": {\n        \"items\": {\n          \"image2image\": [\n            1,\n            3\n          ]\n        }\n      }\n    },\n    \"config\": {\n      \"settings\": [\n        \"quality\",\n        \"resolution\",\n        \"ratio\"\n      ],\n      \"generateTypes\": {\n        \"text\": 124,\n        \"image\": 124,\n        \"checkpointId\": 23271359\n      }\n    },\n    \"rules\": [\n      {\n        \"require\": [\n          \"prompt\",\n          \"media\"\n        ],\n        \"mode\": \"any\"\n      }\n    ]\n  }\n}\n",
+  "stderr": ""
+}
+

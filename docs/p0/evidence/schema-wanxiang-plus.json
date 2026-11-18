@@ -1,0 +1,15 @@
+{
+  "startedAt": "2026-11-18T13:53:25.091Z",
+  "finishedAt": "2026-11-18T13:53:25.481Z",
+  "args": [
+    "model",
+    "wanxiang-plus"
+  ],
+  "pid": 29636,
+  "code": 0,
+  "signal": null,
+  "timedOut": false,
+  "stdout": "{\n  \"nameOrId\": \"wanxiang-plus\",\n  \"modelName\": \"wanxiang-plus\",\n  \"modelKey\": \"wanxiang-plus\",\n  \"toolKey\": \"wanxiang-plus\",\n  \"modality\": \"video\",\n  \"schema\": {\n    \"modelKey\": \"wanxiang-plus\",\n    \"modelName\": \"Wan 2.2\",\n    \"modelVendor\": \"Wan\",\n    \"baseType\": 35,\n    \"properties\": {\n      \"magic\": true,\n      \"count\": [\n        1\n      ],\n      \"template\": {\n        \"displayName\": \"特效\",\n        \"maxCount\": 1\n      },\n      \"prompt\": {\n        \"maxLength\": 800\n      },\n      \"ratio\": {\n        \"displayName\": \"比例\",\n        \"enum\": [\n          \"16:9\",\n          \"9:16\"\n        ],\n        \"default\": \"16:9\",\n        \"component\": \"singleButton\",\n        \"originalField\": \"ratio\"\n      },\n      \"resolution\": {\n        \"displayName\": \"清晰度\",\n        \"enum\": [\n          \"480P\",\n          \"720P\"\n        ],\n        \"default\": \"720P\",\n        \"originalField\": \"resolution\",\n        \"component\": \"singleButton\"\n      },\n      \"duration\": {\n        \"displayName\": \"生成时长\",\n        \"enum\": [\n          {\n            \"value\": 5,\n            \"displayName\": \"5s\"\n          }\n        ],\n        \"default\": 5,\n        \"originalField\": \"duration\",\n        \"component\": \"singleButton\"\n      },\n      \"modeType\": {\n        \"originalField\": \"modeType\",\n        \"items\": {\n          \"singleImage2video\": [\n            0,\n            1\n          ]\n        }\n      }\n    },\n    \"config\": {\n      \"settings\": {\n        \"text2video\": [\n          \"ratio\",\n          \"resolution\",\n          \"duration\"\n        ],\n        \"singleImage2video\": [\n          \"ratio\",\n          \"resolution\",\n          \"duration\"\n        ]\n      },\n      \"generateTypes\": {\n        \"text\": 63,\n        \"image\": 64,\n        \"checkpointId\": 21251055\n      }\n    },\n    \"rules\": [\n      {\n        \"require\": [\n          \"prompt\",\n          \"media\"\n        ],\n        \"mode\": \"any\"\n      },\n      {\n        \"require\": [\n          \"prompt\"\n        ],\n        \"forModeTypes\": [\n          \"text2video\"\n        ]\n      }\n    ]\n  }\n}\n",
+  "stderr": ""
+}
+

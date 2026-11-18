@@ -1,0 +1,16 @@
+{
+  "startedAt": "2026-11-18T13:49:24.086Z",
+  "finishedAt": "2026-11-18T13:49:24.216Z",
+  "args": [
+    "model",
+    "search",
+    "--help"
+  ],
+  "pid": 86704,
+  "code": 0,
+  "signal": null,
+  "timedOut": false,
+  "stdout": "用法： libtv model search [options] [name...]\n\n按关键词搜索模型：可选 `-t/--type` 限定画布节点类型；`name` 在过滤结果内检索（modelKey trim 后全字匹配优先，否则\nmodelName 模糊、不区分大小写）。不传 `name` 时仅按 type 列出该类型全部模型。\n\n参数：\n  name                    搜索词；多词以空格拼接。与 `--type` 同用可缩小范围；仅 `--type`\n                          时可省略本参数以列出该类型全部。\n\n选项：\n  -t, --type <node-type>  节点类型：text、image、video、audio、script、storyboard（与画布节点\n                          type 一致）。\n  --all                   不按平台过滤：默认只列与网页端同一份可见模型（渠道配置 platform 含\n                          `web`）；加本选项列出全量（含仅 App 端开放的模型）。\n  -h, --help              显示本命令说明。\n",
+  "stderr": ""
+}
+

@@ -1,0 +1,15 @@
+{
+  "startedAt": "2026-11-18T13:53:34.409Z",
+  "finishedAt": "2026-11-18T13:53:35.265Z",
+  "args": [
+    "account",
+    "info"
+  ],
+  "pid": 58336,
+  "code": 0,
+  "signal": null,
+  "timedOut": false,
+  "stdout": "{\n  \"user\": {\n    \"uuid\": \"[REDACTED]\",\n    \"id\": \"[REDACTED]\",\n    \"nickname\": \"[REDACTED]\"\n  },\n  \"activeAccount\": {\n    \"accountId\": \"[REDACTED]\",\n    \"accountName\": \"[REDACTED]\",\n    \"accountType\": 1,\n    \"ownerType\": 1,\n    \"ownerUuid\": \"[REDACTED]\",\n    \"isActive\": true,\n    \"owner\": true,\n    \"teamRole\": null,\n    \"source\": null,\n    \"memberAccount\": {\n      \"memberName\": \"基础版VIP连续包月\",\n      \"accountLevel\": 2,\n      \"effective\": false\n    }\n  },\n  \"teamId\": null,\n  \"accountsCount\": 2\n}\n",
+  "stderr": ""
+}
+

@@ -1,0 +1,15 @@
+{
+  "startedAt": "2026-11-18T13:53:02.861Z",
+  "finishedAt": "2026-11-18T13:53:03.219Z",
+  "args": [
+    "model",
+    "doubao-seedream-5-5"
+  ],
+  "pid": 28384,
+  "code": 0,
+  "signal": null,
+  "timedOut": false,
+  "stdout": "{\n  \"nameOrId\": \"doubao-seedream-5-5\",\n  \"modelName\": \"doubao-seedream-5-5\",\n  \"modelKey\": \"doubao-seedream-5-5\",\n  \"toolKey\": \"doubao-seedream-5-5\",\n  \"modality\": \"image\",\n  \"schema\": {\n    \"modelKey\": \"doubao-seedream-5-5\",\n    \"modelName\": \"Seedream 5.5\",\n    \"modelVendor\": \"Seedream\",\n    \"baseType\": 81,\n    \"properties\": {\n      \"strikethroughPrice\": {\n        \"active\": true\n      },\n      \"mention\": true,\n      \"count\": [\n        1,\n        2,\n        4\n      ],\n      \"prompt\": {\n        \"placeholder\": \"\",\n        \"maxLength\": 0\n      },\n      \"quality\": {\n        \"displayName\": \"分辨率\",\n        \"enum\": [\n          \"1.5K\",\n          \"2K\"\n        ],\n        \"default\": \"2K\",\n        \"component\": \"singleButton\",\n        \"originalField\": \"quality\"\n      },\n      \"ratio\": {\n        \"displayName\": \"比例\",\n        \"enum\": [\n          \"1:1\",\n          \"9:16\",\n          \"16:9\",\n          \"3:4\",\n          \"4:3\",\n          \"3:2\",\n          \"2:3\",\n          \"21:9\"\n        ],\n        \"default\": \"16:9\",\n        \"component\": \"singleButton\",\n        \"originalField\": \"ratio\"\n      },\n      \"background\": {\n        \"displayName\": \"背景\",\n        \"enum\": [\n          {\n            \"value\": \"auto\",\n            \"displayName\": \"自动\"\n          },\n          {\n            \"value\": \"opaque\",\n            \"displayName\": \"保留背景\"\n          },\n          {\n            \"value\": \"transparent\",\n            \"displayName\": \"透明背景\"\n          }\n        ],\n        \"default\": \"auto\",\n        \"component\": \"singleButton\",\n        \"originalField\": \"background\"\n      },\n      \"modeType\": {\n        \"items\": {\n          \"image2image\": [\n            0,\n            10\n          ]\n        }\n      }\n    },\n    \"config\": {\n      \"settings\": [\n        \"quality\",\n        \"ratio\",\n        \"background\"\n      ],\n      \"generateTypes\": {\n        \"text\": 65,\n        \"image\": 65,\n        \"checkpointId\": 23476653\n      }\n    },\n    \"rules\": [\n      {\n        \"require\": [\n          \"prompt\",\n          \"media\"\n        ],\n        \"mode\": \"any\"\n      }\n    ]\n  }\n}\n",
+  "stderr": ""
+}
+

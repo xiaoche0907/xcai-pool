@@ -1,0 +1,15 @@
+{
+  "startedAt": "2026-11-18T13:49:24.756Z",
+  "finishedAt": "2026-11-18T13:49:24.887Z",
+  "args": [
+    "upload",
+    "--help"
+  ],
+  "pid": 86192,
+  "code": 0,
+  "signal": null,
+  "timedOut": false,
+  "stdout": "用法： libtv upload [options] <node>\n\n媒体上传：上传文件并建资源节点。\n\n参数：\n  node                     新资源节点显示名称。写入节点名称字段。\n\n选项：\n  -p, --project <project>  目标项目 UUID（可选）。缺省见根命令 --help。\n  -g, --group <group>      可选。父级普通分组：新资源节点挂入该组（与 node --group 一致）。未传时若当前目录已\n                           `libtv group use` 绑定默认分组，则自动挂入该组。\n  --resource <path>        本地媒体文件路径。与 -f/--file 二选一，必填其一。\n  -f, --file <path>        同 --resource。\n  -t, --type <kind>        媒体种类：图片、视频或音频。省略时按扩展名推断。\n  --x <n>                  节点画布 X（像素）。 (默认： \"0\")\n  --y <n>                  节点画布 Y（像素）。 (默认： \"0\")\n  -h, --help               显示本命令说明。\n",
+  "stderr": ""
+}
+

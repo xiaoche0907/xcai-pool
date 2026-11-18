@@ -1,0 +1,15 @@
+{
+  "startedAt": "2026-11-18T13:53:10.201Z",
+  "finishedAt": "2026-11-18T13:53:10.571Z",
+  "args": [
+    "model",
+    "z-image"
+  ],
+  "pid": 86512,
+  "code": 0,
+  "signal": null,
+  "timedOut": false,
+  "stdout": "{\n  \"nameOrId\": \"z-image\",\n  \"modelName\": \"z-image\",\n  \"modelKey\": \"z-image\",\n  \"toolKey\": \"z-image\",\n  \"modality\": \"image\",\n  \"schema\": {\n    \"modelKey\": \"z-image\",\n    \"modelName\": \"Z Image\",\n    \"modelVendor\": \"zimage\",\n    \"baseType\": 53,\n    \"properties\": {\n      \"count\": [\n        1,\n        2,\n        4\n      ],\n      \"lora\": {\n        \"displayName\": \"风格\",\n        \"maxCount\": 3\n      },\n      \"prompt\": {\n        \"placeholder\": \"\",\n        \"maxLength\": 0\n      },\n      \"quality\": {\n        \"displayName\": \"分辨率\",\n        \"enum\": [\n          \"1K\",\n          \"2K\",\n          \"4K\"\n        ],\n        \"default\": \"1K\",\n        \"component\": \"singleButton\",\n        \"originalField\": \"quality\"\n      },\n      \"ratio\": {\n        \"displayName\": \"比例\",\n        \"enum\": [\n          \"1:1\",\n          \"9:16\",\n          \"16:9\",\n          \"3:4\",\n          \"4:3\"\n        ],\n        \"default\": \"16:9\",\n        \"component\": \"singleButton\",\n        \"originalField\": \"ratio\"\n      },\n      \"modeType\": {\n        \"items\": {\n          \"image2image\": [\n            0,\n            1\n          ]\n        }\n      }\n    },\n    \"config\": {\n      \"settings\": [\n        \"quality\",\n        \"ratio\"\n      ],\n      \"generateTypes\": {\n        \"text\": 87,\n        \"image\": 88,\n        \"checkpointId\": 22149465\n      }\n    },\n    \"rules\": [\n      {\n        \"require\": [\n          \"prompt\",\n          \"media\"\n        ],\n        \"mode\": \"any\"\n      }\n    ]\n  }\n}\n",
+  "stderr": ""
+}
+

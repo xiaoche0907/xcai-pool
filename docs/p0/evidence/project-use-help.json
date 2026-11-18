@@ -1,0 +1,16 @@
+{
+  "startedAt": "2026-11-18T13:49:24.381Z",
+  "finishedAt": "2026-11-18T13:49:24.506Z",
+  "args": [
+    "project",
+    "use",
+    "--help"
+  ],
+  "pid": 75860,
+  "code": 0,
+  "signal": null,
+  "timedOut": false,
+  "stdout": "用法： libtv project use [options] <project>\n\n将当前目录绑定到画布：写入 .libtv/project.json 的 projectUuid。\n会同步该画布所属的项目（工作区）`workspaceId` 与团队 `teamId`（画布不在任何项目下时不写 workspaceId）；并清除原默认分组绑定。\n\n参数：\n  project     画布：仅支持 UUID，不支持按名称匹配。\n\n选项：\n  -h, --help  显示本命令说明。\n",
+  "stderr": ""
+}
+

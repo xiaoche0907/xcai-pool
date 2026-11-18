@@ -1,0 +1,15 @@
+{
+  "startedAt": "2026-11-18T13:53:10.572Z",
+  "finishedAt": "2026-11-18T13:53:10.950Z",
+  "args": [
+    "model",
+    "qwen"
+  ],
+  "pid": 85148,
+  "code": 0,
+  "signal": null,
+  "timedOut": false,
+  "stdout": "{\n  \"nameOrId\": \"qwen\",\n  \"modelName\": \"qwen\",\n  \"modelKey\": \"qwen\",\n  \"toolKey\": \"qwen\",\n  \"modality\": \"image\",\n  \"schema\": {\n    \"modelKey\": \"qwen\",\n    \"modelName\": \"Qwen Image\",\n    \"modelVendor\": \"qwen\",\n    \"baseType\": 37,\n    \"properties\": {\n      \"count\": [\n        1,\n        2,\n        4\n      ],\n      \"lora\": {\n        \"displayName\": \"风格\",\n        \"maxCount\": 3\n      },\n      \"prompt\": {\n        \"placeholder\": \"\",\n        \"maxLength\": 0\n      },\n      \"quality\": {\n        \"displayName\": \"分辨率\",\n        \"enum\": [\n          {\n            \"value\": \"auto\",\n            \"displayName\": \"自适应\"\n          }\n        ],\n        \"default\": \"auto\",\n        \"component\": \"singleButton\",\n        \"originalField\": \"quality\"\n      },\n      \"ratio\": {\n        \"displayName\": \"比例\",\n        \"enum\": [\n          \"1:1\",\n          \"9:16\",\n          \"16:9\",\n          \"3:4\",\n          \"4:3\",\n          \"3:2\",\n          \"2:3\"\n        ],\n        \"default\": \"16:9\",\n        \"component\": \"singleButton\",\n        \"originalField\": \"ratio\"\n      },\n      \"modeType\": {\n        \"items\": {\n          \"image2image\": [\n            0,\n            2\n          ]\n        }\n      }\n    },\n    \"config\": {\n      \"settings\": [\n        \"quality\",\n        \"ratio\"\n      ],\n      \"generateTypes\": {\n        \"text\": 56,\n        \"image\": 57,\n        \"checkpointId\": 21304658\n      }\n    },\n    \"rules\": [\n      {\n        \"require\": [\n          \"prompt\",\n          \"media\"\n        ],\n        \"mode\": \"any\"\n      }\n    ]\n  }\n}\n",
+  "stderr": ""
+}
+

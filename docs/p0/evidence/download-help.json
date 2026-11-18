@@ -1,0 +1,15 @@
+{
+  "startedAt": "2026-11-18T13:49:24.888Z",
+  "finishedAt": "2026-11-18T13:49:25.016Z",
+  "args": [
+    "download",
+    "--help"
+  ],
+  "pid": 77836,
+  "code": 0,
+  "signal": null,
+  "timedOut": false,
+  "stdout": "用法： libtv download [options]\n\n下载节点资源到本地：`-n` 为节点 id 或显示名。图片/视频/音频单节点直存文件；普通分组与多文件场景输出 ZIP（对齐画布「批量下载」命名）。\n\n选项：\n  -n, --node <node>         目标节点 id 或显示名（与 `libtv node` 一致，支持 `group use`\n                            下的子节点范围）\n  -p, --project <uuid>      项目 UUID（默认同其它命令：当前目录 `.libtv/project.json`）\n  -g, --group <node>        限定在普通分组子节点范围内解析 `-n`；批量下载该组时 `-n` 传分组节点 id\n  -o, --out <dir>           输出目录，默认当前工作目录 (默认：\n                            \"E:\\\\代码备份\\\\xc-pool\\\\.local\\\\libtv-p0\\\\accounts\\\\account-01\\\\work\")\n  --watermark <true|false>  必填，断言本次下载物是否带社区水印：会员为 false、非会员为\n                            true，与服务端会员态不一致时报错退出。CLI 下载一律不加 AI 水印。\n  --vip                     已废弃：会员态改由服务端判定，传了只会收到一条提示。\n  -h, --help                显示本命令说明。\n",
+  "stderr": ""
+}
+

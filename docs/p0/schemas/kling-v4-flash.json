@@ -1,0 +1,206 @@
+{
+  "nameOrId": "kling-v4-flash",
+  "modelName": "kling-v4-flash",
+  "modelKey": "kling-v4-flash",
+  "toolKey": "kling-v4-flash",
+  "modality": "video",
+  "schema": {
+    "modelKey": "kling-v4-flash",
+    "modelName": "可灵 4.0 Flash",
+    "modelVendor": "Kling",
+    "baseType": 66,
+    "properties": {
+      "count": [
+        1,
+        2,
+        4
+      ],
+      "magic": false,
+      "mention": true,
+      "prompt": {
+        "maxLength": 11000
+      },
+      "ratio": {
+        "displayName": "比例",
+        "displayNameI18nKey": "schema:ratio",
+        "enum": [
+          "21:9",
+          "16:9",
+          "9:16",
+          "1:1"
+        ],
+        "default": "16:9",
+        "component": "singleButton",
+        "originalField": "ratio"
+      },
+      "ratio_auto": {
+        "displayName": "比例",
+        "displayNameI18nKey": "schema:ratio",
+        "enum": [
+          {
+            "value": "adaptive",
+            "displayName": "智能",
+            "displayNameI18nKey": "schema:smartMode"
+          },
+          "21:9",
+          "16:9",
+          "9:16",
+          "1:1"
+        ],
+        "default": "adaptive",
+        "component": "singleButton",
+        "originalField": "ratio"
+      },
+      "duration": {
+        "displayName": "时长",
+        "displayNameI18nKey": "schema:duration",
+        "min": 3,
+        "max": 20,
+        "step": 1,
+        "default": 5,
+        "component": "slider",
+        "originalField": "duration"
+      },
+      "resolution": {
+        "displayName": "分辨率",
+        "displayNameI18nKey": "schema:resolution",
+        "enum": [
+          {
+            "value": "720p",
+            "displayName": "720P"
+          }
+        ],
+        "default": "720p",
+        "component": "singleButton",
+        "originalField": "resolution"
+      },
+      "modeType": {
+        "items": {
+          "singleImage2video": [
+            1,
+            1
+          ],
+          "mixed2video": [
+            1,
+            15
+          ],
+          "videoEdit2video": [
+            1,
+            1
+          ]
+        },
+        "mixed2videoConfig": {
+          "videoMax": 5,
+          "imageMax": 10,
+          "audioMax": 0
+        },
+        "videoEdit2videoConfig": {
+          "videoMax": 1,
+          "imageMaxWithVideo": 10
+        }
+      },
+      "subjects": {
+        "items": {
+          "mixed2video": {
+            "maxCount": 7,
+            "videoSubject": {
+              "maxCount": 3
+            }
+          },
+          "videoEdit2video": {
+            "maxCount": 7,
+            "videoSubject": {
+              "maxCount": 3
+            }
+          }
+        }
+      },
+      "mediaConstraints": {
+        "mixed2video": {
+          "video": {
+            "duration": {
+              "min": 3,
+              "max": 20,
+              "message": "输入视频时长需在3至20秒之间",
+              "action": "block"
+            },
+            "formats": {
+              "allowed": [
+                "mp4",
+                "mov"
+              ],
+              "message": "输入视频仅支持MP4和MOV格式",
+              "action": "block"
+            }
+          }
+        },
+        "videoEdit2video": {
+          "video": {
+            "duration": {
+              "min": 3,
+              "max": 20,
+              "message": "输入视频时长需在3至20秒之间",
+              "action": "block"
+            },
+            "formats": {
+              "allowed": [
+                "mp4",
+                "mov"
+              ],
+              "message": "输入视频仅支持MP4和MOV格式",
+              "action": "block"
+            }
+          }
+        }
+      }
+    },
+    "config": {
+      "settings": {
+        "text2video": [
+          "ratio",
+          "duration",
+          "resolution"
+        ],
+        "singleImage2video": [
+          "duration",
+          "resolution"
+        ],
+        "mixed2video": [
+          "ratio_auto",
+          "duration",
+          "resolution"
+        ],
+        "videoEdit2video": [
+          "ratio_auto",
+          "duration",
+          "resolution"
+        ]
+      },
+      "generateTypes": {
+        "text": 131,
+        "image": 131,
+        "checkpointId": 23481060
+      }
+    },
+    "rules": [
+      {
+        "require": [
+          "prompt",
+          "media"
+        ],
+        "mode": "any"
+      },
+      {
+        "require": [
+          "prompt"
+        ],
+        "forModeTypes": [
+          "text2video",
+          "mixed2video",
+          "videoEdit2video"
+        ]
+      }
+    ]
+  }
+}
+

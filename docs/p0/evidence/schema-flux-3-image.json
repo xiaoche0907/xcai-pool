@@ -1,0 +1,15 @@
+{
+  "startedAt": "2026-11-18T13:53:06.770Z",
+  "finishedAt": "2026-11-18T13:53:07.129Z",
+  "args": [
+    "model",
+    "flux-3-image"
+  ],
+  "pid": 40032,
+  "code": 0,
+  "signal": null,
+  "timedOut": false,
+  "stdout": "{\n  \"nameOrId\": \"flux-3-image\",\n  \"modelName\": \"flux-3-image\",\n  \"modelKey\": \"flux-3-image\",\n  \"toolKey\": \"flux-3-image\",\n  \"modality\": \"image\",\n  \"schema\": {\n    \"modelKey\": \"flux-3-image\",\n    \"modelName\": \"Genesis F.3\",\n    \"modelVendor\": \"flux\",\n    \"baseType\": 51,\n    \"properties\": {\n      \"count\": [\n        1,\n        2,\n        4\n      ],\n      \"prompt\": {\n        \"placeholder\": \"\",\n        \"maxLength\": 0\n      },\n      \"quality\": {\n        \"displayName\": \"分辨率\",\n        \"enum\": [\n          {\n            \"value\": \"auto\",\n            \"displayName\": \"自动\"\n          },\n          {\n            \"value\": \"1k\",\n            \"displayName\": \"1K\"\n          },\n          {\n            \"value\": \"2k\",\n            \"displayName\": \"2K\"\n          },\n          {\n            \"value\": \"4k\",\n            \"displayName\": \"4K\"\n          }\n        ],\n        \"default\": \"2k\",\n        \"component\": \"singleButton\",\n        \"originalField\": \"resolution\"\n      },\n      \"ratio\": {\n        \"displayName\": \"比例\",\n        \"enum\": [\n          \"1:1\",\n          \"9:16\",\n          \"16:9\",\n          \"3:4\",\n          \"4:3\",\n          \"3:2\",\n          \"2:3\"\n        ],\n        \"default\": \"16:9\",\n        \"component\": \"singleButton\",\n        \"originalField\": \"ratio\"\n      },\n      \"modeType\": {\n        \"items\": {\n          \"image2image\": [\n            0,\n            10\n          ]\n        }\n      }\n    },\n    \"config\": {\n      \"settings\": [\n        \"quality\",\n        \"ratio\"\n      ],\n      \"generateTypes\": {\n        \"text\": 84,\n        \"image\": 84,\n        \"checkpointId\": 23388861\n      }\n    },\n    \"rules\": [\n      {\n        \"require\": [\n          \"prompt\"\n        ],\n        \"mode\": \"any\"\n      }\n    ]\n  }\n}\n",
+  "stderr": ""
+}
+

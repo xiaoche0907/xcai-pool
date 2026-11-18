@@ -1,0 +1,9 @@
+{
+  "checkedAt": "2026-11-18T21:53:35.3003168+08:00",
+  "account01Exit": 0,
+  "account02Exit": 1,
+  "account01CredentialPresent": true,
+  "account02CredentialPresent": false,
+  "note": "Account 02 is intentionally unauthenticated; this verifies directory separation, not a second authorized login."
+}
+

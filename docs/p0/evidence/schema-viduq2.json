@@ -1,0 +1,15 @@
+{
+  "startedAt": "2026-11-18T13:53:22.740Z",
+  "finishedAt": "2026-11-18T13:53:23.111Z",
+  "args": [
+    "model",
+    "viduq2"
+  ],
+  "pid": 85536,
+  "code": 0,
+  "signal": null,
+  "timedOut": false,
+  "stdout": "{\n  \"nameOrId\": \"viduq2\",\n  \"modelName\": \"viduq2\",\n  \"modelKey\": \"viduq2\",\n  \"toolKey\": \"viduq2\",\n  \"modality\": \"video\",\n  \"schema\": {\n    \"modelKey\": \"viduq2\",\n    \"modelName\": \"Vidu Q2\",\n    \"modelVendor\": \"vidu\",\n    \"baseType\": 60,\n    \"properties\": {\n      \"magic\": true,\n      \"count\": [\n        1\n      ],\n      \"template\": {\n        \"displayName\": \"特效\",\n        \"maxCount\": 1\n      },\n      \"prompt\": {\n        \"maxLength\": 5000\n      },\n      \"ratio\": {\n        \"displayName\": \"比例\",\n        \"enum\": [\n          \"16:9\",\n          \"1:1\",\n          \"3:4\",\n          \"4:3\",\n          \"9:16\"\n        ],\n        \"default\": \"16:9\",\n        \"component\": \"singleButton\",\n        \"originalField\": \"ratio\"\n      },\n      \"resolution\": {\n        \"displayName\": \"清晰度\",\n        \"enum\": [\n          \"540p\",\n          \"720p\",\n          \"1080p\"\n        ],\n        \"default\": \"1080p\",\n        \"originalField\": \"resolution\",\n        \"component\": \"singleButton\"\n      },\n      \"duration\": {\n        \"displayName\": \"视频时长\",\n        \"min\": 1,\n        \"max\": 8,\n        \"step\": 1,\n        \"default\": 8,\n        \"originalField\": \"duration\",\n        \"component\": \"slider\"\n      },\n      \"modeType\": {\n        \"originalField\": \"modeType\",\n        \"items\": {\n          \"frames2video\": [\n            2,\n            2\n          ],\n          \"image2video\": [\n            0,\n            7\n          ]\n        }\n      }\n    },\n    \"config\": {\n      \"settings\": [\n        \"ratio\",\n        \"resolution\",\n        \"duration\"\n      ],\n      \"generateTypes\": {\n        \"text\": 37,\n        \"image\": 38,\n        \"checkpointId\": 21911829\n      }\n    },\n    \"rules\": [\n      {\n        \"require\": [\n          \"prompt\",\n          \"media\"\n        ],\n        \"mode\": \"any\"\n      }\n    ]\n  }\n}\n",
+  "stderr": ""
+}
+

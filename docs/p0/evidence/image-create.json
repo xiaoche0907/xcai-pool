@@ -1,0 +1,28 @@
+{
+  "startedAt": "2026-11-18T13:51:04.828Z",
+  "finishedAt": "2026-11-18T13:51:05.605Z",
+  "args": [
+    "node",
+    "create",
+    "P0-text-image",
+    "-t",
+    "image",
+    "-s",
+    "model=Z-image Turbo",
+    "-s",
+    "count=1",
+    "-s",
+    "ratio=1:1",
+    "-s",
+    "settings.quality=1K",
+    "--prompt",
+    "A red ceramic teapot on a light oak table, soft daylight, clean product photograph, no people, no text"
+  ],
+  "pid": 86136,
+  "code": 1,
+  "signal": null,
+  "timedOut": false,
+  "stdout": "",
+  "stderr": "校验失败:\n  - params 顶层不允许设置未知字段「settings.quality」。仅允许：画布结构字段（如 model、prompt、count等），或当前模型 schema 中未归入 settings/advanced 的属性名 / originalField。\n"
+}
+

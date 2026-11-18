@@ -1,0 +1,15 @@
+{
+  "startedAt": "2026-11-18T13:49:23.952Z",
+  "finishedAt": "2026-11-18T13:49:24.085Z",
+  "args": [
+    "model",
+    "--help"
+  ],
+  "pid": 62664,
+  "code": 0,
+  "signal": null,
+  "timedOut": false,
+  "stdout": "用法： libtv model [options] [command] [name...]\n\n模型：`search` 在 supportModels 中检索（可选 `-t/--type`）；`libtv model <name...>` 对\nmodelKey/modelName 完全匹配后拉取完整 tool_spec schema。\n\n参数：\n  name                        模型 ID（modelKey）或展示名（modelName）：与 supportModels 中\n                              trim 后**全等**；若无唯一命中则再按 modelKey / toolKey /\n                              tool_spec metadata.modelName 全等与\n                              `getModelSchemaByModelName` 一致解析。输出完整 schema JSON。\n\n选项：\n  -h, --help                  显示本命令说明。\n\n命令：\n  search [options] [name...]  按关键词搜索模型：可选 `-t/--type` 限定画布节点类型；`name`\n                              在过滤结果内检索（modelKey trim 后全字匹配优先，否则 modelName\n                              模糊、不区分大小写）。不传 `name` 时仅按 type 列出该类型全部模型。\n",
+  "stderr": ""
+}
+

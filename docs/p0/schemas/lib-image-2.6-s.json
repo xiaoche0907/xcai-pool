@@ -1,0 +1,279 @@
+{
+  "nameOrId": "lib-image-2.6-s",
+  "modelName": "lib-image-2.6-s",
+  "modelKey": "lib-image-2.6-s",
+  "toolKey": "lib-image-2.6-s",
+  "modality": "image",
+  "schema": {
+    "modelKey": "lib-image-2.6-s",
+    "modelVendor": "lib-image",
+    "baseType": 27,
+    "properties": {
+      "enableSlash": true,
+      "magic": true,
+      "cameraControl": true,
+      "mention": true,
+      "count": [
+        1,
+        2,
+        4
+      ],
+      "prompt": {
+        "placeholder": "可直接文字生图，或上传图片输入文字指令对图片进行编辑，如：将背景改为雪夜",
+        "maxLength": 0
+      },
+      "quality": {
+        "displayName": "画质",
+        "enum": [
+          {
+            "value": "low",
+            "displayName": "低画质"
+          },
+          {
+            "value": "medium",
+            "displayName": "标准画质"
+          },
+          {
+            "value": "high",
+            "displayName": "高画质"
+          },
+          {
+            "value": "xhigh",
+            "displayName": "超高画质"
+          },
+          {
+            "value": "max",
+            "displayName": "极致画质"
+          }
+        ],
+        "default": "medium",
+        "component": "singleButton",
+        "originalField": "quality"
+      },
+      "resolution": {
+        "displayName": "清晰度",
+        "enum": [
+          {
+            "value": "1K",
+            "displayName": "1K"
+          },
+          {
+            "value": "2K",
+            "displayName": "2K"
+          },
+          {
+            "value": "4K",
+            "displayName": "4K"
+          }
+        ],
+        "default": "2K",
+        "originalField": "resolution",
+        "component": "singleButton",
+        "activeWhen": {
+          "output_format": [
+            "jpeg",
+            "png",
+            "webp",
+            "svg"
+          ]
+        },
+        "lockedWhen": {
+          "ratio": "auto"
+        },
+        "lockedHint": "比例为自动时，由模型自动决定尺寸"
+      },
+      "ratio": {
+        "displayName": "比例",
+        "enum": [
+          {
+            "value": "auto",
+            "displayName": "自动"
+          },
+          "1:1",
+          "16:9",
+          "9:16",
+          "3:4",
+          "4:3",
+          "3:2",
+          "2:3",
+          "5:4",
+          "4:5",
+          "2:1",
+          "1:2",
+          "21:9",
+          "9:21"
+        ],
+        "default": "16:9",
+        "component": "singleButton",
+        "originalField": "ratio",
+        "collapsedCount": 9,
+        "activeWhen": {
+          "output_format": [
+            "jpeg",
+            "png",
+            "webp",
+            "svg"
+          ]
+        }
+      },
+      "background": {
+        "displayName": "背景",
+        "enum": [
+          {
+            "value": "auto",
+            "displayName": "自动"
+          },
+          {
+            "value": "opaque",
+            "displayName": "保留背景"
+          },
+          {
+            "value": "transparent",
+            "displayName": "透明背景"
+          }
+        ],
+        "default": "auto",
+        "component": "singleButton",
+        "originalField": "background"
+      },
+      "modeType": {
+        "items": {
+          "image2image": [
+            0,
+            14
+          ]
+        }
+      },
+      "output_format": {
+        "displayName": "输出格式",
+        "enum": [
+          {
+            "value": "jpeg",
+            "displayName": "JPEG"
+          },
+          {
+            "value": "png",
+            "displayName": "PNG"
+          },
+          {
+            "value": "gif",
+            "displayName": "GIF"
+          },
+          {
+            "value": "webp",
+            "displayName": "WebP"
+          }
+        ],
+        "default": "png"
+      },
+      "frame_count": {
+        "displayName": "帧数",
+        "min": 2,
+        "max": 16,
+        "step": 1,
+        "default": 9,
+        "component": "slider",
+        "pixelBudget": {
+          "min": 655360,
+          "max": 8294400
+        },
+        "activeWhen": {
+          "output_format": "gif"
+        }
+      },
+      "frame_duration_ms": {
+        "displayName": "每帧时长",
+        "min": 20,
+        "max": 2000,
+        "step": 10,
+        "default": 200,
+        "component": "slider",
+        "activeWhen": {
+          "output_format": "gif"
+        }
+      },
+      "frame_size": {
+        "displayName": "尺寸",
+        "enum": [
+          {
+            "value": "288x288",
+            "displayName": "288 × 288"
+          },
+          {
+            "value": "384x384",
+            "displayName": "384 × 384"
+          },
+          {
+            "value": "512x288",
+            "displayName": "512 × 288"
+          },
+          {
+            "value": "288x512",
+            "displayName": "288 × 512"
+          },
+          {
+            "value": "512x512",
+            "displayName": "512 × 512"
+          },
+          {
+            "value": "768x768",
+            "displayName": "768 × 768"
+          }
+        ],
+        "default": "512x512",
+        "component": "singleButton",
+        "originalField": "frame_size",
+        "activeWhen": {
+          "output_format": "gif"
+        }
+      }
+    },
+    "config": {
+      "settings": [
+        "ratio",
+        "quality",
+        "resolution",
+        "frame_size"
+      ],
+      "modelSettings": [
+        "ratio",
+        "quality",
+        "resolution",
+        "frame_size",
+        "output_format",
+        "frame_count",
+        "frame_duration_ms",
+        "background"
+      ],
+      "generateTypes": {
+        "text": 92,
+        "image": 92,
+        "checkpointId": 23481940
+      }
+    },
+    "outputFormatRules": true,
+    "settingsRules": [
+      {
+        "when": {
+          "output_format": "gif",
+          "frame_size": "768x768"
+        },
+        "override": {
+          "frame_count": {
+            "max": 12
+          }
+        }
+      }
+    ],
+    "rules": [
+      {
+        "require": [
+          "prompt",
+          "media"
+        ],
+        "mode": "any"
+      }
+    ]
+  }
+}
+

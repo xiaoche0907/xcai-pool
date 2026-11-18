@@ -1,0 +1,104 @@
+{
+  "nameOrId": "doubao-seedream-5-5",
+  "modelName": "doubao-seedream-5-5",
+  "modelKey": "doubao-seedream-5-5",
+  "toolKey": "doubao-seedream-5-5",
+  "modality": "image",
+  "schema": {
+    "modelKey": "doubao-seedream-5-5",
+    "modelName": "Seedream 5.5",
+    "modelVendor": "Seedream",
+    "baseType": 81,
+    "properties": {
+      "strikethroughPrice": {
+        "active": true
+      },
+      "mention": true,
+      "count": [
+        1,
+        2,
+        4
+      ],
+      "prompt": {
+        "placeholder": "",
+        "maxLength": 0
+      },
+      "quality": {
+        "displayName": "分辨率",
+        "enum": [
+          "1.5K",
+          "2K"
+        ],
+        "default": "2K",
+        "component": "singleButton",
+        "originalField": "quality"
+      },
+      "ratio": {
+        "displayName": "比例",
+        "enum": [
+          "1:1",
+          "9:16",
+          "16:9",
+          "3:4",
+          "4:3",
+          "3:2",
+          "2:3",
+          "21:9"
+        ],
+        "default": "16:9",
+        "component": "singleButton",
+        "originalField": "ratio"
+      },
+      "background": {
+        "displayName": "背景",
+        "enum": [
+          {
+            "value": "auto",
+            "displayName": "自动"
+          },
+          {
+            "value": "opaque",
+            "displayName": "保留背景"
+          },
+          {
+            "value": "transparent",
+            "displayName": "透明背景"
+          }
+        ],
+        "default": "auto",
+        "component": "singleButton",
+        "originalField": "background"
+      },
+      "modeType": {
+        "items": {
+          "image2image": [
+            0,
+            10
+          ]
+        }
+      }
+    },
+    "config": {
+      "settings": [
+        "quality",
+        "ratio",
+        "background"
+      ],
+      "generateTypes": {
+        "text": 65,
+        "image": 65,
+        "checkpointId": 23476653
+      }
+    },
+    "rules": [
+      {
+        "require": [
+          "prompt",
+          "media"
+        ],
+        "mode": "any"
+      }
+    ]
+  }
+}
+

@@ -1,0 +1,30 @@
+{
+  "startedAt": "2026-11-18T13:51:40.922Z",
+  "finishedAt": "2026-11-18T13:51:41.763Z",
+  "args": [
+    "node",
+    "--x",
+    "700",
+    "create",
+    "P0-text-video",
+    "-t",
+    "video",
+    "-s",
+    "model=Wan 2.2",
+    "-s",
+    "modeType=text2video",
+    "-s",
+    "count=1",
+    "-s",
+    "settings={\"resolution\":\"480P\",\"ratio\":\"16:9\",\"duration\":5}",
+    "--prompt",
+    "A red ceramic teapot on a light oak table, soft daylight, slow camera push in, no people, no text"
+  ],
+  "pid": 86812,
+  "code": 0,
+  "signal": null,
+  "timedOut": false,
+  "stdout": "{\n  \"nodeKey\": \"v-Xbws4VQ2CW\",\n  \"nodeType\": \"video\",\n  \"data\": {\n    \"type\": \"video\",\n    \"name\": \"P0-text-video\",\n    \"url\": [],\n    \"poster\": \"\",\n    \"action\": \"video_generate\",\n    \"generatorType\": \"default\",\n    \"params\": {\n      \"prompt\": \"A red ceramic teapot on a light oak table, soft daylight, slow camera push in, no people, no text\",\n      \"model\": \"Wan 2.2\",\n      \"modeType\": \"text2video\",\n      \"count\": 1,\n      \"imageList\": [],\n      \"videoList\": [],\n      \"audioList\": [],\n      \"settings\": {\n        \"ratio\": \"16:9\",\n        \"resolution\": \"480P\",\n        \"duration\": 5\n      },\n      \"advancedSettings\": {}\n    }\n  }\n}\n",
+  "stderr": ""
+}
+
