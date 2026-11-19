@@ -10,11 +10,11 @@ LibTV 单平台账号池。当前已实现 **P1-A 只读业务后台**：React/V
 
 ## 本机运行
 
-Node **24.x**、Corepack / pnpm **10.32.1**、Docker Desktop。独立数据库容器 `framepool-p1-postgres-1`，只绑定本机 `55432`，数据卷独立于境彻。已有 `.env` 时直接复用，不运行初始化。
+Windows x64、Node **24.x**、Corepack / pnpm **10.32.1**、Docker Desktop。独立数据库容器 `framepool-p1-postgres-1`，只绑定本机 `55432`，数据卷独立于境彻。已有 `.env` 时直接复用，不运行初始化。
 
 ```powershell
 corepack pnpm@10.32.1 install --frozen-lockfile
-# 仅首次、且 .env 不存在时执行：写入本机默认管理员密钥，随机生成只读密钥
+# 仅首次、且 .env 不存在时执行：安装 LibTV CLI 并初始化本地配置
 powershell -NoProfile -File tools/p1/setup-local.ps1
 docker compose --env-file .local/framepool-p1/compose.env -f infra/docker-compose.dev.yml up -d --wait
 corepack pnpm@10.32.1 db:migrate
@@ -22,7 +22,7 @@ corepack pnpm@10.32.1 build
 corepack pnpm@10.32.1 start
 ```
 
-服务启动时打印本机访问地址。在本地 `.env` 查看 `ADMIN_API_KEY` 或 `VIEWER_API_KEY` 后登录。新数据库的账号池为空，模型和画布可在添加账号后在线同步。请先安装 LibTV CLI 1.2.0，并将 `LIBTV_BINARY` 指向实际可执行文件。后台在浏览器标签页的会话存储中保存已验证的密钥，刷新时重新验证，退出时清除。
+服务启动时打印本机访问地址。在本地 `.env` 查看 `ADMIN_API_KEY` 或 `VIEWER_API_KEY` 后登录。新数据库的账号池为空，模型和画布可在添加账号后在线同步。初始化和 `corepack pnpm start` 会自动下载、校验并安装 LibTV CLI 1.2.0，已有的项目内 CLI 会复用。使用自定义 `LIBTV_BINARY` 时沿用该路径。下载失败可在部署目录运行 `corepack pnpm libtv:install` 重试。
 
 开发模式：分别执行 `corepack pnpm@10.32.1 dev` 与 `corepack pnpm@10.32.1 dev:web`；Vite 只绑定本机 `4311`，API 端口读取 `.env`。生产静态构建由 Fastify 提供，不需要单独运行 Vite。
 

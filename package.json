@@ -9,6 +9,7 @@
   },
   "scripts": {
     "libtv:login": "node tools/p1/login-libtv.mjs",
+    "libtv:install": "node tools/p1/install-libtv.mjs",
     "dev": "tsx watch apps/api-server/src/main.ts",
     "dev:web": "vite --config apps/admin-web/vite.config.ts",
     "start": "tsx tools/p1/start.ts",

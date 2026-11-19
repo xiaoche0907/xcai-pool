@@ -13,6 +13,7 @@ export type CliResult = {
   durationMs: number;
 };
 export type Runner = (args: string[]) => Promise<CliResult>;
+export const SUPPORTED_CLI_VERSION = "1.2.0";
 export function redact(value: unknown): any {
   if (Array.isArray(value)) return value.map(redact);
   if (value && typeof value === "object")
@@ -91,7 +92,7 @@ export class LibTVCLIAdapter {
   }
   async version() {
     const result = await this.runner(["--version"]);
-    if (result.code !== 0 || result.stdout.trim() !== "1.2.0")
+    if (result.code !== 0 || result.stdout.trim() !== SUPPORTED_CLI_VERSION)
       throw new AppError(
         "CLI_VERSION_MISMATCH",
         "仅允许已核验的 LibTV CLI 1.2.0",
@@ -197,6 +198,7 @@ export function createReadOnlyRunner(options: {
   binary: string;
   configDir: string;
   workDir: string;
+  timeoutMs?: number;
   onResult: (args: string[], result: CliResult) => Promise<void>;
 }): Runner {
   return async (args) => {
@@ -280,7 +282,7 @@ export function createReadOnlyRunner(options: {
       const timer = setTimeout(() => {
         timedOut = true;
         child.kill();
-      }, 60000);
+      }, options.timeoutMs ?? 60000);
       child.stdout.setEncoding("utf8").on("data", (chunk) => {
         stdout += chunk;
         if (Buffer.byteLength(stdout) > 8_000_000) {

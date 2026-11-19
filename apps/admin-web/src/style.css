@@ -655,6 +655,20 @@ td small {
   gap: 15px;
   margin-bottom: 25px;
 }
+.project-account {
+  margin-bottom: 25px;
+}
+.project-account > .section-title {
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.project-account h3 {
+  margin: 0 0 4px;
+  overflow-wrap: anywhere;
+}
+.project-account .project-list {
+  margin-bottom: 0;
+}
 .project {
   justify-content: flex-start;
   gap: 15px;

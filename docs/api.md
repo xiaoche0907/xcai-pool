@@ -18,20 +18,20 @@
 
 | 方法 | 路径 | 权限 | 行为 |
 |---|---|---|---|
-| GET | `/config` | viewer/admin | 阶段、角色、CLI 约束、generationEnabled=false |
+| GET | `/config` | viewer/admin | 阶段、角色、CLI 实测版本与兼容状态（缓存 30 秒）、generationEnabled=false |
 | GET | `/models?type=image\|video&q=...` | viewer/admin | PostgreSQL 模型目录，`{data,total}` |
 | GET | `/models/:modelKey/schema?mode=...` | viewer/admin | 原始/前一版 Schema、版本、哈希、变更路径、RJSF 字段树、完整校验 Schema、转换警告 |
 | GET | `/models/:modelKey/route-preview` | viewer/admin | 用各账号的 CLI 配置查询登录和目录可见性，保留生成权限未验证状态 |
 | POST | `/models/:modelKey/validate` | viewer/admin | 严格参数校验，不运行 CLI，不生成 |
 | GET | `/connections` | viewer/admin | 脱敏连接 DTO，不暴露凭据内容/路径 |
 | GET | `/projects` | viewer/admin | 查询仍在账号池中的连接所登记的画布 |
-| GET | `/projects/:id/nodes` | viewer/admin | 读取本地画布的节点和边。所属账号已移除时返回 404 |
+| GET | `/projects/:id/nodes` | viewer/admin | 读取本地画布的节点和边，`snapshotAt=null` 表示尚未读取。所属账号已移除时返回 404 |
 | POST | `/admin/models/import-evidence` | admin | 显式幂等导入现有 P0 证据 |
 | POST | `/admin/models/sync` | admin | CLI 只读同步，单进程内防重复同步 |
 | PATCH | `/admin/models/:modelKey` | admin | `{disabled:boolean}`，解除禁用后须同步 |
 | PATCH | `/admin/connections/:id` | admin | `{alias?:string, enabled?:boolean}`，禁止任意路径或凭据字段 |
 | POST | `/admin/connections/:id/diagnose` | admin | CLI 版本核验和账号诊断，保留原配置 |
-| POST | `/admin/projects/discover` | admin | 查询个人根空间列表并登记本地 DB |
+| POST | `/admin/projects/discover` | admin | 传入 `{ connectionId }` 查询该账号的个人根空间画布并按账号登记。兼容省略参数的旧客户端，沿用默认启用账号 |
 | POST | `/admin/projects/:id/refresh` | admin | 上游只读刷新本地节点/边快照 |
 | GET | `/admin/audit-events` | admin | 最近 200 条脱敏 DB 审计 |
 | POST | `/tasks` | viewer/admin | 403 GENERATION_DISABLED，包含 mock 请求也不执行 |

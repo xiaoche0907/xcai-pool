@@ -24,6 +24,7 @@ import {
   LibTVCLIAdapter,
   createReadOnlyRunner,
   redact,
+  SUPPORTED_CLI_VERSION,
 } from "../../../packages/libtv-cli-adapter/src/index.js";
 
 import { LibTVWebLogin } from "./libtv-login.js";
@@ -32,11 +33,49 @@ export class FramePoolService {
   private syncing = false;
   private registering = false;
   private pendingLogin?: Promise<{ id: string; login: LibTVWebLogin }>;
+  private cliProbe?: {
+    expiresAt: number;
+    result: Promise<{
+      cliVersion: string | null;
+      cliStatus: "ready" | "unavailable" | "incompatible";
+    }>;
+  };
   constructor(
     public db: Database,
     public root: string,
     private adapterFactory?: (id: string) => LibTVCLIAdapter,
   ) {}
+  cliStatus() {
+    if (!this.cliProbe || Date.now() >= this.cliProbe.expiresAt) {
+      const runner = createReadOnlyRunner({
+        binary: path.resolve(
+          this.root,
+          process.env.LIBTV_BINARY ??
+            ".local/libtv-p0/bin/libtv-win-x64/libtv.exe",
+        ),
+        workDir: this.root,
+        configDir: path.join(this.root, ".local/framepool-p1/version-probe"),
+        timeoutMs: 2500,
+        onResult: async () => {},
+      });
+      const result = runner(["--version"])
+        .then(({ code, stdout }) => {
+          const version = stdout.trim();
+          if (code !== 0 || !/^v?\d+\.\d+\.\d+(?:[-+][\w.-]+)?$/.test(version))
+            return { cliVersion: null, cliStatus: "unavailable" as const };
+          return {
+            cliVersion: version,
+            cliStatus:
+              version === SUPPORTED_CLI_VERSION
+                ? ("ready" as const)
+                : ("incompatible" as const),
+          };
+        })
+        .catch(() => ({ cliVersion: null, cliStatus: "unavailable" as const }));
+      this.cliProbe = { expiresAt: Date.now() + 30_000, result };
+    }
+    return this.cliProbe.result;
+  }
   async audit(
     actor: string,
     action: string,
@@ -156,8 +195,13 @@ export class FramePoolService {
         .where(eq(auditEvents.action, "p0.generation_failed"))
         .orderBy(desc(auditEvents.createdAt)),
       this.db
-        .select({ uuid: projects.projectUuid })
+        .select({
+          uuid: projects.projectUuid,
+          title: projects.title,
+          alias: connections.alias,
+        })
         .from(projects)
+        .innerJoin(connections, eq(projects.connectionId, connections.id))
         .where(eq(projects.id, "p0-canvas"))
         .limit(1),
     ]);
@@ -193,7 +237,9 @@ export class FramePoolService {
             phase: "submission_rejected",
             modelName: matched ? (node.data?.params?.model ?? null) : null,
             connectionId: "account-01",
-            projectUuid: canvas[0]?.uuid ?? null,
+            connectionAlias: matched ? (canvas[0]?.alias ?? null) : null,
+            projectUuid: matched ? (canvas[0]?.uuid ?? null) : null,
+            projectTitle: matched ? (canvas[0]?.title ?? null) : null,
             nodeKey: row.entityId,
             startedAt: matched ? attempt.startedAt : null,
             finishedAt: row.createdAt.toISOString(),
@@ -774,6 +820,7 @@ export class FramePoolService {
       projectUuid: p.projectUuid,
       source: p.source,
       lastCheckedAt: p.lastCheckedAt?.toISOString() ?? null,
+      snapshotAt: p.snapshotAt?.toISOString() ?? null,
       nodes: nodes.map((n) => ({
         id: n.nodeKey,
         nodeKey: n.nodeKey,
@@ -815,8 +862,9 @@ export class FramePoolService {
     });
     return this.nodes(id);
   }
-  async discoverProjects(actor: string) {
-    const connectionId = await this.onlineConnection();
+  async discoverProjects(actor: string, requestedConnectionId?: string) {
+    const connectionId =
+      requestedConnectionId ?? (await this.onlineConnection());
     const adapter = await this.adapter(connectionId),
       list = await adapter.listProjects();
     for (const p of list) {

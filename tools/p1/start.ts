@@ -18,7 +18,7 @@ function runPnpm(...args: string[]) {
   return new Promise<void>((resolve, reject) => {
     const command = spawn(process.execPath, [pnpm!, ...args], {
       cwd: root,
-      stdio: "ignore",
+      stdio: args[0] === "libtv:install" ? "inherit" : "ignore",
       windowsHide: true,
       timeout: 10 * 60_000,
     });
@@ -70,8 +70,8 @@ function start(result: UpdateResult | null = null) {
   });
 }
 
-async function stop(server: ChildProcess) {
-  if (!server.connected) return;
+async function stop(server: ChildProcess | undefined) {
+  if (!server?.connected) return;
   const exited = once(server, "exit");
   const deadline = setTimeout(() => server.kill(), 12_000);
   server.send({ type: "shutdown" }, (error) => {
@@ -133,6 +133,8 @@ async function install(server: ChildProcess, requested: string) {
     await git(root, "merge", "--ff-only", "--no-overwrite-ignore", fetched);
     stage = "安装新版本依赖失败。";
     await runPnpm("install", "--frozen-lockfile");
+    stage = "准备 LibTV CLI 失败，请查看服务启动终端。";
+    await runPnpm("libtv:install");
     stage = "构建新版本失败。";
     await runPnpm("build");
     stage = "数据库迁移失败。";
@@ -182,4 +184,11 @@ for (const signal of ["SIGINT", "SIGTERM"] as const) {
   });
 }
 
-await start();
+try {
+  await runPnpm("libtv:install");
+} catch {
+  console.warn(
+    "LibTV CLI setup did not complete. The dashboard will open. To retry, run corepack pnpm libtv:install.",
+  );
+}
+if (!stopping) await start();

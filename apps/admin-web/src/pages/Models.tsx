@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useList } from "@refinedev/core";
+import { useInvalidate, useList } from "@refinedev/core";
 import Form from "@rjsf/core";
 import validator from "@rjsf/validator-ajv8";
 import {
@@ -20,8 +20,9 @@ import {
   formatDate,
 } from "../shared.js";
 export default function Models() {
-  const { api, config, notify } = useApp(),
+  const { api, config } = useApp(),
     { busy, run } = useAction();
+  const invalidate = useInvalidate();
   const [type, setType] = useState(""),
     [q, setQ] = useState(""),
     [selected, setSelected] = useState<any>(null),
@@ -39,6 +40,15 @@ export default function Models() {
       { field: "q", operator: "contains", value: q },
     ],
   });
+  const accounts = useList<{ id: string; enabled: boolean }>({
+    resource: "connections",
+    pagination: { mode: "off" },
+    queryOptions: { enabled: config.role === "admin" },
+  });
+  const current = list.result.data.find((model) => model.id === selected?.id);
+  const revision =
+    current &&
+    `${current.schemaHash}:${current.availabilityState}:${current.directoryModelName}`;
   useEffect(() => {
     if (!selected) return;
     let live = true;
@@ -58,7 +68,7 @@ export default function Models() {
     return () => {
       live = false;
     };
-  }, [selected, mode, api]);
+  }, [selected, mode, revision, api]);
   const choose = (m: any) => {
     setSelected(m);
     setMode("");
@@ -91,104 +101,110 @@ export default function Models() {
             onChange={(e) => setQ(e.target.value)}
           />
         </div>
-        {config.role === "admin" && (
-          <>
-            <button
-              disabled={busy}
-              onClick={() =>
-                run(async () => {
-                  await api("admin/models/import-evidence", "POST", {});
-                  await list.query.refetch();
-                }, "P0 证据已幂等导入")
-              }
-            >
-              导入 P0 证据
-            </button>
+        {config.role === "admin" &&
+          accounts.result.data.some((account) => account.enabled) && (
             <button
               disabled={busy}
               onClick={() =>
                 run(async () => {
                   await api("admin/models/sync", "POST", {});
-                  await list.query.refetch();
+                  await invalidate({
+                    resource: "models",
+                    invalidates: ["list"],
+                  });
                 }, "在线目录与 Schema 同步完成")
               }
             >
               <RefreshCw size={14} />
               在线同步
             </button>
-          </>
-        )}
+          )}
       </div>
       <div className="caption">
-        <span>目录已收录 / 生成权限未验证</span>
-        <span>{list.result.total ?? "—"} 个模型 · 点击查看参数</span>
+        <span>
+          模型目录 ·{" "}
+          {list.query.isSuccess
+            ? list.result.total + " 个模型"
+            : "数量暂不可用"}
+        </span>
       </div>
       <ErrorBox error={list.query.error} />
+      <ErrorBox error={accounts.query.error} />
       {list.query.isPending ? (
         <Loading />
       ) : (
-        <div className="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>模型 / MODEL</th>
-                <th>类型</th>
-                <th>状态</th>
-                <th>Schema</th>
-                <th>最近同步</th>
-                <th />
-              </tr>
-            </thead>
-            <tbody>
-              {list.result.data.map((m) => (
-                <tr key={m.id} onClick={() => choose(m)}>
-                  <td>
-                    <button
-                      className="model-name"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        choose(m);
-                      }}
-                    >
-                      <span className={`model-icon ${m.modality}`}>
-                        <Boxes size={18} />
-                      </span>
-                      <span>
-                        <strong>{m.directoryModelName}</strong>
-                        <code>{m.modelKey}</code>
-                      </span>
-                    </button>
-                  </td>
-                  <td>{m.modality === "image" ? "图像" : "视频"}</td>
-                  <td>
-                    <Badge
-                      tone={
-                        m.availabilityState === "disabled" ? "amber" : "neutral"
-                      }
-                    >
-                      {m.availabilityState === "disabled"
-                        ? "已禁用"
-                        : m.availabilityState === "listed"
-                          ? "目录已收录"
-                          : "待重新确认"}
-                    </Badge>
-                  </td>
-                  <td className="mono">
-                    v{m.schemaVersion}
-                    <small>{m.schemaHash.slice(0, 8)}</small>
-                  </td>
-                  <td className="muted small">{formatDate(m.lastSyncedAt)}</td>
-                  <td>
-                    <ChevronRight size={16} />
-                  </td>
+        list.query.isSuccess && (
+          <div className="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>模型 / MODEL</th>
+                  <th>类型</th>
+                  <th>状态</th>
+                  <th>Schema</th>
+                  <th>最近同步</th>
+                  <th />
                 </tr>
-              ))}
-            </tbody>
-          </table>
-          {!list.result.data.length && (
-            <div className="empty">没有匹配的模型</div>
-          )}
-        </div>
+              </thead>
+              <tbody>
+                {list.result.data.map((m) => (
+                  <tr key={m.id} onClick={() => choose(m)}>
+                    <td>
+                      <button
+                        className="model-name"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          choose(m);
+                        }}
+                      >
+                        <span className={`model-icon ${m.modality}`}>
+                          <Boxes size={18} />
+                        </span>
+                        <span>
+                          <strong>{m.directoryModelName}</strong>
+                          <code>{m.modelKey}</code>
+                        </span>
+                      </button>
+                    </td>
+                    <td>{m.modality === "image" ? "图像" : "视频"}</td>
+                    <td>
+                      <Badge
+                        tone={
+                          m.availabilityState === "disabled"
+                            ? "amber"
+                            : "neutral"
+                        }
+                      >
+                        {m.availabilityState === "disabled"
+                          ? "已禁用"
+                          : m.availabilityState === "listed"
+                            ? "目录已收录"
+                            : "待重新确认"}
+                      </Badge>
+                    </td>
+                    <td className="mono">
+                      v{m.schemaVersion}
+                      <small>{m.schemaHash.slice(0, 8)}</small>
+                    </td>
+                    <td className="muted small">
+                      {formatDate(m.lastSyncedAt)}
+                    </td>
+                    <td>
+                      <ChevronRight size={16} />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            {!list.result.data.length && (
+              <div className="empty">
+                {type || q.trim()
+                  ? "没有匹配的模型。"
+                  : "暂无模型。请先添加账号，再在线同步模型目录。"}
+              </div>
+            )}
+          </div>
+        )
       )}
       {selected && (
         <div className="drawer-backdrop" onClick={() => setSelected(null)}>
@@ -199,8 +215,11 @@ export default function Models() {
           >
             <header>
               <div>
-                <span className="eyebrow">MODEL INSPECTOR</span>
-                <h2>{selected.directoryModelName}</h2>
+                <h2>
+                  {detail?.directoryModelName ??
+                    current?.directoryModelName ??
+                    selected.directoryModelName}
+                </h2>
                 <code>{selected.modelKey}</code>
               </div>
               <button
@@ -273,7 +292,11 @@ export default function Models() {
                           "ui:submitButtonOptions": { norender: true },
                         }}
                         formData={formData}
-                        onChange={(e) => setFormData(e.formData)}
+                        disabled={busy}
+                        onChange={(e) => {
+                          setFormData(e.formData);
+                          setReceipt(null);
+                        }}
                         onSubmit={(e) =>
                           run(async () => {
                             const result = await api(
@@ -295,7 +318,7 @@ export default function Models() {
                             className="primary"
                             disabled={
                               busy ||
-                              selected.availabilityState !== "listed" ||
+                              detail.availabilityState !== "listed" ||
                               !detail.form.canValidate
                             }
                           >
@@ -370,16 +393,18 @@ export default function Models() {
                               "PATCH",
                               {
                                 disabled:
-                                  selected.availabilityState !== "disabled",
+                                  detail.availabilityState !== "disabled",
                               },
                             );
                             setSelected(null);
-                            await list.query.refetch();
-                            notify("重新启用后需在线同步确认收录状态");
+                            await invalidate({
+                              resource: "models",
+                              invalidates: ["list"],
+                            });
                           }, "模型状态已更新")
                         }
                       >
-                        {selected.availabilityState === "disabled"
+                        {detail.availabilityState === "disabled"
                           ? "解除手动禁用"
                           : "禁用此模型"}
                       </button>

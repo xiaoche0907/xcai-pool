@@ -71,6 +71,7 @@ export const responseContracts: Record<string, z.ZodType> = {
     .object({
       modelKey: modelKeySchema,
       directoryModelName: z.string(),
+      availabilityState: publicModelSchema.shape.availabilityState,
       rawSchema: z.record(z.string(), z.unknown()),
       previousSchema: z.record(z.string(), z.unknown()).nullable(),
       changes: z.array(z.string()),
@@ -107,7 +108,8 @@ export const responseContracts: Record<string, z.ZodType> = {
       stage: z.literal("P1-A"),
       role: z.enum(["admin", "viewer"]),
       provider: z.literal("libtv"),
-      cliVersion: z.literal("1.2.0"),
+      cliVersion: z.string().nullable(),
+      cliStatus: z.enum(["ready", "unavailable", "incompatible"]),
     })
     .strict(),
   "GET /api/v1/models": envelope(publicModelSchema.strict()),
@@ -150,6 +152,7 @@ export const responseContracts: Record<string, z.ZodType> = {
       projectUuid: uuidSchema,
       source: z.string(),
       lastCheckedAt: timestampString,
+      snapshotAt: timestampString,
       nodes: z.array(
         z
           .object({

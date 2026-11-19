@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useList } from "@refinedev/core";
 import {
   ChevronDown,
@@ -9,7 +9,7 @@ import {
   Server,
   Video,
 } from "lucide-react";
-import { Badge, ErrorBox, Loading, useApp, type Config } from "../shared.js";
+import { Badge, ErrorBox, Loading, cliLabel, useApp } from "../shared.js";
 
 type GatewayModel = {
   id: string;
@@ -26,38 +26,15 @@ const modelStates = {
 };
 
 export default function Gateway() {
-  const { api, notify } = useApp();
+  const { config, apiHealth, refreshConfig, notify } = useApp();
   const models = useList<GatewayModel>({
     resource: "models",
     pagination: { mode: "off" },
   });
   const [search, setSearch] = useState("");
-  const [revision, setRevision] = useState(0);
-  const [probe, setProbe] = useState<{
-    config: Config;
-    checkedAt: Date;
-  } | null>(null);
-  const [checking, setChecking] = useState(true);
-  const [probeError, setProbeError] = useState<unknown>(null);
+  const { error: probeError, checking, checkedAt } = apiHealth;
   const baseUrl = new URL("/api/v1", window.location.origin).href;
   const example = `curl.exe -H "Authorization: Bearer <VIEWER_API_KEY>" "${baseUrl}/models?type=image"`;
-
-  useEffect(() => {
-    let active = true;
-    api<Config>("config")
-      .then((config) => {
-        if (active) setProbe({ config, checkedAt: new Date() });
-      })
-      .catch((error) => {
-        if (active) setProbeError(error);
-      })
-      .finally(() => {
-        if (active) setChecking(false);
-      });
-    return () => {
-      active = false;
-    };
-  }, [api, revision]);
 
   async function copy(value: string, label: string) {
     try {
@@ -85,23 +62,16 @@ export default function Gateway() {
           </span>
           <div className="gateway-title">
             <h2>本机网关</h2>
-            <p>
-              {probe && !probeError
-                ? `LibTV CLI ${probe.config.cliVersion} · ${probe.config.stage}`
-                : "XcAIPool API"}
-            </p>
+            <p>{probeError ? "CLI 状态未知" : cliLabel(config)}</p>
           </div>
           <Badge tone={probeError ? "amber" : checking ? "neutral" : "green"}>
             {probeError ? "检查失败" : checking ? "检查中" : "运行中"}
           </Badge>
           <button
             disabled={checking || models.query.isFetching}
-            onClick={() => {
-              setChecking(true);
-              setProbeError(null);
-              setRevision((value) => value + 1);
-              void models.query.refetch();
-            }}
+            onClick={() =>
+              void Promise.all([refreshConfig(), models.query.refetch()])
+            }
           >
             <RefreshCw size={14} />
             刷新状态
@@ -118,10 +88,10 @@ export default function Gateway() {
           >
             <Copy size={15} />
           </button>
-          {probe && !probeError && (
+          {checkedAt && (
             <small className="gateway-checked">
-              上次检查{" "}
-              {probe.checkedAt.toLocaleTimeString("zh-CN", { hour12: false })}
+              上次连通{" "}
+              {checkedAt.toLocaleTimeString("zh-CN", { hour12: false })}
             </small>
           )}
         </div>

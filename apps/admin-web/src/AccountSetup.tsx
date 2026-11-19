@@ -8,6 +8,7 @@ type LoginState = {
   url?: string;
   message?: string;
   requiresReplacement?: boolean;
+  retryAt?: number;
 };
 
 export default function AccountSetup({
@@ -22,12 +23,12 @@ export default function AccountSetup({
   const [alias, setAlias] = useState("");
   const [state, setState] = useState<LoginState | null>(null);
   const [error, setError] = useState<unknown>(null);
+  const [pollError, setPollError] = useState<unknown>(null);
   const [busy, setBusy] = useState(false);
   const [replace, setReplace] = useState(false);
   const [method, setMethod] = useState<"web" | "phone">("web");
   const [phone, setPhone] = useState("");
   const [code, setCode] = useState("");
-  const [smsSentAt, setSmsSentAt] = useState<number | null>(null);
   const [cooldown, setCooldown] = useState(0);
   const [browserNotice, setBrowserNotice] = useState("");
   const [switching, setSwitching] = useState(false);
@@ -44,22 +45,28 @@ export default function AccountSetup({
   }, []);
   useEffect(() => {
     const poll =
-      !state || state.status === "starting" || state.status === "waiting";
-    if (!poll || switching) return;
+      !state || ["starting", "waiting", "sms"].includes(state.status);
+    if (!poll || switching || busy) return;
     let active = true;
     let timer: ReturnType<typeof setTimeout>;
     async function check() {
       try {
-        const next = await api<LoginState>("admin/connections/login");
+        const next = await api<LoginState>(
+          "admin/connections/login",
+          "GET",
+          undefined,
+          AbortSignal.timeout(8000),
+        );
         if (!active) return;
+        setPollError(null);
         setState(next);
         if (next.status === "sms" && !state) setMethod("phone");
-        if (next.status === "starting" || next.status === "waiting")
-          timer = setTimeout(check, 1200);
+        if (["starting", "waiting", "sms"].includes(next.status))
+          timer = setTimeout(check, next.status === "sms" ? 3000 : 1200);
       } catch (error) {
         if (active) {
-          setError(error);
-          setState({ status: "idle" });
+          setPollError(error);
+          timer = setTimeout(check, 3000);
         }
       }
     }
@@ -69,18 +76,17 @@ export default function AccountSetup({
       active = false;
       clearTimeout(timer);
     };
-  }, [api, state?.status, switching]);
+  }, [api, state?.status, switching, busy]);
 
   useEffect(() => {
-    if (smsSentAt === null) return;
+    const retryAt = state?.retryAt;
     const update = () =>
-      setCooldown(
-        Math.max(0, Math.ceil((smsSentAt + 60000 - Date.now()) / 1000)),
-      );
+      setCooldown(Math.max(0, Math.ceil(((retryAt ?? 0) - Date.now()) / 1000)));
     update();
+    if (!retryAt) return;
     const timer = setInterval(update, 1000);
     return () => clearInterval(timer);
-  }, [smsSentAt]);
+  }, [state?.retryAt]);
 
   async function start(forceReplacement = replacement) {
     setBusy(true);
@@ -166,7 +172,6 @@ export default function AccountSetup({
         },
       );
       setState(result);
-      if (result.status === "sms") setSmsSentAt(Date.now());
       if (result.status === "ready") {
         setCode("");
         setPhone("");
@@ -318,22 +323,25 @@ export default function AccountSetup({
             </div>
           )}
           <div className="dialog-status" role="status">
-            {switching
-              ? "正在切换手机号登录…"
-              : !state
-                ? "正在检查本地授权…"
-                : state.status === "starting"
-                  ? "正在启动官方登录…"
-                  : state.status === "waiting"
-                    ? "等待 LibTV 授权。请用本机浏览器的隐私窗口登录另一个账号。"
-                    : state.status === "ready" && !replacement
-                      ? "已检测到授权，可保存并验证账号。"
-                      : method === "phone"
-                        ? state.status === "sms"
-                          ? "LibTV CLI 已确认发送请求，请查收短信并验证。"
-                          : "输入中国大陆手机号，由 LibTV 发送验证码。"
-                        : (state.message ??
-                          "打开 LibTV 官方网页后，可选择页面提供的登录方式，例如微信扫码。")}
+            {pollError
+              ? "暂时无法读取授权状态，正在重试。"
+              : switching
+                ? "正在切换手机号登录…"
+                : !state
+                  ? "正在检查本地授权…"
+                  : state.status === "starting"
+                    ? "正在启动官方登录…"
+                    : state.status === "waiting"
+                      ? "等待 LibTV 授权。请用本机浏览器的隐私窗口登录另一个账号。"
+                      : state.status === "ready" && !replacement
+                        ? "已检测到授权，可保存并验证账号。"
+                        : method === "phone"
+                          ? state.status === "sms"
+                            ? "LibTV CLI 已确认发送请求，请查收短信并验证。"
+                            : (state.message ??
+                              "输入中国大陆手机号，由 LibTV 发送验证码。")
+                          : (state.message ??
+                            "打开 LibTV 官方网页后，可选择页面提供的登录方式，例如微信扫码。")}
           </div>
           {state?.status === "waiting" && state.url && (
             <div className="dialog-link">
@@ -371,7 +379,7 @@ export default function AccountSetup({
               </details>
             </div>
           )}
-          <ErrorBox error={error} />
+          <ErrorBox error={error ?? pollError} />
         </div>
         <footer className="dialog-actions">
           <button type="button" onClick={close}>

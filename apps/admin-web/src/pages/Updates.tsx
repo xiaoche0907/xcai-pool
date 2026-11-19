@@ -20,22 +20,44 @@ export default function Updates() {
   const [confirming, setConfirming] = useState(false);
   const [error, setError] = useState<unknown>();
   const updateStatus = useRef<HTMLParagraphElement>(null);
+  const installDeadline = useRef<number | null>(null);
 
   useEffect(() => {
     let active = true;
     let timer: ReturnType<typeof setTimeout>;
     async function poll() {
       try {
-        const next = await api<Status>("admin/update");
+        const next = await api<Status>(
+          "admin/update",
+          "GET",
+          undefined,
+          AbortSignal.timeout(8000),
+        );
         if (!active) return;
         setStatus(next);
-        const running = next.updating || (installing && !next.result);
+        const running = next.updating;
+        if (running && !installDeadline.current)
+          installDeadline.current = Date.now() + 35 * 60_000;
         setInstalling(running);
+        if (installing && !running) {
+          installDeadline.current = null;
+          if (!next.result)
+            setError(
+              new Error(
+                "服务已恢复连接，但未返回安装结果。请重新检查当前版本。",
+              ),
+            );
+          else setError(null);
+        }
         if (running) timer = setTimeout(poll, 2000);
       } catch (failure) {
         if (!active) return;
-        if (installing) timer = setTimeout(poll, 2000);
-        else setError(failure);
+        if (installing && (installDeadline.current ?? 0) > Date.now())
+          timer = setTimeout(poll, 2000);
+        else {
+          setInstalling(false);
+          setError(failure);
+        }
       }
     }
     void poll();
@@ -137,6 +159,7 @@ export default function Updates() {
           pendingLabel="正在提交"
           onConfirm={async () => {
             await api("admin/update/install", "POST", { commit: check.latest });
+            installDeadline.current = Date.now() + 35 * 60_000;
             setInstalling(true);
           }}
           onClose={(confirmed) => {

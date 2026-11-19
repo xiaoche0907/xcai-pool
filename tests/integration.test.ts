@@ -4,11 +4,17 @@ import postgres from "postgres";
 import { migrate } from "drizzle-orm/postgres-js/migrator";
 import { eq } from "drizzle-orm";
 import { openDatabase } from "../packages/db/src/index.js";
-import { models, auditEvents, projects } from "../packages/db/src/schema.js";
+import {
+  models,
+  auditEvents,
+  projects,
+  connections,
+} from "../packages/db/src/schema.js";
 import { FramePoolService } from "../apps/api-server/src/service.js";
 import { createApp } from "../apps/api-server/src/app.js";
 import { LibTVCLIAdapter } from "../packages/libtv-cli-adapter/src/index.js";
 import { readFile } from "node:fs/promises";
+import path from "node:path";
 const admin = "test-admin-".padEnd(64, "a"),
   viewer = "test-viewer-".padEnd(64, "v");
 let store: ReturnType<typeof openDatabase>,
@@ -123,6 +129,29 @@ describe("真实 PostgreSQL / Drizzle / Fastify 集成", () => {
         })
       ).statusCode,
     ).toBe(400);
+  });
+  it("CLI 缺失时继续提供 API，并报告 CLI 未就绪", async () => {
+    const unavailable = createApp(
+      new FramePoolService(
+        store.db,
+        path.join(process.cwd(), "tests", "missing-cli-workdir"),
+      ),
+      { admin, viewer },
+      false,
+    );
+    try {
+      const response = await unavailable.inject({
+        url: "/api/v1/config",
+        headers: auth,
+      });
+      expect(response.statusCode).toBe(200);
+      expect(response.json()).toMatchObject({
+        cliVersion: null,
+        cliStatus: "unavailable",
+      });
+    } finally {
+      await unavailable.close();
+    }
   });
   it("从 P0 导入 65 模型且重复导入保持版本、禁用和账号状态", async () => {
     const invoke = () =>
@@ -457,11 +486,92 @@ describe("真实 PostgreSQL / Drizzle / Fastify 集成", () => {
         .where(eq(projects.id, "p0-canvas")),
     ).toMatchObject([{ connectionId: "account-01" }]);
     expect(await service.generationRecords()).toMatchObject({ total: 2 });
+    expect(
+      await service.generationRecords("p0-generation-failed-0"),
+    ).toMatchObject({
+      connectionId: "account-01",
+      connectionAlias: expect.any(String),
+      projectUuid: expect.stringMatching(/^[a-f0-9]{32}$/),
+      projectTitle: expect.any(String),
+    });
     await expect(service.adapter("account-01")).rejects.toMatchObject({
       code: "CONNECTION_NOT_FOUND",
     });
     expect(
       (await app.inject({ method: "DELETE", url, headers: auth })).statusCode,
     ).toBe(404);
+  });
+  it("画布发现严格使用指定账号，同一上游 UUID 分别归档", async () => {
+    const ids = ["account-02", "account-03"];
+    await store.db.insert(connections).values(
+      ids.map((id) => ({
+        id,
+        provider: "libtv",
+        alias: id,
+        credentialRef: "test",
+        configDirRef: id,
+      })),
+    );
+    const projectUuid = "1".repeat(32);
+    const used: string[] = [];
+    const scoped = createApp(
+      new FramePoolService(
+        store.db,
+        process.cwd(),
+        (id) =>
+          new LibTVCLIAdapter(async (args) => {
+            expect(args.slice(0, 2)).toEqual(["project", "list"]);
+            used.push(id);
+            return {
+              stdout: JSON.stringify({
+                total: 1,
+                projectMetaList: [{ uuid: projectUuid, name: id }],
+              }),
+              stderr: "",
+              code: 0,
+              durationMs: 0,
+            };
+          }),
+      ),
+      { admin, viewer },
+      false,
+    );
+    try {
+      for (const id of ids.slice().reverse()) {
+        const response = await scoped.inject({
+          method: "POST",
+          url: "/api/v1/admin/projects/discover",
+          headers: auth,
+          payload: { connectionId: id },
+        });
+        expect(response.json()).toEqual({ discovered: 1 });
+      }
+      expect(used).toEqual(["account-03", "account-02"]);
+      const list = await scoped.inject({
+        url: "/api/v1/projects",
+        headers: auth,
+      });
+      expect(list.json().data).toEqual(
+        expect.arrayContaining(
+          ids.map((id) =>
+            expect.objectContaining({
+              connectionId: id,
+              projectUuid,
+              id: `${id}:${projectUuid}`,
+            }),
+          ),
+        ),
+      );
+      const removed = await scoped.inject({
+        method: "POST",
+        url: "/api/v1/admin/projects/discover",
+        headers: auth,
+        payload: { connectionId: "account-01" },
+      });
+      expect(removed.statusCode).toBe(404);
+      expect(used).toHaveLength(2);
+    } finally {
+      await scoped.close();
+    }
   });
 });

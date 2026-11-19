@@ -5,6 +5,7 @@ import { createInterface } from "node:readline";
 import { promisify } from "node:util";
 import path from "node:path";
 import { AppError } from "../../../packages/contracts/src/index.js";
+import { SUPPORTED_CLI_VERSION } from "../../../packages/libtv-cli-adapter/src/index.js";
 
 const exec = promisify(execFile);
 type LoginState = {
@@ -12,6 +13,7 @@ type LoginState = {
   url?: string;
   message?: string;
   requiresReplacement?: boolean;
+  retryAt?: number;
 };
 
 function officialLoginUrl(line: string) {
@@ -61,7 +63,11 @@ export class LibTVWebLogin {
     return ["starting", "waiting"].includes(this.state.status);
   }
   isAwaitingSms() {
-    return this.state.status === "sms";
+    return (
+      this.state.status === "sms" &&
+      !!this.sms &&
+      this.sms.expiresAt > Date.now()
+    );
   }
   async cancelWeb() {
     if (this.state.status === "waiting" && this.stop && this.webExit) {
@@ -184,6 +190,15 @@ export class LibTVWebLogin {
   }
 
   async status(): Promise<LoginState> {
+    if (this.state.status === "sms" && !this.isAwaitingSms()) {
+      this.sms = undefined;
+      this.state = {
+        status: "failed",
+        message: "短信验证码已过期，请重新发送。",
+      };
+    }
+    if (this.nextSmsAt > Date.now() && this.state.status !== "idle")
+      return { ...this.state, retryAt: this.nextSmsAt };
     if (this.state.status !== "idle") return this.state;
     try {
       await access(path.join(this.directory, "config", "credentials.json"));
@@ -204,7 +219,8 @@ export class LibTVWebLogin {
         await access(path.join(config, "credentials.json"));
         credentialExists = true;
       } catch (error) {
-        if ((error as NodeJS.ErrnoException).code !== "ENOENT") throw error;
+        if ((error as NodeJS.ErrnoException).code !== "ENOENT")
+          throw accountDirectoryError();
       }
       if (credentialExists && !replace)
         return (this.state = { status: "ready" });
@@ -266,21 +282,47 @@ export class LibTVWebLogin {
   private async prepare() {
     const config = path.join(this.directory, "config");
     const cwd = path.join(this.directory, "work");
-    await mkdir(this.directory, { recursive: true, mode: 0o700 });
-    if (process.platform === "win32") {
-      const { stdout } = await exec("whoami.exe");
-      await exec("icacls.exe", [
-        this.directory,
-        "/inheritance:r",
-        "/grant:r",
-        `${stdout.trim()}:(OI)(CI)F`,
-        "*S-1-5-18:(OI)(CI)F",
-      ]);
+    try {
+      await access(this.binary);
+    } catch (error) {
+      if ((error as NodeJS.ErrnoException).code === "ENOENT")
+        throw new AppError(
+          "LIBTV_CLI_MISSING",
+          "本机缺少 LibTV CLI。请在部署目录运行 corepack pnpm libtv:install，或检查 LIBTV_BINARY。",
+          503,
+        );
+      throw new AppError(
+        "LIBTV_CLI_ACCESS_DENIED",
+        "无法访问 LibTV CLI，请检查运行服务的用户是否可读取执行文件。",
+        503,
+      );
     }
-    await Promise.all([
-      mkdir(config, { recursive: true, mode: 0o700 }),
-      mkdir(cwd, { recursive: true, mode: 0o700 }),
-    ]);
+    try {
+      await mkdir(this.directory, { recursive: true, mode: 0o700 });
+      if (process.platform === "win32") {
+        const { stdout } = await exec("whoami.exe", [
+          "/user",
+          "/fo",
+          "csv",
+          "/nh",
+        ]);
+        const sid = stdout.match(/\bS-1-(?:\d+-)*\d+\b/)?.[0];
+        if (!sid) throw new Error("Cannot resolve process owner SID.");
+        await exec("icacls.exe", [
+          this.directory,
+          "/inheritance:r",
+          "/grant:r",
+          `*${sid}:(OI)(CI)F`,
+          "*S-1-5-18:(OI)(CI)F",
+        ]);
+      }
+      await Promise.all([
+        mkdir(config, { recursive: true, mode: 0o700 }),
+        mkdir(cwd, { recursive: true, mode: 0o700 }),
+      ]);
+    } catch {
+      throw accountDirectoryError();
+    }
     const env: NodeJS.ProcessEnv = { LIBTV_CONFIG_DIR: config };
     for (const key of [
       "PATH",
@@ -299,11 +341,17 @@ export class LibTVWebLogin {
     const version = await exec(this.binary, ["--version"], {
       ...options,
       timeout: 5000,
+    }).catch(() => {
+      throw new AppError(
+        "LIBTV_CLI_START_FAILED",
+        "LibTV CLI 文件存在，但无法运行。请检查文件执行权限或更换可用的 CLI。",
+        503,
+      );
     });
-    if (version.stdout.trim() !== "1.2.0")
+    if (version.stdout.trim() !== SUPPORTED_CLI_VERSION)
       throw new AppError(
         "CLI_VERSION_MISMATCH",
-        "需要已验证的 LibTV CLI 1.2.0",
+        `需要已验证的 LibTV CLI ${SUPPORTED_CLI_VERSION}`,
         503,
       );
     return options;
@@ -359,7 +407,8 @@ export class LibTVWebLogin {
           await access(path.join(this.directory, "config", "credentials.json"));
           return (this.state = { status: "ready" });
         } catch (error) {
-          if ((error as NodeJS.ErrnoException).code !== "ENOENT") throw error;
+          if ((error as NodeJS.ErrnoException).code !== "ENOENT")
+            throw accountDirectoryError();
         }
       }
       const options = await this.prepare();
@@ -408,7 +457,8 @@ export class LibTVWebLogin {
           expiresAt: Date.now() + 300_000,
           attempts: 0,
         };
-        return (this.state = { status: "sms" });
+        this.state = { status: "sms" };
+        return { ...this.state, retryAt: this.nextSmsAt };
       }
       this.sms = undefined;
       await access(path.join(this.directory, "config", "credentials.json"));
@@ -427,4 +477,12 @@ export class LibTVWebLogin {
   close() {
     this.stop?.();
   }
+}
+
+function accountDirectoryError() {
+  return new AppError(
+    "LIBTV_ACCOUNT_DIRECTORY_UNAVAILABLE",
+    "无法建立或访问账号专用目录。请检查部署目录是否允许当前服务用户写入并设置权限。",
+    503,
+  );
 }

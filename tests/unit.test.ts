@@ -1,6 +1,9 @@
 import { describe, it, expect } from "vitest";
-import { readFile, readdir } from "node:fs/promises";
+import { access, readFile, readdir } from "node:fs/promises";
+import path from "node:path";
+import { randomUUID } from "node:crypto";
 import { Ajv } from "ajv";
+import { LibTVWebLogin } from "../apps/api-server/src/libtv-login.js";
 import {
   normalizeModel,
   validateParameters,
@@ -15,6 +18,18 @@ import {
   createReadOnlyRunner,
   redact,
 } from "../packages/libtv-cli-adapter/src/index.js";
+it("CLI 缺失时返回安装提示且不创建账号目录", async () => {
+  const directory = path.join(process.cwd(), "tests", randomUUID());
+  const login = new LibTVWebLogin(directory, path.join(directory, "libtv.exe"));
+  await expect(login.start(false)).rejects.toMatchObject({
+    code: "LIBTV_CLI_MISSING",
+  });
+  await expect(login.phone("13800000000")).rejects.toMatchObject({
+    code: "LIBTV_CLI_MISSING",
+  });
+  await expect(access(directory)).rejects.toMatchObject({ code: "ENOENT" });
+});
+
 const load = async (key: string) =>
   JSON.parse(
     (await readFile(`docs/p0/schemas/${key}.json`, "utf8")).replace(

@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, Suspense, lazy } from "react";
+import { useState, useEffect, useMemo, useRef, Suspense, lazy } from "react";
 import { createRoot } from "react-dom/client";
 import { Refine } from "@refinedev/core";
 import {
@@ -48,7 +48,7 @@ const pages = [
   ["updates", "软件更新", Download, "检查并安装 GitHub 上的最新版本。"],
 ] as const;
 function Shell({ logout }: { logout: () => void }) {
-  const { config } = useApp();
+  const { config, apiHealth } = useApp();
   const [page, setPage] = useState(location.hash.slice(1) || "overview");
   useEffect(() => {
     const h = () => {
@@ -74,7 +74,9 @@ function Shell({ logout }: { logout: () => void }) {
           <span>XcAIPool</span>
         </a>
         <div className="session-tools">
-          <Badge tone="green">API 已连接</Badge>
+          <Badge tone={apiHealth.error ? "amber" : "green"}>
+            {apiHealth.error ? "API 连接异常" : "API 已连接"}
+          </Badge>
           <ThemeControl />
           <span className="role">
             {config.role === "admin" ? "管理员" : "只读用户"}
@@ -117,7 +119,11 @@ function Shell({ logout }: { logout: () => void }) {
             <div className="stage">
               <LockKeyhole size={15} />
               <span>
-                {config.generationEnabled ? "生成已启用" : "生成已关闭"}
+                {apiHealth.error
+                  ? "生成状态未知"
+                  : config.generationEnabled
+                    ? "生成已启用"
+                    : "生成已关闭"}
               </span>
             </div>
           </div>
@@ -179,6 +185,59 @@ function App() {
     );
   const api = useMemo(() => createApi(token), [token]),
     provider = useMemo(() => createDataProvider(api), [api]);
+  const [checkedAt, setCheckedAt] = useState<Date | null>(null);
+  const [connectionError, setConnectionError] = useState<unknown>(null);
+  const [checkingConfig, setCheckingConfig] = useState(false);
+  const refreshConfigRef = useRef<(() => Promise<void>) | undefined>(undefined);
+  useEffect(() => {
+    if (!token) return;
+    let active = true;
+    let inFlight: Promise<void> | undefined;
+    function refresh() {
+      if (inFlight) return inFlight;
+      setCheckingConfig(true);
+      inFlight = api<Config>(
+        "config",
+        "GET",
+        undefined,
+        AbortSignal.timeout(8000),
+      )
+        .then((next) => {
+          if (!active) return;
+          setConfig(next);
+          setCheckedAt(new Date());
+          setConnectionError(null);
+        })
+        .catch((failure: unknown) => {
+          if (!active) return;
+          if (failure instanceof ApiError && failure.statusCode === 401) {
+            writeSession("");
+            setToken("");
+            setConfig(null);
+            setError(failure);
+          } else setConnectionError(failure);
+        })
+        .finally(() => {
+          inFlight = undefined;
+          if (active) setCheckingConfig(false);
+        });
+      return inFlight;
+    }
+    refreshConfigRef.current = refresh;
+    const refreshVisible = () => {
+      if (document.visibilityState === "visible") void refresh();
+    };
+    const timer = setInterval(refreshVisible, 15_000);
+    document.addEventListener("visibilitychange", refreshVisible);
+    window.addEventListener("online", refreshVisible);
+    return () => {
+      active = false;
+      refreshConfigRef.current = undefined;
+      clearInterval(timer);
+      document.removeEventListener("visibilitychange", refreshVisible);
+      window.removeEventListener("online", refreshVisible);
+    };
+  }, [api, token]);
   useEffect(() => {
     if (!savedToken) return;
     let active = true;
@@ -187,6 +246,7 @@ function App() {
         if (!active) return;
         setToken(savedToken);
         setConfig(verified);
+        setCheckedAt(new Date());
       })
       .catch((cause: unknown) => {
         if (!active) return;
@@ -227,6 +287,9 @@ function App() {
               setToken(input);
               setInput("");
               setConfig(c);
+              setCheckedAt(new Date());
+              setConnectionError(null);
+              setCheckingConfig(false);
             } catch (e) {
               setError(e);
             } finally {
@@ -273,6 +336,7 @@ function App() {
         { name: "models" },
         { name: "connections" },
         { name: "projects" },
+        { name: "tasks" },
         { name: "admin/audit-events" },
       ]}
       options={{
@@ -280,7 +344,11 @@ function App() {
         reactQuery: {
           clientConfig: {
             defaultOptions: {
-              queries: { retry: false, refetchOnWindowFocus: false },
+              queries: {
+                retry: false,
+                refetchOnWindowFocus: true,
+                refetchInterval: 30_000,
+              },
             },
           },
         },
@@ -290,6 +358,13 @@ function App() {
         value={{
           api,
           config,
+          apiHealth: {
+            checkedAt,
+            error: connectionError,
+            checking: checkingConfig,
+          },
+          refreshConfig: () =>
+            refreshConfigRef.current?.() ?? Promise.resolve(),
           notify: (text, error) => setToast({ text, error }),
         }}
       >

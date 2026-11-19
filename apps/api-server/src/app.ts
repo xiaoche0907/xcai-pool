@@ -133,7 +133,7 @@ export function createApp(
     stage: "P1-A",
     role: actors.get(req),
     provider: "libtv",
-    cliVersion: "1.2.0",
+    ...(await service.cliStatus()),
   }));
   app.get("/api/v1/models", async (req) => {
     const q = listQuery.parse(req.query);
@@ -151,6 +151,7 @@ export function createApp(
       return {
         modelKey: model.modelKey,
         directoryModelName: model.directoryModelName,
+        availabilityState: model.availabilityState,
         rawSchema: model.modelSchemaJson,
         previousSchema: model.previousSchemaJson,
         changes: model.changesJson,
@@ -335,10 +336,16 @@ export function createApp(
     },
   );
   app.post("/api/v1/admin/projects/discover", async (req) => {
-    z.object({})
+    const { connectionId } = z
+      .object({
+        connectionId: z
+          .string()
+          .regex(/^account-\d{2,6}$/)
+          .optional(),
+      })
       .strict()
       .parse(req.body ?? {});
-    return service.discoverProjects(actors.get(req)!);
+    return service.discoverProjects(actors.get(req)!, connectionId);
   });
   app.post<{ Params: { id: string } }>(
     "/api/v1/admin/projects/:id/refresh",

@@ -14,22 +14,35 @@ export function createApi(token: string) {
     url: string,
     method = "GET",
     body?: unknown,
+    signal?: AbortSignal,
   ): Promise<T> {
-    const response = await fetch(`/api/v1/${url}`, {
-      method,
-      headers: {
-        Authorization: `Bearer ${token}`,
-        ...(body !== undefined ? { "Content-Type": "application/json" } : {}),
-      },
-      ...(body !== undefined ? { body: JSON.stringify(body) } : {}),
-    });
-    const result = await response.json();
+    let response: Response;
+    try {
+      response = await fetch(`/api/v1/${url}`, {
+        method,
+        signal,
+        headers: {
+          Authorization: `Bearer ${token}`,
+          ...(body !== undefined ? { "Content-Type": "application/json" } : {}),
+        },
+        ...(body !== undefined ? { body: JSON.stringify(body) } : {}),
+      });
+    } catch {
+      throw new ApiError("API_UNREACHABLE", "无法连接 XcAIPool 服务。", 0);
+    }
+    const result = await response.json().catch(() => null);
     if (!response.ok)
       throw new ApiError(
-        result.error?.code ?? "HTTP_ERROR",
-        result.error?.message ?? "请求失败",
+        result?.error?.code ?? "HTTP_ERROR",
+        result?.error?.message ?? "服务请求失败。",
         response.status,
-        result.error?.requestId,
+        result?.error?.requestId,
+      );
+    if (!result)
+      throw new ApiError(
+        "API_RESPONSE_INVALID",
+        "服务返回了无效响应。",
+        response.status,
       );
     return result;
   };

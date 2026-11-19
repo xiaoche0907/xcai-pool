@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { useList } from "@refinedev/core";
+import { useList, useOne } from "@refinedev/core";
 import { ArrowUpRight, Copy, RefreshCw, X } from "lucide-react";
 import {
   Badge,
@@ -14,7 +14,7 @@ type Attempt = {
   connectionId: string;
   startedAt: string | null;
   finishedAt: string;
-  status: "failed";
+  status: string;
   exitCode: number | null;
   errorCode: string;
 };
@@ -22,11 +22,13 @@ type Task = {
   id: string;
   upstreamTaskId: string | null;
   provider: string;
-  status: "failed";
-  phase: "submission_rejected";
+  status: string;
+  phase: string;
   modelName: string | null;
   connectionId: string;
+  connectionAlias?: string | null;
   projectUuid: string | null;
+  projectTitle?: string | null;
   nodeKey: string;
   startedAt: string | null;
   finishedAt: string;
@@ -36,11 +38,17 @@ type Task = {
   attempts: Attempt[];
 };
 
+const statusLabels: Record<string, string> = { failed: "失败" };
+const phaseLabels: Record<string, string> = {
+  submission_rejected: "提交被拒绝",
+};
+
 function TaskDetails({ initial, close }: { initial: Task; close: () => void }) {
-  const { api, notify } = useApp();
+  const { notify } = useApp();
   const { busy, run } = useAction();
   const dialog = useRef<HTMLDialogElement>(null);
-  const [task, setTask] = useState(initial);
+  const { query, result } = useOne<Task>({ resource: "tasks", id: initial.id });
+  const task = result ?? initial;
   useEffect(() => {
     dialog.current?.showModal();
   }, []);
@@ -72,13 +80,10 @@ function TaskDetails({ initial, close }: { initial: Task; close: () => void }) {
         <div className="task-detail-toolbar">
           <code>{task.id}</code>
           <button
-            disabled={busy}
+            disabled={busy || query.isFetching}
             onClick={() =>
               void run(
-                async () =>
-                  setTask(
-                    await api<Task>(`tasks/${encodeURIComponent(task.id)}`),
-                  ),
+                () => query.refetch({ throwOnError: true }),
                 "任务详情已刷新",
               )
             }
@@ -87,11 +92,15 @@ function TaskDetails({ initial, close }: { initial: Task; close: () => void }) {
             刷新详情
           </button>
         </div>
+        <ErrorBox error={query.error} />
         <dl className="dialog-fields task-fields">
           <div>
             <dt>任务状态 / 执行阶段</dt>
             <dd>
-              <Badge tone="amber">失败</Badge> <span>提交被拒绝</span>
+              <Badge tone={task.status === "failed" ? "amber" : "neutral"}>
+                {statusLabels[task.status] ?? task.status}
+              </Badge>{" "}
+              <span>{phaseLabels[task.phase] ?? task.phase}</span>
             </dd>
           </div>
           <div>
@@ -103,7 +112,20 @@ function TaskDetails({ initial, close }: { initial: Task; close: () => void }) {
           <div>
             <dt>绑定账号</dt>
             <dd>
+              {task.connectionAlias && <>{task.connectionAlias} · </>}
               <code>{task.connectionId}</code>
+            </dd>
+          </div>
+          <div>
+            <dt>所属画布</dt>
+            <dd>
+              {task.projectTitle && (
+                <>
+                  {task.projectTitle}
+                  <br />
+                </>
+              )}
+              {task.projectUuid ? <code>{task.projectUuid}</code> : "未记录"}
             </dd>
           </div>
           <div>
@@ -179,7 +201,11 @@ function TaskDetails({ initial, close }: { initial: Task; close: () => void }) {
                   <td>
                     <code>{attempt.connectionId}</code>
                   </td>
-                  <td>失败 · 退出码 {attempt.exitCode ?? "—"}</td>
+                  <td>
+                    {statusLabels[attempt.status] ?? attempt.status}
+                    {attempt.exitCode !== null &&
+                      ` · 退出码 ${attempt.exitCode}`}
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -225,7 +251,7 @@ export default function Tasks() {
               <thead>
                 <tr>
                   <th>任务记录 / 模型</th>
-                  <th>账号</th>
+                  <th>账号 / 画布</th>
                   <th>状态</th>
                   <th>结束时间</th>
                   <th>操作</th>
@@ -239,10 +265,19 @@ export default function Tasks() {
                       <small>{task.id}</small>
                     </td>
                     <td>
-                      <code>{task.connectionId}</code>
+                      <strong>
+                        {task.connectionAlias ?? task.connectionId}
+                      </strong>
+                      {task.projectTitle && <small>{task.projectTitle}</small>}
                     </td>
                     <td>
-                      <Badge tone="amber">提交失败</Badge>
+                      <Badge
+                        tone={task.status === "failed" ? "amber" : "neutral"}
+                      >
+                        {phaseLabels[task.phase] ??
+                          statusLabels[task.status] ??
+                          task.status}
+                      </Badge>
                     </td>
                     <td>{formatDate(task.finishedAt)}</td>
                     <td>

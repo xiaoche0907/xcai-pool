@@ -9,12 +9,21 @@ import {
   Video,
   Workflow,
 } from "lucide-react";
-import { Badge, ErrorBox, Loading, Warning, useApp } from "../shared.js";
+import {
+  AccountWarnings,
+  Badge,
+  ErrorBox,
+  Loading,
+  useApp,
+  cliLabel,
+  connectionLabel,
+  type ConnectionStatus,
+} from "../shared.js";
 
 export default function Overview() {
-  const { config, notify } = useApp();
+  const { config, apiHealth, notify } = useApp();
   const models = useList({ resource: "models", pagination: { mode: "off" } });
-  const accounts = useList({
+  const accounts = useList<ConnectionStatus>({
     resource: "connections",
     pagination: { mode: "off" },
   });
@@ -60,7 +69,7 @@ export default function Overview() {
       count: connections.length,
       icon: Users,
       href: "#connections",
-      hint: `${active} 个连接授权有效`,
+      hint: `${active} 个账号上次诊断通过`,
     },
     {
       name: "已登记画布",
@@ -93,10 +102,7 @@ export default function Overview() {
   const endpoint = new URL("/api/v1", window.location.origin).href;
   return (
     <>
-      {accounts.result.data.some(
-        (account) =>
-          account.generationBlockedReason === "LIBTV_GALLERY_CAPACITY_BLOCKED",
-      ) && <Warning />}
+      <AccountWarnings accounts={connections} />
       <section className="summary-strip" aria-label="LibTV 数据统计">
         {totals.map(({ name, count, icon: Icon, href, hint }) => (
           <a className="summary-item" key={name} href={href}>
@@ -142,19 +148,14 @@ export default function Overview() {
                 </span>
                 <Badge
                   tone={
-                    !account.enabled || account.healthStatus === "error"
+                    !account.enabled ||
+                    !account.credentialPresent ||
+                    account.healthStatus === "error"
                       ? "amber"
                       : "neutral"
                   }
                 >
-                  {!account.enabled
-                    ? "已停用"
-                    : account.healthStatus === "authenticated" &&
-                        account.credentialPresent
-                      ? "授权有效"
-                      : account.healthStatus === "error"
-                        ? "诊断失败"
-                        : "待诊断"}
+                  {connectionLabel(account)}
                 </Badge>
               </div>
             ))
@@ -210,9 +211,15 @@ export default function Overview() {
               <dt>认证</dt>
               <dd>Bearer API 密钥</dd>
               <dt>LibTV CLI</dt>
-              <dd>{config.cliVersion}</dd>
+              <dd>{apiHealth.error ? "状态未知" : cliLabel(config)}</dd>
               <dt>生成状态</dt>
-              <dd>{config.generationEnabled ? "已启用" : "已关闭"}</dd>
+              <dd>
+                {apiHealth.error
+                  ? "状态未知"
+                  : config.generationEnabled
+                    ? "已启用"
+                    : "已关闭"}
+              </dd>
             </dl>
           </div>
         </section>
