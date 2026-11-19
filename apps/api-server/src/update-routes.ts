@@ -49,18 +49,15 @@ export function registerUpdateRoutes(app: FastifyInstance, root: string) {
     const [[, current], reason, latest] = await Promise.all([
       running,
       blocker(),
-      latestCommit(root).catch(() => {
-        throw new AppError(
-          "UPDATE_SOURCE_UNAVAILABLE",
-          "无法连接 GitHub 更新源，请稍后重试。",
-          502,
-        );
+      latestCommit(root).catch((error: Error) => {
+        throw new AppError("UPDATE_SOURCE_UNAVAILABLE", error.message, 502);
       }),
     ]);
     return {
-      latest,
-      available: Boolean(current && current !== latest),
-      reason,
+      latest: latest.commit,
+      source: latest.source,
+      available: Boolean(current && current !== latest.commit),
+      reason: latest.gitIssue ?? reason,
     };
   });
   app.post("/api/v1/admin/update/install", async (req, reply) => {

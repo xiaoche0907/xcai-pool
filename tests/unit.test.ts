@@ -1,9 +1,10 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import { access, readFile, readdir } from "node:fs/promises";
 import path from "node:path";
 import { randomUUID } from "node:crypto";
 import { Ajv } from "ajv";
 import { LibTVWebLogin } from "../apps/api-server/src/libtv-login.js";
+import { latestCommit } from "../tools/p1/update-source.js";
 import {
   normalizeModel,
   validateParameters,
@@ -28,6 +29,30 @@ it("CLI 缺失时返回安装提示且不创建账号目录", async () => {
     code: "LIBTV_CLI_MISSING",
   });
   await expect(access(directory)).rejects.toMatchObject({ code: "ENOENT" });
+});
+
+it("Git 查询不可用时从 GitHub API 读取提交，并区分限流", async () => {
+  const nonexistentRoot = path.join(process.cwd(), "tests", randomUUID());
+  const sha = "a".repeat(40);
+  const http = vi
+    .fn()
+    .mockResolvedValueOnce(Response.json({ sha }))
+    .mockResolvedValueOnce(new Response(null, { status: 429 }));
+  vi.stubGlobal("fetch", http);
+  try {
+    await expect(latestCommit(nonexistentRoot)).resolves.toMatchObject({
+      commit: sha,
+      source: "github-api",
+      gitIssue: expect.stringContaining("Git"),
+    });
+    expect(http).toHaveBeenCalledWith(
+      "https://api.github.com/repos/xiaoche0907/xcai-pool/commits/main",
+      expect.any(Object),
+    );
+    await expect(latestCommit(nonexistentRoot)).rejects.toThrow("达到请求限额");
+  } finally {
+    vi.unstubAllGlobals();
+  }
 });
 
 const load = async (key: string) =>

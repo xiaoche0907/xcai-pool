@@ -9,7 +9,12 @@ type Status = {
   updating: boolean;
   result: { state: "success" | "failed"; message: string } | null;
 };
-type Check = { latest: string; available: boolean; reason: string | null };
+type Check = {
+  latest: string;
+  available: boolean;
+  reason: string | null;
+  source: "git" | "github-api";
+};
 
 export default function Updates() {
   const { api } = useApp();
@@ -91,7 +96,14 @@ export default function Updates() {
         <div>
           <dt>GitHub 最新提交</dt>
           <dd>
-            {check ? <code>{check.latest.slice(0, 7)}</code> : "尚未检查"}
+            {check ? (
+              <>
+                <code>{check.latest.slice(0, 7)}</code>
+                {check.source === "github-api" && <small> · GitHub API</small>}
+              </>
+            ) : (
+              "尚未检查"
+            )}
           </dd>
         </div>
       </dl>
@@ -106,12 +118,17 @@ export default function Updates() {
           : status?.result?.message ||
             (check
               ? check.available
-                ? (check.reason ?? "发现可安装的更新。")
+                ? check.reason
+                  ? "发现新版本，当前无法安装。"
+                  : "发现可安装的更新。"
                 : status?.current
                   ? "当前已是最新版本。"
-                  : (check.reason ?? "无法识别当前安装的提交。")
+                  : "无法识别当前安装的提交。"
               : "检查 GitHub 上的最新提交。")}
       </p>
+      {check?.reason && (check.available || check.source === "github-api") && (
+        <p className="update-status">{check.reason}</p>
+      )}
       <ErrorBox error={error} />
       <div className="update-actions">
         <button

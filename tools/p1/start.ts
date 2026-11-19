@@ -2,10 +2,9 @@ import { fork, spawn, type ChildProcess } from "node:child_process";
 import { once } from "node:events";
 import {
   commitPattern,
+  fetchUpdate,
   git,
   installBlocker,
-  upstream,
-  upstreamBranch,
   type InstallRequest,
   type UpdateResult,
 } from "./update-source.js";
@@ -96,7 +95,10 @@ async function install(server: ChildProcess, requested: string) {
     if (blocker) throw new Error((stage = blocker));
     original = await git(root, "rev-parse", "HEAD");
     stage = "下载 GitHub 版本失败，请检查网络后重试。";
-    await git(root, "fetch", "--no-tags", upstream, upstreamBranch);
+    await fetchUpdate(root).catch((error: Error) => {
+      stage = error.message;
+      throw error;
+    });
     const fetched = await git(root, "rev-parse", "FETCH_HEAD");
     stage = "GitHub 版本已变化或已安装，请重新检查更新。";
     if (requested !== fetched || fetched === original) throw new Error(stage);
