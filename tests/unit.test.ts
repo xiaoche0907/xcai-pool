@@ -62,6 +62,50 @@ const load = async (key: string) =>
       "",
     ),
   );
+it("按个人与团队空间分页读取画布，查询不限定在根工作区", async () => {
+  const personal = "1".repeat(32);
+  const workspace = "2".repeat(32);
+  const team = "3".repeat(32);
+  const adapter = new LibTVCLIAdapter(async (args) => {
+    const response = (payload: object) => ({
+      stdout: JSON.stringify(payload),
+      stderr: "",
+      code: 0,
+      durationMs: 0,
+    });
+    if (args.join(" ") === "account list")
+      return response({
+        accounts: [
+          { accountType: 1 },
+          { accountType: 2, teamId: 42 },
+          { accountType: 2, teamId: "42" },
+        ],
+      });
+    expect(args).not.toContain("--workspace");
+    expect(args.slice(0, 3)).toEqual(["project", "list", "--team-id"]);
+    const [, , , teamId, , page] = args;
+    if (teamId === "0") {
+      const row =
+        page === "1"
+          ? { uuid: personal, name: "个人根画布" }
+          : { uuid: workspace, name: "项目内画布", workspaceId: 12 };
+      return response({ total: 2, projectMetaList: [row] });
+    }
+    expect(teamId).toBe("42");
+    return response({
+      total: 2,
+      projectMetaList: [
+        { uuid: team, name: "团队画布" },
+        { uuid: workspace, name: "项目内画布" },
+      ],
+    });
+  });
+  expect(await adapter.listProjects()).toEqual([
+    { projectUuid: personal, title: "个人根画布" },
+    { projectUuid: workspace, title: "项目内画布" },
+    { projectUuid: team, title: "团队画布" },
+  ]);
+});
 describe("P0 Schema 转换与严格校验", () => {
   it("65 个真实 Schema 的全部模式均能编译为 JSON Schema", async () => {
     const files = await readdir("docs/p0/schemas");

@@ -520,6 +520,13 @@ describe("真实 PostgreSQL / Drizzle / Fastify 集成", () => {
         process.cwd(),
         (id) =>
           new LibTVCLIAdapter(async (args) => {
+            if (args.join(" ") === "account list")
+              return {
+                stdout: '{"accounts":[{"accountType":1}]}',
+                stderr: "",
+                code: 0,
+                durationMs: 0,
+              };
             expect(args.slice(0, 2)).toEqual(["project", "list"]);
             used.push(id);
             return {

@@ -11,7 +11,7 @@ P0 原记录完整保留于 `docs/p0`。本轮没有执行旧 probe、重放标�
 | `node --run` 阻塞到终态 | 本期方法和进程白名单均禁止；不解析 stderr taskId 充当成功 | 双层拒绝测试；长任务成功仍未验证 |
 | 下载要求会员态一致的 watermark | 本期无下载 API，不假装生成输出可下载 | 原 P0 证据保留 |
 | account use 是个人/团队空间切换 | 无该命令入口；只接原 account-01 | 账号 API 诊断成功 |
-| project list 返回 projectMetaList/total | 分页转换 DTO；固定个人根空间 | 真实只读 API 冒烟 |
+| account list、project list | 从官方 CLI 枚举团队；在无工作区绑定的临时目录按个人和团队空间分页读取画布 | 已安装版帮助、P0 个人列表样例、分页和多空间测试。当前本地账号池为空，未直连团队验证 |
 | project 查询返回 nodes/edges | node id -> nodeKey，字段归一化后事务保存本地 | 真实 5 节点/2 边 + 集成 |
 | 查询可返回 NDJSON | 受控 JSON/NDJSON 解析，失败明确报错 | 单元 |
 | 1200000138 | 映射 LIBTV_GALLERY_CAPACITY_BLOCKED，保留原失败审计 | 单元 + P0 导入 |

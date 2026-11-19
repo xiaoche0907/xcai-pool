@@ -31,7 +31,7 @@
 | PATCH | `/admin/models/:modelKey` | admin | `{disabled:boolean}`，解除禁用后须同步 |
 | PATCH | `/admin/connections/:id` | admin | `{alias?:string, enabled?:boolean}`，禁止任意路径或凭据字段 |
 | POST | `/admin/connections/:id/diagnose` | admin | CLI 版本核验和账号诊断，保留原配置 |
-| POST | `/admin/projects/discover` | admin | 传入 `{ connectionId }` 查询该账号的个人根空间画布并按账号登记。兼容省略参数的旧客户端，沿用默认启用账号 |
+| POST | `/admin/projects/discover` | admin | 传入 `{ connectionId }` 查询该账号个人和可访问团队空间中的画布，包括项目内的画布。省略参数时沿用默认启用账号 |
 | POST | `/admin/projects/:id/refresh` | admin | 上游只读刷新本地节点/边快照 |
 | GET | `/admin/audit-events` | admin | 最近 200 条脱敏 DB 审计 |
 | POST | `/tasks` | viewer/admin | 403 GENERATION_DISABLED，包含 mock 请求也不执行 |

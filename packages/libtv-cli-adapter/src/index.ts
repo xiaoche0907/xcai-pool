@@ -1,4 +1,6 @@
 import { spawn } from "node:child_process";
+import { mkdtemp, realpath, rm } from "node:fs/promises";
+import { tmpdir } from "node:os";
 import path from "node:path";
 import {
   AppError,
@@ -130,29 +132,73 @@ export class LibTVCLIAdapter {
     return this.query(["model", key]);
   }
   async listProjects() {
-    const all: any[] = [];
+    const listing = await this.query(["account", "list"]);
+    if (!Array.isArray(listing?.accounts))
+      throw new AppError(
+        "CLI_RESPONSE_INVALID",
+        "无法读取账号可访问的 LibTV 空间",
+        502,
+      );
+    const scopes = new Set(["0"]);
+    for (const account of listing.accounts) {
+      if (account?.accountType === 1 || account?.accountType === "1") continue;
+      const teamId = account?.teamId;
+      if (
+        (typeof teamId !== "number" && typeof teamId !== "string") ||
+        (typeof teamId === "number" && !Number.isSafeInteger(teamId)) ||
+        !/^[1-9]\d{0,19}$/.test(String(teamId))
+      )
+        throw new AppError(
+          "CLI_RESPONSE_INVALID",
+          "LibTV 团队空间缺少有效的团队 ID，无法完整查询画布",
+          502,
+        );
+      scopes.add(String(teamId));
+    }
+    const projects = new Map<string, { projectUuid: string; title: string }>();
+    for (const teamId of scopes) {
+      for (const project of await this.listSpaceProjects(teamId)) {
+        projects.set(project.projectUuid, project);
+      }
+    }
+    return [...projects.values()];
+  }
+  private async listSpaceProjects(teamId: string) {
+    const all: { projectUuid: string; title: string }[] = [];
     for (let page = 1; page <= 100; page++) {
       const d = await this.query([
         "project",
         "list",
         "--team-id",
-        "0",
-        "--workspace",
-        "0",
+        teamId,
         "--page",
         String(page),
         "--page-size",
         "50",
       ]);
-      if (!Array.isArray(d.projectMetaList) || !Number.isInteger(d.total))
+      if (
+        !Array.isArray(d?.projectMetaList) ||
+        !Number.isSafeInteger(d.total) ||
+        d.total < 0
+      )
         throw new AppError("CLI_RESPONSE_INVALID", "画布列表格式异常", 502);
-      all.push(
-        ...d.projectMetaList.map((p: any) => ({
-          projectUuid: p.uuid,
-          title: p.name,
-        })),
-      );
+      for (const project of d.projectMetaList) {
+        const uuid = uuidSchema.safeParse(project?.uuid);
+        if (!uuid.success || typeof project?.name !== "string")
+          throw new AppError(
+            "CLI_RESPONSE_INVALID",
+            "画布列表包含无法识别的记录",
+            502,
+          );
+        all.push({ projectUuid: uuid.data.toLowerCase(), title: project.name });
+      }
       if (all.length >= d.total) return all;
+      if (!d.projectMetaList.length)
+        throw new AppError(
+          "CLI_RESPONSE_INVALID",
+          "LibTV 提前返回空页，画布列表未完整读取",
+          502,
+        );
     }
     throw new AppError("CLI_RESULT_LIMIT", "画布列表超过只读查询上限", 502);
   }
@@ -202,10 +248,23 @@ export function createReadOnlyRunner(options: {
   onResult: (args: string[], result: CliResult) => Promise<void>;
 }): Runner {
   return async (args) => {
+    const projectList =
+      args.length === 8 &&
+      args[0] === "project" &&
+      args[1] === "list" &&
+      args[2] === "--team-id" &&
+      /^(0|[1-9]\d{0,19})$/.test(args[3]) &&
+      args[4] === "--page" &&
+      /^(?:[1-9]\d?|100)$/.test(args[5]) &&
+      args[6] === "--page-size" &&
+      args[7] === "50";
     // Defense in depth: the process boundary itself accepts only reviewed read commands.
     const allowed =
       (args.length === 1 && args[0] === "--version") ||
-      args.join(" ") === "account info" ||
+      (args.length === 2 &&
+        args[0] === "account" &&
+        ["info", "list"].includes(args[1])) ||
+      projectList ||
       (args[0] === "model" &&
         ((args.length === 2 &&
           modelKeySchema.safeParse(args[1]).success &&
@@ -215,17 +274,8 @@ export function createReadOnlyRunner(options: {
             args[2] === "--type" &&
             ["image", "video"].includes(args[3])))) ||
       (args[0] === "project" &&
-        ((args.length === 2 && uuidSchema.safeParse(args[1]).success) ||
-          (args[1] === "list" &&
-            args.length === 10 &&
-            args[2] === "--team-id" &&
-            args[3] === "0" &&
-            args[4] === "--workspace" &&
-            args[5] === "0" &&
-            args[6] === "--page" &&
-            /^\d+$/.test(args[7]) &&
-            args[8] === "--page-size" &&
-            args[9] === "50"))) ||
+        args.length === 2 &&
+        uuidSchema.safeParse(args[1]).success) ||
       (args[0] === "node" &&
         args.length === 4 &&
         (args[1] === "list" || /^[\w-]+$/.test(args[1])) &&
@@ -267,10 +317,15 @@ export function createReadOnlyRunner(options: {
     ])
       if (process.env[key]) env[key] = process.env[key];
     const start = Date.now();
+    // Without a workspace flag, an unbound cwd makes the CLI list all workspaces.
+    const tempRoot = projectList ? await realpath(tmpdir()) : undefined;
+    const unbound = tempRoot
+      ? await mkdtemp(path.join(tempRoot, "xcaipool-canvas-"))
+      : undefined;
     const result = await new Promise<CliResult>((resolve, reject) => {
       const child = spawn(options.binary, args, {
         shell: false,
-        cwd: options.workDir,
+        cwd: unbound ?? options.workDir,
         env,
         windowsHide: true,
         stdio: ["ignore", "pipe", "pipe"],
@@ -311,6 +366,11 @@ export function createReadOnlyRunner(options: {
           durationMs: Date.now() - start,
         });
       });
+    }).finally(async () => {
+      if (!unbound) return;
+      const resolved = await realpath(unbound);
+      if (path.dirname(resolved) === tempRoot)
+        await rm(resolved, { recursive: true, force: true });
     });
     await options.onResult(args, {
       ...result,

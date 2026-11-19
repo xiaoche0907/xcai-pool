@@ -61,7 +61,9 @@ export default function Projects() {
       <div className="section-title">
         <div>
           <h2>画布档案</h2>
-          <p className="muted">按 LibTV 账号查看已登记的画布和节点快照。</p>
+          <p className="muted">
+            查询覆盖账号的个人空间和可访问的团队空间，包括项目内的画布。
+          </p>
         </div>
       </div>
       <ErrorBox error={list.query.error} />
@@ -118,7 +120,7 @@ export default function Projects() {
                 )}
               </header>
               {!canvases.length && (
-                <div className="panel empty">此账号暂无画布记录。</div>
+                <div className="panel empty">此账号暂无已登记的画布。</div>
               )}
               {canvases.length > 0 && (
                 <div className="project-list">
