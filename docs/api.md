@@ -24,8 +24,8 @@
 | GET | `/models/:modelKey/route-preview` | viewer/admin | 用各账号的 CLI 配置查询登录和目录可见性，保留生成权限未验证状态 |
 | POST | `/models/:modelKey/validate` | viewer/admin | 严格参数校验，不运行 CLI，不生成 |
 | GET | `/connections` | viewer/admin | 脱敏连接 DTO，不暴露凭据内容/路径 |
-| GET | `/projects` | viewer/admin | 本地登记画布、上游链接与数据来源/时间 |
-| GET | `/projects/:id/nodes` | viewer/admin | DB 快照节点和边；id 是本地标识，非 UUID |
+| GET | `/projects` | viewer/admin | 查询仍在账号池中的连接所登记的画布 |
+| GET | `/projects/:id/nodes` | viewer/admin | 读取本地画布的节点和边。所属账号已移除时返回 404 |
 | POST | `/admin/models/import-evidence` | admin | 显式幂等导入现有 P0 证据 |
 | POST | `/admin/models/sync` | admin | CLI 只读同步，单进程内防重复同步 |
 | PATCH | `/admin/models/:modelKey` | admin | `{disabled:boolean}`，解除禁用后须同步 |
@@ -40,6 +40,10 @@
 | POST | `/admin/connections/login/open-browser` | admin / 本机 | 在 Windows 上为当前有效授权链接打开独立浏览器窗口 |
 | POST | `/admin/connections/login/phone` | admin | `{phone}` 申请官方短信，`{phone,code}` 验证。触发人机校验时转到官方网页 |
 | POST | `/admin/connections/register` | admin | 核验授权并登记新账号，接受可选的 `alias` |
+| DELETE | `/admin/connections/:id` | admin | 从账号池移除并停用连接，保留历史记录与本地授权文件 |
+| GET | `/admin/update` | admin | 读取当前提交、安装状态和最近一次结果 |
+| POST | `/admin/update/check` | admin | 查询 GitHub main 的当前提交及安装条件 |
+| POST | `/admin/update/install` | admin | 提交检查到的 `{commit}`，202 表示已接受安装请求 |
 
 无 body 的 POST 只接受 `{}` 或不传 body。导入/同步接口不接受客户端任意文件路径、CLI 参数、凭据或 URL。模型查询与参数请求为严格 Zod 校验，核心读取响应在发送前按 DTO 再校验。
 

@@ -18,7 +18,7 @@ try {
         } finally { $rng.Dispose() }
     }
     $dbPassword = New-PrivateHex 24
-    $adminKey = New-PrivateHex 32
+    $adminKey = 'xiaoche144'
     $viewerKey = New-PrivateHex 32
     @('HOST=127.0.0.1', "PORT=$port", "DATABASE_URL=postgres://framepool:${dbPassword}@127.0.0.1:55432/framepool", "ADMIN_API_KEY=$adminKey", "VIEWER_API_KEY=$viewerKey", 'GENERATION_ENABLED=false', 'LIBTV_BINARY=.local/libtv-p0/bin/libtv-win-x64/libtv.exe', 'LIBTV_ACCOUNT_ROOT=.local/libtv-p0/accounts') | Set-Content -Encoding utf8 '.env'
     "FRAMEPOOL_DB_PASSWORD=$dbPassword" | Set-Content -Encoding utf8 '.local/framepool-p1/compose.env'

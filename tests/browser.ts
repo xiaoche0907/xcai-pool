@@ -5,6 +5,7 @@ const browser = await chromium.launch({ channel: "msedge", headless: true });
 const page = await browser.newPage({
   viewport: { width: 1440, height: 1040 },
   deviceScaleFactor: 1,
+  colorScheme: "light",
 });
 const errors: string[] = [],
   failures: string[] = [];
@@ -34,8 +35,8 @@ try {
     animations: "disabled",
   });
   checks.push("登录与数据库总览");
-  const theme = page.getByLabel("界面外观");
-  await theme.selectOption("dark");
+  const theme = page.getByRole("button", { name: "切换深浅模式" });
+  await theme.click();
   await page.reload();
   await page.getByRole("heading", { name: "LibTV 工作台" }).waitFor();
   if ((await page.locator("html").getAttribute("data-theme")) !== "dark")
@@ -44,7 +45,7 @@ try {
     path: "docs/p1/screenshots/overview-dark.png",
     animations: "disabled",
   });
-  await theme.selectOption("light");
+  await theme.click();
   if ((await page.locator("html").getAttribute("data-theme")) !== "light")
     throw new Error("Light theme option did not apply");
   await page.emulateMedia({ reducedMotion: "reduce" });

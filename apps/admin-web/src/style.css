@@ -1565,6 +1565,95 @@ td small {
 .task-dialog {
   width: min(780px, calc(100% - 30px));
 }
+.confirm-dialog {
+  width: min(440px, calc(100% - 32px));
+}
+.confirm-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 20px 20px 0;
+}
+.confirm-symbol {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--soft);
+}
+.dialog-body.confirm-body {
+  padding-block: 16px 20px;
+}
+.confirm-body h2 {
+  margin: 0;
+  font-size: 20px;
+  line-height: 1.35;
+}
+.confirm-body p {
+  margin: 8px 0 16px;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.65;
+}
+.confirm-subject {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--soft);
+  overflow-wrap: anywhere;
+}
+.confirm-subject .provider-mark {
+  flex-shrink: 0;
+}
+.confirm-subject small {
+  display: block;
+  margin-top: 2px;
+  color: var(--muted);
+}
+.confirm-body .error-box {
+  margin: 12px 0 0;
+  overflow-wrap: anywhere;
+}
+.confirm-dialog .dialog-actions button {
+  min-width: 76px;
+  min-height: 44px;
+}
+.confirm-dialog button[aria-disabled="true"] {
+  cursor: wait;
+  opacity: 0.75;
+}
+.update-panel {
+  max-width: 680px;
+  padding: 20px;
+}
+.update-panel .section-title {
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+}
+.update-source {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--muted);
+}
+.update-fields.dialog-fields {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.update-status {
+  color: var(--muted);
+  line-height: 1.6;
+}
+.update-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
 .dialog-heading,
 .dialog-actions {
   display: flex;
@@ -2015,19 +2104,29 @@ button:disabled,
 .theme-control {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  padding-left: 7px;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
   background: var(--soft);
   border: 1px solid var(--line);
   border-radius: 6px;
   color: var(--muted);
 }
-.theme-control select {
-  border: 0;
-  background: transparent;
-  padding: 6px 4px;
-  min-height: 33px;
-  font-size: 12px;
+.theme-control .theme-sun,
+:root[data-theme="dark"] .theme-control .theme-moon {
+  display: none;
+}
+:root[data-theme="dark"] .theme-control .theme-sun {
+  display: block;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) .theme-control .theme-moon {
+    display: none;
+  }
+  :root:not([data-theme]) .theme-control .theme-sun {
+    display: block;
+  }
 }
 .skip-link {
   position: fixed;
@@ -2149,8 +2248,9 @@ button:not(:disabled):active,
     display: none;
   }
   .session-tools button,
-  .theme-control select {
-    min-height: 40px;
+  .theme-control {
+    width: 44px;
+    height: 44px;
   }
   .workbench-nav a {
     min-height: 44px;

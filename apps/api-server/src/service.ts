@@ -1,7 +1,7 @@
 import { readFile, access } from "node:fs/promises";
 import path from "node:path";
 import { randomUUID } from "node:crypto";
-import { eq, desc } from "drizzle-orm";
+import { and, asc, eq, desc, getTableColumns, isNull } from "drizzle-orm";
 import type { Database } from "../../../packages/db/src/index.js";
 import {
   models,
@@ -56,12 +56,48 @@ export class FramePoolService {
     const [connection] = await this.db
       .select()
       .from(connections)
-      .where(eq(connections.id, id));
+      .where(and(eq(connections.id, id), isNull(connections.removedAt)));
     if (!connection)
       throw new AppError("CONNECTION_NOT_FOUND", "连接不存在", 404);
     if (!connection.enabled)
       throw new AppError("CONNECTION_DISABLED", "连接已手动停用", 409);
     return this.readAdapter(id);
+  }
+  private async onlineConnection() {
+    const [connection] = await this.db
+      .select({ id: connections.id })
+      .from(connections)
+      .where(and(eq(connections.enabled, true), isNull(connections.removedAt)))
+      .orderBy(asc(connections.createdAt), asc(connections.id))
+      .limit(1);
+    if (!connection)
+      throw new AppError(
+        "CONNECTION_REQUIRED",
+        "请先在账号池添加或启用一个 LibTV 账号。",
+        409,
+      );
+    return connection.id;
+  }
+  async removeConnection(id: string, actor: string) {
+    await this.db.transaction(async (tx) => {
+      const now = new Date();
+      const [removed] = await tx
+        .update(connections)
+        .set({ removedAt: now, enabled: false, updatedAt: now })
+        .where(and(eq(connections.id, id), isNull(connections.removedAt)))
+        .returning({ id: connections.id });
+      if (!removed)
+        throw new AppError("CONNECTION_NOT_FOUND", "连接不存在", 404);
+      await tx.insert(auditEvents).values({
+        id: randomUUID(),
+        actorId: actor,
+        action: "connection.remove",
+        entityType: "framepool",
+        entityId: id,
+        redactedMetadata: {},
+      });
+    });
+    return { ok: true };
   }
   private accountDirectory(id: string) {
     if (/^account-\d{2,6}$/.test(id) && Number(id.slice(8)) >= 2)
@@ -362,7 +398,10 @@ export class FramePoolService {
     return row;
   }
   async connectionViews() {
-    const rows = await this.db.select().from(connections);
+    const rows = await this.db
+      .select()
+      .from(connections)
+      .where(isNull(connections.removedAt));
     return Promise.all(
       rows.map(async (c) => {
         let credentialPresent = false;
@@ -520,7 +559,8 @@ export class FramePoolService {
       );
     const existing = await this.db
       .select({ id: connections.id })
-      .from(connections);
+      .from(connections)
+      .where(isNull(connections.removedAt));
     for (const account of existing) {
       let knownUser: string | null;
       try {
@@ -593,7 +633,10 @@ export class FramePoolService {
       });
       return diagnosis;
     } catch (error) {
-      if (error instanceof AppError && error.code === "CONNECTION_DISABLED")
+      if (
+        error instanceof AppError &&
+        ["CONNECTION_DISABLED", "CONNECTION_NOT_FOUND"].includes(error.code)
+      )
         throw error;
       await this.db
         .update(connections)
@@ -614,7 +657,8 @@ export class FramePoolService {
       throw new AppError("SYNC_IN_PROGRESS", "模型同步进行中", 409);
     this.syncing = true;
     try {
-      const adapter = await this.adapter("account-01");
+      const connectionId = await this.onlineConnection();
+      const adapter = await this.adapter(connectionId);
       const entries: any[] = [];
       for (const type of ["image", "video"] as const)
         for (const item of await adapter.searchModels(type)) {
@@ -685,7 +729,7 @@ export class FramePoolService {
             });
         }
       });
-      await this.audit(actor, "models.sync", "account-01", {
+      await this.audit(actor, "models.sync", connectionId, {
         count: entries.length,
       });
       return { synced: entries.length };
@@ -693,16 +737,22 @@ export class FramePoolService {
       this.syncing = false;
     }
   }
-  async project(id: string) {
-    const [p] = await this.db
-      .select()
+  private async project(id: string) {
+    const [row] = await this.db
+      .select(getTableColumns(projects))
       .from(projects)
-      .where(eq(projects.id, id));
-    if (!p) throw new AppError("PROJECT_NOT_FOUND", "画布不存在", 404);
-    return p;
+      .innerJoin(connections, eq(projects.connectionId, connections.id))
+      .where(and(eq(projects.id, id), isNull(connections.removedAt)));
+    if (!row) throw new AppError("PROJECT_NOT_FOUND", "画布不存在", 404);
+    return row;
   }
   async listProjects() {
-    return (await this.db.select().from(projects)).map((p) => ({
+    const rows = await this.db
+      .select(getTableColumns(projects))
+      .from(projects)
+      .innerJoin(connections, eq(projects.connectionId, connections.id))
+      .where(isNull(connections.removedAt));
+    return rows.map((p) => ({
       id: p.id,
       connectionId: p.connectionId,
       projectUuid: p.projectUuid,
@@ -766,15 +816,16 @@ export class FramePoolService {
     return this.nodes(id);
   }
   async discoverProjects(actor: string) {
-    const adapter = await this.adapter("account-01"),
+    const connectionId = await this.onlineConnection();
+    const adapter = await this.adapter(connectionId),
       list = await adapter.listProjects();
     for (const p of list) {
       uuidSchema.parse(p.projectUuid);
       await this.db
         .insert(projects)
         .values({
-          id: `account-01:${p.projectUuid}`,
-          connectionId: "account-01",
+          id: `${connectionId}:${p.projectUuid}`,
+          connectionId,
           projectUuid: p.projectUuid,
           title: p.title,
           source: "upstream",
@@ -785,7 +836,7 @@ export class FramePoolService {
           set: { title: p.title, lastCheckedAt: new Date() },
         });
     }
-    await this.audit(actor, "projects.discover", "account-01", {
+    await this.audit(actor, "projects.discover", connectionId, {
       count: list.length,
     });
     return { discovered: list.length };

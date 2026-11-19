@@ -4,17 +4,23 @@
 
 ## 启动与恢复
 
-复用现有 `.env`，不要再次运行首次初始化来更换数据库密码。缺少 `.env` 时，首次初始化脚本会生成随机 API 密钥、数据库密码和空闲 API 端口；发现已存在 `.env` 时直接拒绝覆盖。参考字段在 `infra/env.example`。
+复用现有 `.env`。首次初始化脚本写入本机默认管理员密钥，并生成随机只读密钥、数据库密码和空闲 API 端口。发现已存在 `.env` 时直接拒绝覆盖。参考字段在 `infra/env.example`。
 
 ```powershell
 docker compose --env-file .local/framepool-p1/compose.env -f infra/docker-compose.dev.yml up -d --wait
 corepack pnpm@10.32.1 db:migrate
-corepack pnpm@10.32.1 bootstrap
 corepack pnpm@10.32.1 build
 corepack pnpm@10.32.1 start
 ```
 
-幂等导入只读取 P0 文件，不触发上游。不要运行旧 `probe.mjs execute` 来验证新 API；新 Adapter 的生产进程边界只支持只读命令。
+正常部署只运行数据库迁移，新库从空账号池开始。仅恢复历史 P0 环境时显式运行 `corepack pnpm bootstrap --p0`，该导入会恢复 P0 账号记录、模型、画布和任务证据。幂等导入只读取 P0 文件，不触发上游。Adapter 的生产进程边界只支持只读命令。
+
+## GitHub 更新
+
+- 使用 `git clone` 部署并保持在 `main` 分支。用 `corepack pnpm start` 启动，确保 GitHub、依赖仓库和 PostgreSQL 可访问。ZIP 解压部署及开发模式仅支持查询最新提交。
+- 管理员在「软件更新」检查并确认安装。更新源为项目的 GitHub `main` 分支。安装进程只接受检查到的提交，并在安装前重新核对远端提交。存在未提交的改动、分支分叉或远端提交变化时，安装会停止。
+- 安装依次执行 Git 快进、按锁文件安装依赖、构建、应用数据库迁移和重启。安装过程沿用现有 `.env`、数据库和 LibTV 授权目录。升级前可按下文备份数据库。
+- 构建、迁移或启动失败时，更新进程尝试恢复旧代码和重新启动。若迁移已经成功，成功迁移会保留。需要回退数据库时使用升级前的备份。运行终端会显示自动恢复失败的阶段。
 
 ## 数据库
 

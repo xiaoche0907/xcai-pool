@@ -23,6 +23,7 @@ export const connections = pgTable("provider_connections", {
   createdAt: stamp(),
   updatedAt: stamp(),
   lastCheckedAt: timestamp({ withTimezone: true }),
+  removedAt: timestamp({ withTimezone: true }),
   diagnosisJson: jsonb().$type<Record<string, unknown>>(),
 });
 export const models = pgTable(

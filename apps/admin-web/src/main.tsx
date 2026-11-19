@@ -16,6 +16,7 @@ import {
   Check,
   X,
   ArrowRight,
+  Download,
 } from "lucide-react";
 import { ApiError, createApi, createDataProvider } from "./api.js";
 import {
@@ -33,6 +34,7 @@ import Logs from "./pages/Logs.js";
 import Gateway from "./pages/Gateway.js";
 import Tasks from "./pages/Tasks.js";
 import ThemeControl from "./ThemeControl.js";
+import Updates from "./pages/Updates.js";
 import "./style.css";
 const Models = lazy(() => import("./pages/Models.js"));
 const pages = [
@@ -43,6 +45,7 @@ const pages = [
   ["projects", "画布管理", Workflow, "查询画布、节点和连接关系。"],
   ["tasks", "任务记录", ListChecks, "查看任务状态、生成结果与执行尝试。"],
   ["logs", "审计日志", ScrollText, "查阅脱敏的操作和故障记录。"],
+  ["updates", "软件更新", Download, "检查并安装 GitHub 上的最新版本。"],
 ] as const;
 function Shell({ logout }: { logout: () => void }) {
   const { config } = useApp();
@@ -88,7 +91,10 @@ function Shell({ logout }: { logout: () => void }) {
       </header>
       <nav className="workbench-nav" aria-label="工作台导航">
         {pages
-          .filter((p) => config.role === "admin" || p[0] !== "logs")
+          .filter(
+            (p) =>
+              config.role === "admin" || !["logs", "updates"].includes(p[0]),
+          )
           .map(([id, label, Icon]) => (
             <a
               key={id}
@@ -129,10 +135,12 @@ function Shell({ logout }: { logout: () => void }) {
             <Projects />
           ) : current[0] === "tasks" ? (
             <Tasks />
-          ) : config.role === "admin" ? (
+          ) : current[0] === "updates" && config.role === "admin" ? (
+            <Updates />
+          ) : current[0] === "logs" && config.role === "admin" ? (
             <Logs />
           ) : (
-            <p>管理员可查看审计日志。</p>
+            <p>此页面仅供管理员使用。</p>
           )}
         </div>
       </main>

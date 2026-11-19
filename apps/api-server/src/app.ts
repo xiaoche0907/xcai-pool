@@ -4,8 +4,9 @@ import { existsSync } from "node:fs";
 import path from "node:path";
 import { createHash, timingSafeEqual } from "node:crypto";
 import { z, ZodError } from "zod";
-import { eq } from "drizzle-orm";
+import { and, eq, isNull } from "drizzle-orm";
 import type { FramePoolService } from "./service.js";
+import { registerUpdateRoutes } from "./update-routes.js";
 import { models, connections } from "../../../packages/db/src/schema.js";
 import {
   GENERATION_ENABLED,
@@ -245,14 +246,16 @@ export function createApp(
   app.patch<{ Params: { id: string } }>(
     "/api/v1/admin/connections/:id",
     async (req) => {
-      const input = connectionPatch.parse(req.body),
-        views = await service.connectionViews();
-      if (!views.some((c) => c.id === req.params.id))
-        throw new AppError("CONNECTION_NOT_FOUND", "连接不存在", 404);
-      await service.db
+      const input = connectionPatch.parse(req.body);
+      const [updated] = await service.db
         .update(connections)
         .set({ ...input, updatedAt: new Date() })
-        .where(eq(connections.id, req.params.id));
+        .where(
+          and(eq(connections.id, req.params.id), isNull(connections.removedAt)),
+        )
+        .returning({ id: connections.id });
+      if (!updated)
+        throw new AppError("CONNECTION_NOT_FOUND", "连接不存在", 404);
       await service.audit(
         actors.get(req)!,
         "connection.update",
@@ -261,6 +264,10 @@ export function createApp(
       );
       return { ok: true };
     },
+  );
+  app.delete<{ Params: { id: string } }>(
+    "/api/v1/admin/connections/:id",
+    (req) => service.removeConnection(req.params.id, actors.get(req)!),
   );
   app.addHook("onClose", async () => service.closePendingLogin());
   app.get("/api/v1/admin/connections/login", async () =>
@@ -361,6 +368,7 @@ export function createApp(
         .parse(req.params.id),
     );
   });
+  registerUpdateRoutes(app, service.root);
   if (
     serveWeb &&
     existsSync(path.join(service.root, "dist/admin/index.html"))

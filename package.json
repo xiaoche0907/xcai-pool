@@ -11,7 +11,7 @@
     "libtv:login": "node tools/p1/login-libtv.mjs",
     "dev": "tsx watch apps/api-server/src/main.ts",
     "dev:web": "vite --config apps/admin-web/vite.config.ts",
-    "start": "tsx apps/api-server/src/main.ts",
+    "start": "tsx tools/p1/start.ts",
     "build": "vite build --config apps/admin-web/vite.config.ts",
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",

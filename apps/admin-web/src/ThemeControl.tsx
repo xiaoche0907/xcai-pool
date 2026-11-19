@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { Monitor, Moon, Sun } from "lucide-react";
+import { Moon, Sun } from "lucide-react";
 
 type Theme = "system" | "light" | "dark";
 const preferenceKey = "xcaipool.theme";
@@ -22,29 +21,25 @@ function applyTheme(theme: Theme) {
 applyTheme(readTheme());
 
 export default function ThemeControl() {
-  const [theme, setTheme] = useState(readTheme);
-  const Icon = theme === "dark" ? Moon : theme === "light" ? Sun : Monitor;
   return (
-    <label className="theme-control">
-      <Icon size={15} aria-hidden="true" />
-      <select
-        aria-label="界面外观"
-        value={theme}
-        onChange={(event) => {
-          const next = event.target.value as Theme;
-          applyTheme(next);
-          setTheme(next);
-          try {
-            localStorage.setItem(preferenceKey, next);
-          } catch {
-            /* The selection still applies to this page. */
-          }
-        }}
-      >
-        <option value="system">跟随系统</option>
-        <option value="light">浅色</option>
-        <option value="dark">深色</option>
-      </select>
-    </label>
+    <button
+      type="button"
+      className="theme-control"
+      aria-label="切换深浅模式"
+      title="切换深浅模式"
+      onClick={() => {
+        const current = getComputedStyle(document.documentElement).colorScheme;
+        const next = current === "dark" ? "light" : "dark";
+        applyTheme(next);
+        try {
+          localStorage.setItem(preferenceKey, next);
+        } catch {
+          /* The selection still applies to this page. */
+        }
+      }}
+    >
+      <Moon className="theme-moon" size={17} aria-hidden="true" />
+      <Sun className="theme-sun" size={17} aria-hidden="true" />
+    </button>
   );
 }

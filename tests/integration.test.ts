@@ -4,7 +4,7 @@ import postgres from "postgres";
 import { migrate } from "drizzle-orm/postgres-js/migrator";
 import { eq } from "drizzle-orm";
 import { openDatabase } from "../packages/db/src/index.js";
-import { models, auditEvents } from "../packages/db/src/schema.js";
+import { models, auditEvents, projects } from "../packages/db/src/schema.js";
 import { FramePoolService } from "../apps/api-server/src/service.js";
 import { createApp } from "../apps/api-server/src/app.js";
 import { LibTVCLIAdapter } from "../packages/libtv-cli-adapter/src/index.js";
@@ -68,6 +68,19 @@ afterAll(async () => {
   await store?.client.end();
 });
 describe("真实 PostgreSQL / Drizzle / Fastify 集成", () => {
+  it("新库从空账号池启动，在线同步需要用户先添加账号", async () => {
+    const list = await app.inject({
+      url: "/api/v1/connections",
+      headers: auth,
+    });
+    expect(list.json().data).toEqual([]);
+    await expect(service.syncModels("test")).rejects.toMatchObject({
+      code: "CONNECTION_REQUIRED",
+    });
+    await expect(service.discoverProjects("test")).rejects.toMatchObject({
+      code: "CONNECTION_REQUIRED",
+    });
+  });
   it("鉴权与管理员边界", async () => {
     expect((await app.inject({ url: "/api/v1/models" })).statusCode).toBe(401);
     expect(
@@ -82,6 +95,34 @@ describe("真实 PostgreSQL / Drizzle / Fastify 集成", () => {
     ).toBe(403);
     const config = await app.inject({ url: "/api/v1/config", headers: auth });
     expect(config.json().generationEnabled).toBe(false);
+  });
+  it("软件更新由管理员访问并校验提交 ID", async () => {
+    const url = "/api/v1/admin/update";
+    const headers = { authorization: `Bearer ${viewer}` };
+    expect((await app.inject({ url, headers })).statusCode).toBe(403);
+    expect(
+      (
+        await app.inject({
+          method: "POST",
+          url: url + "/install",
+          headers,
+          payload: {},
+        })
+      ).statusCode,
+    ).toBe(403);
+    expect((await app.inject({ url, headers: auth })).json()).toMatchObject({
+      updating: false,
+    });
+    expect(
+      (
+        await app.inject({
+          method: "POST",
+          url: url + "/install",
+          headers: auth,
+          payload: { commit: "refs/heads/main" },
+        })
+      ).statusCode,
+    ).toBe(400);
   });
   it("从 P0 导入 65 模型且重复导入保持版本、禁用和账号状态", async () => {
     const invoke = () =>
@@ -381,5 +422,46 @@ describe("真实 PostgreSQL / Drizzle / Fastify 集成", () => {
     } finally {
       process.env.GENERATION_ENABLED = before ?? "false";
     }
+  });
+  it("移除账号后隐藏画布及节点，保留数据库快照和任务历史", async () => {
+    const url = "/api/v1/admin/connections/account-01";
+    expect(
+      (
+        await app.inject({
+          method: "DELETE",
+          url,
+          headers: { authorization: `Bearer ${viewer}` },
+        })
+      ).statusCode,
+    ).toBe(403);
+    expect(
+      (await app.inject({ method: "DELETE", url, headers: auth })).statusCode,
+    ).toBe(200);
+    expect(await service.connectionViews()).toEqual([]);
+    expect(
+      (await app.inject({ url: "/api/v1/projects", headers: auth })).json()
+        .data,
+    ).toEqual([]);
+    expect(
+      (
+        await app.inject({
+          url: "/api/v1/projects/p0-canvas/nodes",
+          headers: auth,
+        })
+      ).statusCode,
+    ).toBe(404);
+    expect(
+      await store.db
+        .select()
+        .from(projects)
+        .where(eq(projects.id, "p0-canvas")),
+    ).toMatchObject([{ connectionId: "account-01" }]);
+    expect(await service.generationRecords()).toMatchObject({ total: 2 });
+    await expect(service.adapter("account-01")).rejects.toMatchObject({
+      code: "CONNECTION_NOT_FOUND",
+    });
+    expect(
+      (await app.inject({ method: "DELETE", url, headers: auth })).statusCode,
+    ).toBe(404);
   });
 });

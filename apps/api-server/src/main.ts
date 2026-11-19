@@ -14,6 +14,13 @@ await app.listen({
   host: process.env.HOST ?? "127.0.0.1",
   port: Number(process.env.PORT ?? 4310),
 });
+if (process.send && process.env.XCAIPOOL_SUPERVISED === "1") {
+  process.on("message", (message: { type?: string }) => {
+    if (message?.type === "shutdown")
+      void app.close().finally(() => process.disconnect());
+  });
+  process.send({ type: "ready" });
+}
 for (const signal of ["SIGINT", "SIGTERM"] as const)
   process.once(signal, () => {
     void app.close();
