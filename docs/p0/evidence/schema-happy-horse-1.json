@@ -1,0 +1,15 @@
+{
+  "startedAt": "2026-11-18T13:53:17.612Z",
+  "finishedAt": "2026-11-18T13:53:18.000Z",
+  "args": [
+    "model",
+    "happy-horse-1"
+  ],
+  "pid": 68464,
+  "code": 0,
+  "signal": null,
+  "timedOut": false,
+  "stdout": "{\n  \"nameOrId\": \"happy-horse-1\",\n  \"modelName\": \"happy-horse-1\",\n  \"modelKey\": \"happy-horse-1\",\n  \"toolKey\": \"happy-horse-1\",\n  \"modality\": \"video\",\n  \"schema\": {\n    \"modelKey\": \"happy-horse-1\",\n    \"modelName\": \"Happy Horse 1.0\",\n    \"modelVendor\": \"happy-horse\",\n    \"baseType\": 27,\n    \"properties\": {\n      \"strikethroughPrice\": {\n        \"active\": true\n      },\n      \"magic\": false,\n      \"mention\": true,\n      \"count\": [\n        1\n      ],\n      \"prompt\": {\n        \"maxLength\": 0\n      },\n      \"ratio\": {\n        \"displayName\": \"比例\",\n        \"enum\": [\n          \"16:9\",\n          \"9:16\",\n          \"1:1\",\n          \"4:3\",\n          \"3:4\"\n        ],\n        \"default\": \"16:9\",\n        \"component\": \"singleButton\",\n        \"originalField\": \"ratio\"\n      },\n      \"resolution\": {\n        \"displayName\": \"清晰度\",\n        \"enum\": [\n          \"720P\",\n          \"1080P\"\n        ],\n        \"default\": \"720P\",\n        \"component\": \"singleButton\",\n        \"originalField\": \"resolution\"\n      },\n      \"duration\": {\n        \"displayName\": \"生成时长\",\n        \"min\": 3,\n        \"max\": 15,\n        \"step\": 1,\n        \"default\": 5,\n        \"originalField\": \"duration\",\n        \"component\": \"slider\"\n      },\n      \"modeType\": {\n        \"originalField\": \"modeType\",\n        \"items\": {\n          \"frames2video\": [\n            1,\n            1\n          ],\n          \"videoEdit2video\": [\n            1,\n            5\n          ],\n          \"image2video\": [\n            1,\n            9\n          ]\n        },\n        \"videoEdit2videoConfig\": {\n          \"videoMax\": 1,\n          \"imageMaxWithVideo\": 5\n        }\n      }\n    },\n    \"config\": {\n      \"settings\": {\n        \"text2video\": [\n          \"ratio\",\n          \"resolution\",\n          \"duration\"\n        ],\n        \"frames2video\": [\n          \"resolution\",\n          \"duration\"\n        ],\n        \"image2video\": [\n          \"ratio\",\n          \"resolution\",\n          \"duration\"\n        ],\n        \"videoEdit2video\": [\n          \"resolution\"\n        ]\n      },\n      \"generateTypes\": {\n        \"text\": 117,\n        \"image\": 117,\n        \"checkpointId\": 22910993\n      }\n    },\n    \"rules\": [\n      {\n        \"require\": [\n          \"prompt\",\n          \"media\"\n        ],\n        \"mode\": \"any\"\n      }\n    ]\n  }\n}\n",
+  "stderr": ""
+}
+

@@ -1,0 +1,1 @@
+ALTER TABLE "provider_connections" ADD COLUMN "removed_at" timestamp with time zone;

@@ -1,0 +1,21 @@
+{
+  "note": "Uploaded test fixture and CLI-downloaded resource; neither file is a generation result. Server download applies community watermark.",
+  "files": [
+    {
+      "path": ".local/libtv-p0/accounts/account-01/work/reference-red-circle.png",
+      "bytes": 1590,
+      "sha256": "05B4DF769FD0001C5E9E9E4D9690C17246A500EFF1C8F2358CC99AAF6C7015C4",
+      "width": 256,
+      "height": 256,
+      "centerPixel": -65536
+    },
+    {
+      "path": ".local/libtv-p0/accounts/account-01/work/downloads/P0-reference-red-circle.png",
+      "bytes": 13908,
+      "sha256": "74F29C9BFD70630971BBEDDBAB8F9DB94131CB1747431A52802970A68679E359",
+      "width": 256,
+      "height": 256,
+      "centerPixel": -65536
+    }
+  ]
+}

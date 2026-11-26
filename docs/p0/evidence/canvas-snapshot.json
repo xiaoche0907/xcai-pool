@@ -1,0 +1,15 @@
+{
+  "startedAt": "2026-11-18T13:52:53.427Z",
+  "finishedAt": "2026-11-18T13:52:54.111Z",
+  "args": [
+    "project",
+    "073cb4165ec54d29b24fef3254c05e54"
+  ],
+  "pid": 38456,
+  "code": 0,
+  "signal": null,
+  "timedOut": false,
+  "stdout": "{\n  \"projectUuid\": \"073cb4165ec54d29b24fef3254c05e54\",\n  \"nodes\": [\n    {\n      \"id\": \"i-0CCcDTyZXJ\",\n      \"name\": \"P0-reference-red-circle\",\n      \"type\": \"image\",\n      \"position\": {\n        \"x\": 0,\n        \"y\": 0\n      }\n    },\n    {\n      \"id\": \"i-oeR3ckBZ6a\",\n      \"name\": \"P0-reference-image\",\n      \"type\": \"image\",\n      \"position\": {\n        \"x\": 350,\n        \"y\": 400\n      }\n    },\n    {\n      \"id\": \"i-W7c1qvR4tq\",\n      \"name\": \"P0-text-image\",\n      \"type\": \"image\",\n      \"position\": {\n        \"x\": 0,\n        \"y\": 0\n      }\n    },\n    {\n      \"id\": \"v-IWgjxJiVvS\",\n      \"name\": \"P0-reference-video\",\n      \"type\": \"video\",\n      \"position\": {\n        \"x\": 700,\n        \"y\": 400\n      }\n    },\n    {\n      \"id\": \"v-Xbws4VQ2CW\",\n      \"name\": \"P0-text-video\",\n      \"type\": \"video\",\n      \"position\": {\n        \"x\": 700,\n        \"y\": 0\n      }\n    }\n  ],\n  \"edges\": [\n    {\n      \"id\": \"e-GUVZ1Lm8Z4\",\n      \"source\": \"i-0CCcDTyZXJ\",\n      \"target\": \"i-oeR3ckBZ6a\"\n    },\n    {\n      \"id\": \"e-xJkEqIBExp\",\n      \"source\": \"i-0CCcDTyZXJ\",\n      \"target\": \"v-IWgjxJiVvS\"\n    }\n  ]\n}\n",
+  "stderr": ""
+}
+

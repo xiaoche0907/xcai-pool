@@ -1,0 +1,16 @@
+{
+  "startedAt": "2026-11-18T13:51:30.429Z",
+  "finishedAt": "2026-11-18T13:51:31.423Z",
+  "args": [
+    "node",
+    "i-W7c1qvR4tq",
+    "--run"
+  ],
+  "pid": 86104,
+  "code": 1,
+  "signal": null,
+  "timedOut": false,
+  "stdout": "",
+  "stderr": "API 业务失败 [1200000138]: 图库空间不足，您可前往图库删除不需要的图片，或升级您的空间，一键扩容 — POST https://api.liblib.tv/api/task/generation/create traceId=- logId=3fbdcf75-9072-4b38-9ed0-51524ff13331 349ms\n创建生成任务失败 [1200000138]: 图库空间不足，您可前往图库删除不需要的图片，或升级您的空间，一键扩容\n"
+}
+

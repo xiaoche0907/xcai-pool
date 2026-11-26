@@ -1,0 +1,10 @@
+{
+  "version": "1.2.0",
+  "install": {
+    "CMD": "https://liblibai-web-static.liblib.cloud/cli/1.2.0/install-libtv-cli.bat",
+    "PowerShell": "https://liblibai-web-static.liblib.cloud/cli/1.2.0/install-libtv-cli.ps1",
+    "shell": "https://liblibai-web-static.liblib.cloud/cli/1.2.0/install-libtv-cli.sh"
+  },
+  "skill": "https://liblibai-web-static.liblib.cloud/cli/1.2.0/libtv-cli-skill.zip"
+}
+

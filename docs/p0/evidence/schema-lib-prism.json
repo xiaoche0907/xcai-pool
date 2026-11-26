@@ -1,0 +1,15 @@
+{
+  "startedAt": "2026-11-18T13:53:01.378Z",
+  "finishedAt": "2026-11-18T13:53:01.759Z",
+  "args": [
+    "model",
+    "lib-prism"
+  ],
+  "pid": 85340,
+  "code": 0,
+  "signal": null,
+  "timedOut": false,
+  "stdout": "{\n  \"nameOrId\": \"lib-prism\",\n  \"modelName\": \"lib-prism\",\n  \"modelKey\": \"lib-prism\",\n  \"toolKey\": \"lib-prism\",\n  \"modality\": \"image\",\n  \"schema\": {\n    \"modelKey\": \"lib-prism\",\n    \"modelName\": \"Lib-prism\",\n    \"modelVendor\": \"Lib\",\n    \"baseType\": 47,\n    \"properties\": {\n      \"enableSlash\": true,\n      \"cameraControl\": true,\n      \"magic\": true,\n      \"focus\": true,\n      \"mention\": true,\n      \"count\": [\n        1,\n        2,\n        4\n      ],\n      \"template\": {\n        \"displayName\": \"风格\",\n        \"maxCount\": 0\n      },\n      \"prompt\": {\n        \"placeholder\": \"\",\n        \"maxLength\": 0\n      },\n      \"resolution\": {\n        \"displayName\": \"分辨率\",\n        \"enum\": [\n          \"1K\",\n          \"2K\",\n          \"4K\"\n        ],\n        \"default\": \"2K\",\n        \"component\": \"singleButton\",\n        \"originalField\": \"resolution\"\n      },\n      \"ratio\": {\n        \"displayName\": \"比例\",\n        \"enum\": [\n          {\n            \"value\": \"auto\",\n            \"displayName\": \"自适应\"\n          },\n          \"1:1\",\n          \"9:16\",\n          \"16:9\",\n          \"3:4\",\n          \"4:3\",\n          \"3:2\",\n          \"2:3\",\n          \"4:5\",\n          \"5:4\",\n          \"8:1\",\n          \"1:8\",\n          \"4:1\",\n          \"1:4\",\n          \"21:9\"\n        ],\n        \"default\": \"16:9\",\n        \"component\": \"singleButton\",\n        \"originalField\": \"ratio\"\n      },\n      \"search_enabled\": {\n        \"displayName\": \"联网搜索\",\n        \"default\": 0,\n        \"component\": \"switch\",\n        \"originalField\": \"search_enabled\"\n      },\n      \"modeType\": {\n        \"items\": {\n          \"image2image\": [\n            0,\n            7\n          ]\n        }\n      }\n    },\n    \"config\": {\n      \"settings\": {\n        \"text2image\": [\n          \"resolution\",\n          \"ratio\"\n        ],\n        \"image2image\": [\n          \"resolution\",\n          \"ratio\"\n        ]\n      },\n      \"advancedSettings\": [\n        \"search_enabled\"\n      ],\n      \"generateTypes\": {\n        \"text\": 129,\n        \"image\": 129,\n        \"checkpointId\": 23430846\n      }\n    },\n    \"rules\": [\n      {\n        \"require\": [\n          \"prompt\",\n          \"media\"\n        ],\n        \"mode\": \"any\"\n      }\n    ]\n  }\n}\n",
+  "stderr": ""
+}
+

@@ -1,0 +1,16 @@
+{
+  "startedAt": "2026-11-18T13:49:23.825Z",
+  "finishedAt": "2026-11-18T13:49:23.951Z",
+  "args": [
+    "account",
+    "info",
+    "--help"
+  ],
+  "pid": 86612,
+  "code": 0,
+  "signal": null,
+  "timedOut": false,
+  "stdout": "用法： libtv account info [options]\n\n当前账号信息：登录用户 + 当前生效账户（个人/团队）的基本信息；顺便校准本机活跃账户作用域。\n\n选项：\n  -h, --help  显示本命令说明。\n",
+  "stderr": ""
+}
+

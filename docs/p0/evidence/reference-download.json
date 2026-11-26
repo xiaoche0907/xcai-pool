@@ -1,0 +1,20 @@
+{
+  "startedAt": "2026-11-18T13:52:52.180Z",
+  "finishedAt": "2026-11-18T13:52:53.337Z",
+  "args": [
+    "download",
+    "--node",
+    "i-0CCcDTyZXJ",
+    "--watermark",
+    "true",
+    "--out",
+    "downloads"
+  ],
+  "pid": 86944,
+  "code": 0,
+  "signal": null,
+  "timedOut": false,
+  "stdout": "E:\\代码备份\\xc-pool\\.local\\libtv-p0\\accounts\\account-01\\work\\downloads\\P0-reference-red-circle.png\n",
+  "stderr": ""
+}
+

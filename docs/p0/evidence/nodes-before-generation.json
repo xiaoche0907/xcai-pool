@@ -1,0 +1,15 @@
+{
+  "startedAt": "2026-11-18T13:51:22.435Z",
+  "finishedAt": "2026-11-18T13:51:23.104Z",
+  "args": [
+    "node",
+    "list"
+  ],
+  "pid": 86232,
+  "code": 0,
+  "signal": null,
+  "timedOut": false,
+  "stdout": "{\n  \"projectUuid\": \"073cb4165ec54d29b24fef3254c05e54\",\n  \"scope\": \"all\",\n  \"count\": 0,\n  \"nodes\": []\n}\n",
+  "stderr": ""
+}
+

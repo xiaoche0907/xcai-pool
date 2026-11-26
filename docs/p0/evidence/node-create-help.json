@@ -1,0 +1,16 @@
+{
+  "startedAt": "2026-11-18T13:49:24.636Z",
+  "finishedAt": "2026-11-18T13:49:24.755Z",
+  "args": [
+    "node",
+    "create",
+    "--help"
+  ],
+  "pid": 75832,
+  "code": 0,
+  "signal": null,
+  "timedOut": false,
+  "stdout": "用法： libtv node create [options] <node>\n\n新建画布节点（-t 必填）；支持 --left 与 --left-add/--left-rm；--group\n限定在父分组的子节点内解析并将新节点挂入该组。画布坐标请用父级「libtv node」的 --x/--y（勿与 create 重复声明，否则坐标会落为 0）。\n\n参数：\n  node                     新节点展示名（画布上需唯一）。\n\n选项：\n  -p, --project <project>  目标项目 UUID（可选）。缺省见根命令 --help。\n  -g, --group <group>      可选。父级普通分组：新建挂到该组；解析边端点名/id 仅限该组 childNodeIds。未传时若已\n                           `group use` 则默认该绑定分组。\n  -t, --type <type>        节点类型（text、image、video、audio、group、script、video-clip）；新建必填。\n  --prompt <text>          写入节点参数中的提示词。与 --set 同用时后写覆盖同名键。\n  -s, --set <pair>         写入节点参数：键=值，可重复。仅拆分首个等号；值可为结构化文本。\n                           例：-s 比例=16:9。模型：-s model=<模型名字>\n                           （model 只接受模型名字 modelName，如 `-s model=可灵O1`；用 `libtv\n                           model search` 查看可用名字，传 modelKey 会报错提示）。 (默认： [])\n  -u, --update <pair>      改「节点自身属性」（写 `data` 顶层，不含\n                           `params`）——节点本体承载的内容，不影响模型参数。键=值，可重复；语法同 `--set`。\n                           典型字段：文本的 `content`、脚本/分镜的 `rows` 等。\n                           例：-u content='[\"Hello\"]'  -u contentWidth=720\n                           字段按节点类型白名单 + 形状校验，非法键/值会被拒绝并提示该类型允许的字段与示例。\n                           注意：展示名由位置参数 `<node>` 承载；`params` 用\n                           `--set`/`--prompt`；`type` 不可改。 (默认： [])\n  --left <node>            入边（确保）：上游节点ID或名称。ID优先；无则建边，有则不变。\n                           注意：不可与 --left-add、--left-rm 同用。 (默认： [])\n  --left-add <node>        入边（追加）：上游节点ID或名称。ID优先；可重复。 (默认： [])\n  --left-rm <node>         入边（移除）：上游节点ID或名称。ID优先；可重复。 (默认： [])\n  -r, --run                主流程成功后触发生成一次。管道为逐行 JSON 时可串联下游画布节点命令。\n  -h, --help               显示本命令说明。\n",
+  "stderr": ""
+}
+

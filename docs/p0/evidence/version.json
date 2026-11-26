@@ -1,0 +1,14 @@
+{
+  "startedAt": "2026-11-18T13:49:23.396Z",
+  "finishedAt": "2026-11-18T13:49:23.526Z",
+  "args": [
+    "--version"
+  ],
+  "pid": 86156,
+  "code": 0,
+  "signal": null,
+  "timedOut": false,
+  "stdout": "1.2.0\n",
+  "stderr": ""
+}
+

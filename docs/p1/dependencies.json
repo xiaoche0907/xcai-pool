@@ -1,0 +1,230 @@
+{
+  "checkedAt": "2026-11-18T14:40:40.700Z",
+  "source": "Installed package manifests + pnpm lockfile + npm audit",
+  "packages": [
+    {
+      "name": "@fastify/static",
+      "version": "10.1.11",
+      "license": "MIT",
+      "scope": "runtime",
+      "repository": "git+https://github.com/fastify/fastify-static.git"
+    },
+    {
+      "name": "@refinedev/core",
+      "version": "5.0.12",
+      "license": "MIT",
+      "scope": "runtime",
+      "repository": "https://github.com/refinedev/refine.git"
+    },
+    {
+      "name": "@rjsf/core",
+      "version": "6.11.1",
+      "license": "Apache-2.0",
+      "scope": "runtime",
+      "repository": "git+https://github.com/rjsf-team/react-jsonschema-form.git"
+    },
+    {
+      "name": "@rjsf/utils",
+      "version": "6.11.1",
+      "license": "Apache-2.0",
+      "scope": "runtime",
+      "repository": "git+https://github.com/rjsf-team/react-jsonschema-form.git"
+    },
+    {
+      "name": "@rjsf/validator-ajv8",
+      "version": "6.11.1",
+      "license": "Apache-2.0",
+      "scope": "runtime",
+      "repository": "git+https://github.com/rjsf-team/react-jsonschema-form.git"
+    },
+    {
+      "name": "ajv",
+      "version": "8.20.0",
+      "license": "MIT",
+      "scope": "runtime",
+      "repository": "ajv-validator/ajv"
+    },
+    {
+      "name": "dotenv",
+      "version": "17.4.2",
+      "license": "BSD-2-Clause",
+      "scope": "runtime",
+      "repository": "git://github.com/motdotla/dotenv.git"
+    },
+    {
+      "name": "drizzle-orm",
+      "version": "0.45.4",
+      "license": "Apache-2.0",
+      "scope": "runtime",
+      "repository": "git+https://github.com/drizzle-team/drizzle-orm.git"
+    },
+    {
+      "name": "fastify",
+      "version": "5.12.8",
+      "license": "MIT",
+      "scope": "runtime",
+      "repository": "git+https://github.com/fastify/fastify.git"
+    },
+    {
+      "name": "lucide-react",
+      "version": "0.577.0",
+      "license": "ISC",
+      "scope": "runtime",
+      "repository": "https://github.com/lucide-icons/lucide.git"
+    },
+    {
+      "name": "postgres",
+      "version": "3.4.9",
+      "license": "Unlicense",
+      "scope": "runtime",
+      "repository": "porsager/postgres"
+    },
+    {
+      "name": "react",
+      "version": "19.3.1",
+      "license": "MIT",
+      "scope": "runtime",
+      "repository": "https://github.com/react/react.git"
+    },
+    {
+      "name": "react-dom",
+      "version": "19.3.1",
+      "license": "MIT",
+      "scope": "runtime",
+      "repository": "https://github.com/react/react.git"
+    },
+    {
+      "name": "zod",
+      "version": "4.6.7",
+      "license": "MIT",
+      "scope": "runtime",
+      "repository": "git+https://github.com/colinhacks/zod.git"
+    },
+    {
+      "name": "@eslint/js",
+      "version": "10.0.1",
+      "license": "MIT",
+      "scope": "development",
+      "repository": "https://github.com/eslint/eslint.git"
+    },
+    {
+      "name": "@types/node",
+      "version": "24.19.2",
+      "license": "MIT",
+      "scope": "development",
+      "repository": "https://github.com/DefinitelyTyped/DefinitelyTyped.git"
+    },
+    {
+      "name": "@types/react",
+      "version": "19.3.0",
+      "license": "MIT",
+      "scope": "development",
+      "repository": "https://github.com/DefinitelyTyped/DefinitelyTyped.git"
+    },
+    {
+      "name": "@types/react-dom",
+      "version": "19.3.0",
+      "license": "MIT",
+      "scope": "development",
+      "repository": "https://github.com/DefinitelyTyped/DefinitelyTyped.git"
+    },
+    {
+      "name": "@vitejs/plugin-react",
+      "version": "6.3.0",
+      "license": "MIT",
+      "scope": "development",
+      "repository": "git+https://github.com/vitejs/vite-plugin-react.git"
+    },
+    {
+      "name": "drizzle-kit",
+      "version": "0.31.11",
+      "license": "MIT",
+      "scope": "development",
+      "repository": "git+https://github.com/drizzle-team/drizzle-orm.git"
+    },
+    {
+      "name": "eslint",
+      "version": "10.15.0",
+      "license": "MIT",
+      "scope": "development",
+      "repository": "eslint/eslint"
+    },
+    {
+      "name": "globals",
+      "version": "17.14.0",
+      "license": "MIT",
+      "scope": "development",
+      "repository": "sindresorhus/globals"
+    },
+    {
+      "name": "playwright",
+      "version": "1.65.1",
+      "license": "Apache-2.0",
+      "scope": "development",
+      "repository": "git+https://github.com/microsoft/playwright.git"
+    },
+    {
+      "name": "prettier",
+      "version": "3.6.2",
+      "license": "MIT",
+      "scope": "development",
+      "repository": "prettier/prettier"
+    },
+    {
+      "name": "tsx",
+      "version": "4.23.15",
+      "license": "MIT",
+      "scope": "development",
+      "repository": "privatenumber/tsx"
+    },
+    {
+      "name": "typescript",
+      "version": "5.9.3",
+      "license": "Apache-2.0",
+      "scope": "development",
+      "repository": "https://github.com/microsoft/TypeScript.git"
+    },
+    {
+      "name": "typescript-eslint",
+      "version": "8.73.0",
+      "license": "MIT",
+      "scope": "development",
+      "repository": "https://github.com/typescript-eslint/typescript-eslint.git"
+    },
+    {
+      "name": "vite",
+      "version": "8.3.8",
+      "license": "MIT",
+      "scope": "development",
+      "repository": "git+https://github.com/vitejs/vite.git"
+    },
+    {
+      "name": "vitest",
+      "version": "5.1.1",
+      "license": "MIT",
+      "scope": "development",
+      "repository": "git+https://github.com/vitest-dev/vitest.git"
+    }
+  ],
+  "security": {
+    "summary": {
+      "info": 0,
+      "low": 0,
+      "moderate": 0,
+      "high": 1,
+      "critical": 0
+    },
+    "advisories": [
+      {
+        "package": "picomatch",
+        "severity": "high",
+        "url": "https://github.com/advisories/GHSA-fc5q-39xc-vjpf",
+        "vulnerableVersions": "<=4.0.7",
+        "patchedVersions": "<0.0.0",
+        "paths": [
+          ".>typescript-eslint>@typescript-eslint/typescript-estree>tinyglobby>picomatch"
+        ]
+      }
+    ]
+  }
+}

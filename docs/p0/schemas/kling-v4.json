@@ -1,0 +1,252 @@
+{
+  "nameOrId": "kling-v4",
+  "modelName": "kling-v4",
+  "modelKey": "kling-v4",
+  "toolKey": "kling-v4",
+  "modality": "video",
+  "schema": {
+    "modelKey": "kling-v4",
+    "modelName": "可灵 4.0",
+    "modelVendor": "Kling",
+    "baseType": 66,
+    "properties": {
+      "count": [
+        1,
+        2,
+        4
+      ],
+      "magic": false,
+      "mention": true,
+      "prompt": {
+        "maxLength": 11000
+      },
+      "ratio": {
+        "displayName": "比例",
+        "displayNameI18nKey": "schema:ratio",
+        "enum": [
+          "21:9",
+          "16:9",
+          "9:16",
+          "1:1"
+        ],
+        "default": "16:9",
+        "component": "singleButton",
+        "originalField": "ratio"
+      },
+      "ratio_auto": {
+        "displayName": "比例",
+        "displayNameI18nKey": "schema:ratio",
+        "enum": [
+          {
+            "value": "adaptive",
+            "displayName": "智能",
+            "displayNameI18nKey": "schema:smartMode"
+          },
+          "21:9",
+          "16:9",
+          "9:16",
+          "1:1"
+        ],
+        "default": "adaptive",
+        "component": "singleButton",
+        "originalField": "ratio"
+      },
+      "duration": {
+        "displayName": "时长",
+        "displayNameI18nKey": "schema:duration",
+        "min": 3,
+        "max": 30,
+        "step": 1,
+        "default": 5,
+        "component": "slider",
+        "originalField": "duration"
+      },
+      "resolution": {
+        "displayName": "分辨率",
+        "displayNameI18nKey": "schema:resolution",
+        "enum": [
+          {
+            "value": "720p",
+            "displayName": "720P"
+          },
+          {
+            "value": "1080p",
+            "displayName": "1080P"
+          }
+        ],
+        "default": "720p",
+        "component": "singleButton",
+        "originalField": "resolution"
+      },
+      "modeType": {
+        "items": {
+          "multiFrame2video": [
+            1,
+            10
+          ],
+          "mixed2video": [
+            1,
+            15
+          ],
+          "videoEdit2video": [
+            1,
+            1
+          ]
+        },
+        "mixed2videoConfig": {
+          "videoMax": 5,
+          "imageMax": 10,
+          "audioMax": 3,
+          "allowAudioOnly": true
+        },
+        "videoEdit2videoConfig": {
+          "videoMax": 1,
+          "imageMaxWithVideo": 10
+        }
+      },
+      "subjects": {
+        "items": {
+          "mixed2video": {
+            "maxCount": 7,
+            "videoSubject": {
+              "maxCount": 3,
+              "disabledWithVideo": true,
+              "disabledMessage": "传入视频时不可使用视频主体",
+              "disabledMessageI18nKey": "schema:videoSubjectDisabledWithVideo"
+            }
+          },
+          "videoEdit2video": {
+            "maxCount": 7,
+            "videoSubject": {
+              "maxCount": 3
+            }
+          }
+        }
+      },
+      "mediaConstraints": {
+        "audio": {
+          "duration": {
+            "min": 5,
+            "max": 30,
+            "message": "参考音频需要在5s-30s之间",
+            "action": "block"
+          },
+          "formats": {
+            "allowed": [
+              "mp3",
+              "wav",
+              "mp4",
+              "mov"
+            ],
+            "message": "参考音频仅支持MP3、WAV、MP4和MOV格式",
+            "action": "block"
+          }
+        },
+        "mixed2video": {
+          "video": {
+            "duration": {
+              "min": 3,
+              "max": 30,
+              "message": "输入视频需要在3s-30s之间，可使用【剪辑工具】进行快捷剪辑",
+              "messageI18nKey": "schema:videoDurationEdit3to30",
+              "action": "block"
+            },
+            "formats": {
+              "allowed": [
+                "mp4",
+                "mov"
+              ],
+              "message": "输入视频仅支持MP4和MOV格式",
+              "messageI18nKey": "schema:videoFormatMp4Mov",
+              "action": "block"
+            }
+          }
+        },
+        "videoEdit2video": {
+          "video": {
+            "duration": {
+              "min": 3,
+              "max": 30,
+              "message": "输入视频需要在3s-30s之间，可使用【剪辑工具】进行快捷剪辑",
+              "messageI18nKey": "schema:videoDurationEdit3to30",
+              "action": "block"
+            },
+            "formats": {
+              "allowed": [
+                "mp4",
+                "mov"
+              ],
+              "message": "输入视频仅支持MP4和MOV格式",
+              "messageI18nKey": "schema:videoFormatMp4Mov",
+              "action": "block"
+            }
+          }
+        }
+      }
+    },
+    "config": {
+      "settings": {
+        "text2video": [
+          "ratio",
+          "duration",
+          "resolution"
+        ],
+        "singleImage2video": [
+          "duration",
+          "resolution"
+        ],
+        "frames2video": [
+          "duration",
+          "resolution"
+        ],
+        "multiFrame2video": [
+          "duration",
+          "resolution"
+        ],
+        "mixed2video": [
+          "ratio_auto",
+          "duration",
+          "resolution"
+        ],
+        "videoEdit2video": [
+          "ratio_auto",
+          "duration",
+          "resolution"
+        ]
+      },
+      "generateTypes": {
+        "text": 90,
+        "image": 90,
+        "checkpointId": 23443192
+      }
+    },
+    "rules": [
+      {
+        "require": [
+          "prompt",
+          "media"
+        ],
+        "mode": "any"
+      },
+      {
+        "require": [
+          "prompt"
+        ],
+        "forModeTypes": [
+          "text2video",
+          "mixed2video",
+          "videoEdit2video"
+        ]
+      },
+      {
+        "require": [
+          "image"
+        ],
+        "forModeTypes": [
+          "multiFrame2video"
+        ]
+      }
+    ]
+  }
+}
+

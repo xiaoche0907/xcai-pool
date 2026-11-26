@@ -1,0 +1,15 @@
+{
+  "startedAt": "2026-11-18T13:53:06.401Z",
+  "finishedAt": "2026-11-18T13:53:06.769Z",
+  "args": [
+    "model",
+    "doubao-seedream-5-0-pro"
+  ],
+  "pid": 86144,
+  "code": 0,
+  "signal": null,
+  "timedOut": false,
+  "stdout": "{\n  \"nameOrId\": \"doubao-seedream-5-0-pro\",\n  \"modelName\": \"doubao-seedream-5-0-pro\",\n  \"modelKey\": \"doubao-seedream-5-0-pro\",\n  \"toolKey\": \"doubao-seedream-5-0-pro\",\n  \"modality\": \"image\",\n  \"schema\": {\n    \"modelKey\": \"doubao-seedream-5-0-pro\",\n    \"modelName\": \"Seedream5.0 Pro\",\n    \"modelVendor\": \"Seedream\",\n    \"baseType\": 81,\n    \"properties\": {\n      \"strikethroughPrice\": {\n        \"active\": true\n      },\n      \"mention\": true,\n      \"count\": [\n        1,\n        2,\n        4\n      ],\n      \"prompt\": {\n        \"placeholder\": \"\",\n        \"maxLength\": 0\n      },\n      \"quality\": {\n        \"displayName\": \"分辨率\",\n        \"enum\": [\n          \"1K\",\n          \"2K\"\n        ],\n        \"default\": \"2K\",\n        \"component\": \"singleButton\",\n        \"originalField\": \"quality\"\n      },\n      \"ratio\": {\n        \"displayName\": \"比例\",\n        \"enum\": [\n          \"1:1\",\n          \"9:16\",\n          \"16:9\",\n          \"3:4\",\n          \"4:3\",\n          \"3:2\",\n          \"2:3\",\n          \"21:9\"\n        ],\n        \"default\": \"16:9\",\n        \"component\": \"singleButton\",\n        \"originalField\": \"ratio\"\n      },\n      \"modeType\": {\n        \"items\": {\n          \"image2image\": [\n            0,\n            10\n          ]\n        }\n      }\n    },\n    \"config\": {\n      \"settings\": [\n        \"quality\",\n        \"ratio\"\n      ],\n      \"generateTypes\": {\n        \"text\": 65,\n        \"image\": 65,\n        \"checkpointId\": 23164723\n      }\n    },\n    \"rules\": [\n      {\n        \"require\": [\n          \"prompt\",\n          \"media\"\n        ],\n        \"mode\": \"any\"\n      }\n    ]\n  }\n}\n",
+  "stderr": ""
+}
+

@@ -1,0 +1,33 @@
+{
+  "capturedAt": "2026-11-18T21:48:34.5456761+08:00",
+  "release": {
+    "version": "1.2.0",
+    "install": {
+      "CMD": "https://liblibai-web-static.liblib.cloud/cli/1.2.0/install-libtv-cli.bat",
+      "PowerShell": "https://liblibai-web-static.liblib.cloud/cli/1.2.0/install-libtv-cli.ps1",
+      "shell": "https://liblibai-web-static.liblib.cloud/cli/1.2.0/install-libtv-cli.sh"
+    },
+    "skill": "https://liblibai-web-static.liblib.cloud/cli/1.2.0/libtv-cli-skill.zip"
+  },
+  "binaryUrl": "https://liblibai-web-static.liblib.cloud/cli/1.2.0/libtv-windows-amd64.zip",
+  "binaryPath": "E:\\代码备份\\xc-pool\\.local\\libtv-p0\\bin\\libtv-win-x64\\libtv.exe",
+  "hashes": [
+    {
+      "Path": "E:\\代码备份\\xc-pool\\.local\\libtv-p0\\install-libtv-cli.ps1",
+      "Hash": "6A166630E19879FD212843AE983A0A09E14920645523E13664B0020CF4155A13"
+    },
+    {
+      "Path": "E:\\代码备份\\xc-pool\\.local\\libtv-p0\\cli.zip",
+      "Hash": "01E3BDF36C77D224593EEF8FBCA822AAA98AD79AF0094D81D37F4AABF4B42247"
+    },
+    {
+      "Path": "E:\\代码备份\\xc-pool\\.local\\libtv-p0\\bin\\libtv-win-x64\\libtv.exe",
+      "Hash": "11AAB860442A7F9F8DA66732C20FE5D4FDDF85AF1E93A047DB1C2249B49FA487"
+    }
+  ],
+  "signature": "NotSigned",
+  "os": "Microsoft Windows 10.0.26200",
+  "architecture": "X64",
+  "node": "v24.12.0"
+}
+

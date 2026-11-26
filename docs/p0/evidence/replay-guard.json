@@ -1,0 +1,8 @@
+{
+  "checkedAt": "2026-11-18T21:54:01.9288173+08:00",
+  "exit": 1,
+  "markerUnchanged": true,
+  "blockedBeforeSpawn": true,
+  "message": "Re-launch with the same operation name was rejected by the durable submission marker before CLI spawn. This is a P0 local guard, not BullMQ recovery validation."
+}
+

@@ -1,0 +1,34 @@
+{
+  "startedAt": "2026-11-18T13:52:51.170Z",
+  "finishedAt": "2026-11-18T13:52:52.098Z",
+  "args": [
+    "node",
+    "--x",
+    "700",
+    "--y",
+    "400",
+    "create",
+    "P0-reference-video",
+    "-t",
+    "video",
+    "-s",
+    "model=Wan 2.2",
+    "-s",
+    "count=1",
+    "-s",
+    "modeType=singleImage2video",
+    "-s",
+    "settings={\"resolution\":\"480P\",\"ratio\":\"16:9\",\"duration\":5}",
+    "--left",
+    "i-0CCcDTyZXJ",
+    "--prompt",
+    "The red circle gently bounces on the white background, clean minimal animation."
+  ],
+  "pid": 22948,
+  "code": 0,
+  "signal": null,
+  "timedOut": false,
+  "stdout": "{\n  \"mode\": \"create-and-connect\",\n  \"nodeType\": \"video\",\n  \"projectUuid\": \"073cb4165ec54d29b24fef3254c05e54\",\n  \"newNodeKey\": \"v-IWgjxJiVvS\",\n  \"reactFlowNode\": {\n    \"id\": \"v-IWgjxJiVvS\",\n    \"type\": \"video\",\n    \"data\": {\n      \"type\": \"video\",\n      \"name\": \"P0-reference-video\",\n      \"url\": [],\n      \"poster\": \"\",\n      \"action\": \"video_generate\",\n      \"generatorType\": \"default\",\n      \"params\": {\n        \"prompt\": \"The red circle gently bounces on the white background, clean minimal animation.\",\n        \"model\": \"wanxiang-plus\",\n        \"modeType\": \"singleImage2video\",\n        \"count\": 1,\n        \"imageList\": [\n          {\n            \"nodeId\": \"i-0CCcDTyZXJ\",\n            \"url\": \"https://libtv-res.liblib.art/upload-images/[USER REDACTED]/781c46225b570af345f836bc50bd3dc9c1a5c22d.png\",\n            \"label\": \"P0-reference-red-circle\",\n            \"width\": 256,\n            \"height\": 256\n          }\n        ],\n        \"videoList\": [],\n        \"audioList\": [],\n        \"settings\": {\n          \"ratio\": \"16:9\",\n          \"resolution\": \"480P\",\n          \"duration\": 5\n        },\n        \"advancedSettings\": {},\n        \"imageListOrder\": [\n          \"i-0CCcDTyZXJ\"\n        ],\n        \"mixedListOrder\": [\n          \"i-0CCcDTyZXJ\"\n        ],\n        \"textList\": []\n      }\n    },\n    \"position\": {\n      \"x\": 700,\n      \"y\": 400\n    },\n    \"sourcePosition\": \"right\",\n    \"targetPosition\": \"left\"\n  },\n  \"count\": 1,\n  \"deletedCount\": 0,\n  \"createdCount\": 1,\n  \"deleted\": [],\n  \"connections\": [\n    {\n      \"connectionId\": \"e-xJkEqIBExp\",\n      \"source\": \"i-0CCcDTyZXJ\",\n      \"target\": \"v-IWgjxJiVvS\"\n    }\n  ],\n  \"incomingRecalcNodeKeys\": [\n    \"v-IWgjxJiVvS\"\n  ]\n}\n",
+  "stderr": ""
+}
+

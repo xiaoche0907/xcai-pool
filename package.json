@@ -1,0 +1,69 @@
+{
+  "name": "xcaipool",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@10.32.1",
+  "engines": {
+    "node": ">=24 <25"
+  },
+  "scripts": {
+    "libtv:login": "node tools/p1/login-libtv.mjs",
+    "libtv:install": "node tools/p1/install-libtv.mjs",
+    "dev": "tsx watch apps/api-server/src/main.ts",
+    "dev:web": "vite --config apps/admin-web/vite.config.ts",
+    "start": "tsx tools/p1/start.ts",
+    "build": "vite build --config apps/admin-web/vite.config.ts",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "test": "vitest run",
+    "test:unit": "vitest run tests/unit.test.ts",
+    "test:integration": "vitest run tests/integration.test.ts",
+    "db:migrate": "tsx packages/db/src/migrate.ts",
+    "db:generate": "drizzle-kit generate",
+    "bootstrap": "tsx tools/p1/bootstrap.ts",
+    "preservation:check": "tsx tools/p1/preservation.ts",
+    "test:browser": "tsx tests/browser.ts"
+  },
+  "dependencies": {
+    "@fastify/static": "10.1.11",
+    "@refinedev/core": "5.0.12",
+    "@rjsf/core": "6.11.1",
+    "@rjsf/utils": "6.11.1",
+    "@rjsf/validator-ajv8": "6.11.1",
+    "ajv": "^8.17.1",
+    "dotenv": "^17.2.3",
+    "drizzle-orm": "0.45.4",
+    "fastify": "5.12.8",
+    "lucide-react": "^0.577.0",
+    "postgres": "^3.4.8",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/node": "^24.10.0",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "@vitejs/plugin-react": "^6.0.0",
+    "drizzle-kit": "^0.31.9",
+    "eslint": "^10.0.1",
+    "globals": "^17.0.0",
+    "playwright": "^1.58.2",
+    "prettier": "3.6.2",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.57.0",
+    "vite": "8.3.8",
+    "vitest": "5.1.1"
+  },
+  "pnpm": {
+    "overrides": {
+      "esbuild@<0.25.0": "0.25.12"
+    },
+    "onlyBuiltDependencies": [
+      "esbuild"
+    ]
+  }
+}
